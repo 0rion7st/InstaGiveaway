@@ -1,0 +1,76 @@
+/* Empty. Add your own CSS if you like */
+.giveaway
+{
+    border:10px solid transparent;
+}
+.content-bg
+{
+    background:#799CB9 url('../img/bg_ptrn.png');
+
+}
+
+#giveaway_canvas
+{
+    width:100%;
+    height:auto;
+}
+ion-infinite-scroll i:before
+{
+    color:#fff;
+}
+.giveaway:before
+{
+    position: absolute;
+    z-index: 999;
+    right: 0px;
+    padding: 5px 10px;
+    margin: -1px 9px;
+    background: #2F81AF;
+    color: white;
+    border-radius: 0 0 0 10px;
+    border: 1px solid #517fa4;
+    border-width: 0px 0 1px 1px;
+}
+.giveaway.owner:before
+{
+
+    content: 'Your giveaway';
+
+}
+.spinner-ios, .spinner-ios-small {
+    stroke: #fff;
+}
+.giveaway.participating:before
+{
+    content: 'Participating';
+}
+
+.scroll-refresher .ionic-refresher-content
+{
+    color:#fff;
+}
+
+:not(.icon).ng-enter {
+    /* standard transition code */
+    -webkit-transition: 1s linear all;
+    transition: 0.2s linear all;
+    opacity:0;
+}
+:not(.icon).ng-enter-stagger {
+    /* this will have a 100ms delay between each successive leave animation */
+    -webkit-transition-delay: 0.1s;
+    transition-delay: 0.1s;
+
+    /* in case the stagger doesn't work then these two values
+     must be set to 0 to avoid an accidental CSS inheritance */
+    -webkit-transition-duration: 0s;
+    transition-duration: 0s;
+}
+:not(.icon).ng-enter.ng-enter-active {
+    /* standard transition styles */
+    opacity:1;
+}
+.loading-bg
+{
+    background: url('../img/loading.png') no-repeat center center;
+}

@@ -1,0 +1,123 @@
+<!--
+  This template loads for the 'tab.friend-detail' state (app.js)
+  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+  The FriendsCtrl pulls data from the Friends service (service.js)
+  The Friends service returns an array of friend data
+-->
+<ion-view view-title="Giveaway">
+    <ion-content class="content-bg ">
+        <ion-refresher pulling-text="Pull to refresh" class="light" on-refresh="doRefresh()">
+        </ion-refresher>
+        <div class="animated" style="opacity:0;" ng-class="loadingFadeIn && 'fadeIn'">
+            <div class="item item-avatar item-button-right">
+                <img src="{{post.user.profile_picture}}">
+
+                <h2><a href="instragram://media?id={{post.id}}" class="positive"><b>@{{post.user.username}}</b></a></h2>
+                <p>
+                    <span  ng-show="post.author.data.id!=post.user.id">Joined</span>
+                    <span ng-show="post.author.data.id==post.user.id">Created</span>
+                    <span time="post.created_time"></span></p>
+
+
+
+            </div>
+            <div class="row light-bg">
+
+                <div class=" col col-50 ">
+                    <img class="full-image" src="{{post.images.standard_resolution.url}}">
+                </div>
+                <div class="col col-50 dark">
+
+
+                    <h3 class="positive" style="margin: 0;">{{post.giveaway.participants}}</h3>
+                    <p>PARTICIPANTS</p>
+
+
+
+
+                    <h4 style="margin: 0;"><a href="instragram://media?id={{post.giveaway.media_id}}" class="positive"><b>@{{post.author.data.username}}</b></a></h4>
+                    <p> AUTHOR</p>
+
+
+                    <button ng-show="post.giveaway.status!='completed' && post.giveaway.type!='participating' && post.author.data.id !=c.userInstagram.data.id" class="button button-block button-positive" ng-click="c.submit_giveaway(post.giveaway.media_id, post.giveaway.hashtag)">
+                        JOIN
+                    </button>
+                    <button ng-show="post.giveaway.status=='completed'" class="button button-block" disabled >
+                        FINISHED
+                    </button>
+
+                    <button ng-show="post.giveaway.status!='completed' && post.giveaway.type=='participating'" class="button button-block" disabled >
+                        JOINED
+                    </button>
+                </div>
+
+            </div>
+            <div class="item item-icon-left item-text-wrap light-bg  dark" style="font-style: italic;">
+                <i class="icon ion-quote"></i>
+                {{post.caption.text}}
+
+            </div>
+            <div class="item"  ng-show="post.giveaway.status!='completed' && timeNow<post.giveaway.expiration_timestamp">
+                <h2 class="balanced" style="text-transform: uppercase; text-align: center;">
+
+                    <b>Ends <span time="post.giveaway.expiration_timestamp" counting></span></b></h2>
+            </div>
+            <div class="item"  ng-show="post.giveaway.status!='completed' && post.author.data.id==c.userInstagram.data.id && timeNow>post.giveaway.expiration_timestamp">
+                <h2 class="balanced" style="text-transform: uppercase; text-align: center;">
+
+                    <button class="button button-positive button-balanced button-block" ng-click="findWinner()">Roll the dice!</button>
+                </h2>
+            </div>
+
+            <div class="item tabs tabs-secondary tabs-icon-left" ng-if="post.author.data.id!=c.userInstagram.data.id">
+
+                <a class="tab-item"  ng-click="likePost()">
+                    <i class="icon " ng-class="{true:'ion-ios-heart',false:'ion-ios-heart-outline'}[post.user_has_liked==true]"></i>
+                    {{post.likes.count}}
+                </a>
+                <a class="tab-item" href="#">
+                    <i class="icon ion-social-instagram"></i>
+                    Open in instagram
+                </a>
+                <a class="tab-item" href="#">
+                    <i class="icon ion-alert-circled"></i>
+                    Report
+                </a>
+            </div>
+            <div class="item"  ng-show="post.giveaway.status=='completed'" ng-if="post.author.data.id!=c.userInstagram.data.id" style="text-align: center;">
+                <h2 class="dark">
+
+                    <b>Giveaway finished</b></h2>
+            </div>
+            <div class="row  light-bg" ng-show="post.winner.data.username">
+                <div class="col col-33">
+                    <img src="{{post.winner.data.profile_picture}}" style="width:75%; text-align: center; border-radius: 100%;" alt=""/>
+                </div>
+                <div class="col col-66 padding-top">
+                    <h4><a href="instragram://media?id={{post.id}}" class="positive"><b>@{{post.winner.data.username}}</b></a></h4>
+                    <p>WINNER</p>
+                </div>
+
+            </div>
+            <div class="item item-text-wrap" ng-show="post.giveaway.winner_id!='' && post.author.data.id==c.userInstagram.data.id">
+                Please contact winner to deliver him giveaway!
+            </div>
+            <div class="item item-avatar item-input-inset" ng-if="post.giveaway.winner_id!='' && post.author.data.id==c.userInstagram.data.id">
+                <button class="button button-positive button-block">CONTACT WINNER</button>
+            </div>
+        </div>
+        <div class="item item-avatar item-text-wrap" ng-repeat="comment in post.comments.data">
+            <img src="{{comment.from.profile_picture}}">
+            <h4 style="margin: 0;"><a href="instragram://media?id={{comment.from.id}}" class="positive"><b>@{{comment.from.username}}</b></a></h4>
+            <p>
+                {{comment.text}}
+            </p>
+        </div>
+        <div class="item item-avatar item-input-inset" ng-show="post.comments.data" >
+           <button class="button button-positive button-block">OPEN COMMENTS</button>
+        </div>
+
+
+
+    </ion-content>
+</ion-view>

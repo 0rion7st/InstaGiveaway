@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link rel="stylesheet" href="flaticon.css"/>
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/animate.css"/>
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic/js/angular/angular-resource.min.js"></script>
+
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+    <script src="lib/moment.min.js"></script>
+</head>
+<body ng-app="giveaways" ng-cloak ng-controller="RootCtrl">
+<script>
+    var DEBUG=0
+</script>
+<ion-side-menus>
+    <!-- Center content -->
+    <ion-side-menu-content>
+        <ion-nav-bar class="positive-bg light" back-button-type="button-icon" back-button-icon="ion-arrow-left-c">
+            <ion-nav-back-button>
+            </ion-nav-back-button>
+            <ion-nav-buttons side="right">
+                <button class="button button-icon button-clear ion-navicon light" menu-toggle="right">
+                </button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+
+        <ion-nav-view  animation="slide-left-right"></ion-nav-view>
+    </ion-side-menu-content>
+
+
+
+    <!-- Right menu -->
+    <ion-side-menu side="right">
+        <div class="list">
+
+            <div class="item">
+                <button class="button button-block button-positive" ng-click="c.submit_giveaway()">Create giveaway</button>
+            </div>
+            <a href="#/tab/feed" class="item light-bg" menu-close>
+                Feed <span class="badge badge-assertive">3</span>
+            </a>
+
+            <a href="#/tab/giveaways" class="item light-bg" menu-close>
+                My giveaways <span class="badge badge-energized">30</span>
+            </a>
+            <a href="#/tab/joined" class="item light-bg" menu-close>
+                Participating
+            </a>
+            <a class="item item-avatar" href="#">
+                <img src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/128/gift.png">
+                <h2>Venkman</h2>
+                <p>Back off, man. I'm a scientist.</p>
+            </a>
+
+            <a class="item item-avatar" href="#">
+                <img src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/128/gift.png">
+                <h2>Venkman</h2>
+                <p>Back off, man. I'm a scientist.</p>
+            </a>
+
+
+
+
+
+
+        </div>
+        <ion-footer-bar padding="false">
+                <button class="button button-block" style="margin-top:0;">Logout</button>
+        </ion-footer-bar>
+    </ion-side-menu>
+</ion-side-menus>
+
+
+
+
+
+
+
+<script id="giveaway-card" type="text/ng-template">
+    <div class="giveaway {{giveaway.type}}">
+
+        <div class="item item-avatar">
+            <img src="{{profileImage}}">
+            <h2 ng-show="userLink == 'feed'"><a href="{{path}}/user/{{userId}}" class="positive"><b>@{{username}}</b></a></h2>
+            <h2 ng-show="userLink == 'instagram'"><a href="instragram://media?id={{mediaId}}" class="positive"><b>@{{username}}</b></a></h2>
+            <p ng-show="layout=='posts' && !giveaway">Posted <span ng-show="layout=='posts'" time="timeLeft"></span></p>
+
+        </div>
+        <div class="item item-image" ng-show="layout=='posts'">
+            <a href="{{path}}/giveaway/{{mediaId}}"> <img class="full-image animated loading-bg" src="{{loadedImg || 'img/px.png'}}" ng-class="loadedImg && 'fadeIn'"></a>
+        </div>
+       <!-- <div class="item item-body" ng-show="layout=='posts'">
+            <button class="button icon-left ion-ios-heart button-block" ng-show="giveaway.type=='owner'">View your participants</button>
+            <button class="button icon-left ion-ios-heart button-block" ng-show="giveaway.type=='participating'">View participants</button>
+            <button class="button  button-positive icon-left flaticon-opening button-block" ng-hide="giveaway">Open details</button>
+        </div> -->
+
+    </div>
+</script>
+
+<script id="instagram_login" type="text/ng-template">
+    <ion-modal-view>
+        <ion-footer-bar class="bar bar-header bar-secondary positive-bg">
+            <h1 class="title light">Login</h1>
+        </ion-footer-bar>
+        <div class="list has-header">
+
+
+            <ion-slide-box>
+                <ion-slide>
+                    <div class="item dark light-border" style="text-align: center;">
+                        <h1>Giveaway</h1>
+                        <i class="flaticon-opening dark" style="font-size:20px;"></i>
+                        <p>Native way to find new followers</p>
+                        <!--<iframe src="http://instagiveaway.s3.amazonaws.com/login.html?action=login" frameborder="0" style="height:0; width:0;"></iframe>-->
+                        <button ng-click="nextSlide()">Next slide!</button>
+                    </div>
+                    <br/><br/><br/><br/>
+                </ion-slide>
+                <ion-slide>
+                    <div class="item dark light-border" style="text-align: center;">
+                        <h1>Giveaway</h1>
+                        <i class="flaticon-opening dark" style="font-size:20px;"></i>
+                        <p>Native way to find new followers</p>
+
+                    </div>
+                    <br/><br/><br/><br/>
+                </ion-slide>
+                <ion-slide>
+                    <div class="item dark light-border" style="text-align: center;">
+                        <h1>Giveaway</h1>
+                        <i class="flaticon-opening dark" style="font-size:20px;"></i>
+                        <p>Native way to find new followers</p>
+
+                    </div>
+                    <br/><br/><br/><br/>
+                </ion-slide>
+            </ion-slide-box>
+
+
+
+        </div>
+        <ion-footer-bar padding="false">
+            <button class="button button-large button-positive button-block" style="margin:0;" ng-click="c.login_modal.login()">LOGIN WITH INSTAGRAM</button>
+        </ion-footer-bar>
+    </ion-modal-view>
+</script>
+</body>
+</html>

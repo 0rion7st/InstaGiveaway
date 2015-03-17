@@ -1,0 +1,76 @@
+@font-face {
+	font-family: "Flaticon";
+	src: url("flaticon.eot");
+	src: url("flaticon.eot#iefix") format("embedded-opentype"),
+	url("flaticon.woff") format("woff"),
+	url("flaticon.ttf") format("truetype"),
+	url("flaticon.svg") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+	font-family: Flaticon;
+        font-size: 20px;
+font-style: normal;
+
+}.flaticon-birthday19:before {
+	content: "\e000";
+}
+.flaticon-black281:before {
+	content: "\e001";
+}
+.flaticon-black282:before {
+	content: "\e002";
+}
+.flaticon-black283:before {
+	content: "\e003";
+}
+.flaticon-box84:before {
+	content: "\e004";
+}
+.flaticon-christmas122:before {
+	content: "\e005";
+}
+.flaticon-gift58:before {
+	content: "\e006";
+}
+.flaticon-gift61:before {
+	content: "\e007";
+}
+.flaticon-gift66:before {
+	content: "\e008";
+}
+.flaticon-gift68:before {
+	content: "\e009";
+}
+.flaticon-gift70:before {
+	content: "\e00a";
+}
+.flaticon-gift71:before {
+	content: "\e00b";
+}
+.flaticon-gift72:before {
+	content: "\e00c";
+}
+.flaticon-gift73:before {
+	content: "\e00d";
+}
+.flaticon-giftbox55:before {
+	content: "\e00e";
+}
+.flaticon-mini1:before {
+	content: "\e00f";
+}
+.flaticon-opening:before {
+	content: "\e010";
+}
+.flaticon-present3:before {
+	content: "\e011";
+}
+.flaticon-save11:before {
+	content: "\e012";
+}
+.flaticon-square111:before {
+	content: "\e013";
+}

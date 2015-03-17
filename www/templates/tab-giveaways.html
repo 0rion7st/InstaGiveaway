@@ -1,0 +1,22 @@
+<ion-view view-title="Giveaways">
+
+    <ion-content class="content-bg">
+
+        <ion-list>
+            <giveaway ng-repeat="post in giveaways" profile-image="{{post.user.profile_picture || post.profile_picture}}"
+                      media-id="{{post.id}}"
+                      time-left="{{post.caption.created_time}}"
+                      giveaway="post.giveaway"
+                      giveaway-hashtag="{{post.giveawayHashtag}}"
+                      user-id="{{post.user.id || post.id}}"
+                      user-link="feed"
+                      media-image-link="{{post.images.standard_resolution.url}}"
+                      username="{{post.user.username || post.username}}"
+                      path="#/tab/giveaways" layout="{{layout}}"></giveaway>
+
+            <div ng-show="giveaways.length==0">
+                <h1>You haven't created any giveaway</h1>
+            </div>
+        </ion-list>
+    </ion-content>
+</ion-view>
