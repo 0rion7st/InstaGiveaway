@@ -12,7 +12,7 @@
             <div class="item item-avatar item-button-right">
                 <img src="{{post.user.profile_picture}}">
 
-                <h2><a href="instragram://media?id={{post.id}}" class="positive"><b>@{{post.user.username}}</b></a></h2>
+                <h2><a instragram="user?username={{post.user.username}}" class="positive"><b>@{{post.user.username}}</b></a></h2>
                 <p>
                     <span  ng-show="post.author.data.id!=post.user.id">Joined</span>
                     <span ng-show="post.author.data.id==post.user.id">Created</span>
@@ -32,10 +32,7 @@
                     <h3 class="positive" style="margin: 0;">{{post.giveaway.participants}}</h3>
                     <p>PARTICIPANTS</p>
 
-
-
-
-                    <h4 style="margin: 0;"><a href="instragram://media?id={{post.giveaway.media_id}}" class="positive"><b>@{{post.author.data.username}}</b></a></h4>
+                    <h4 style="margin: 0;"><a instagram="user?username={{post.author.data.username}}" class="positive"><b>@{{post.author.data.username}}</b></a></h4>
                     <p> AUTHOR</p>
 
 
@@ -75,11 +72,11 @@
                     <i class="icon " ng-class="{true:'ion-ios-heart',false:'ion-ios-heart-outline'}[post.user_has_liked==true]"></i>
                     {{post.likes.count}}
                 </a>
-                <a class="tab-item" href="#">
+                <a class="tab-item" instagram="media?id={{post.id}}">
                     <i class="icon ion-social-instagram"></i>
                     Open in instagram
                 </a>
-                <a class="tab-item" href="#">
+                <a class="tab-item" ng-click="c.report(post.images.standard_resolution.url,post.giveaway.hashtag,post.id,post.author.data.username)">
                     <i class="icon ion-alert-circled"></i>
                     Report
                 </a>
@@ -94,7 +91,7 @@
                     <img src="{{post.winner.data.profile_picture}}" style="width:75%; text-align: center; border-radius: 100%;" alt=""/>
                 </div>
                 <div class="col col-66 padding-top">
-                    <h4><a href="instragram://media?id={{post.id}}" class="positive"><b>@{{post.winner.data.username}}</b></a></h4>
+                    <h4><a instagram="user?username={{post.winner.data.username}}" class="positive"><b>@{{post.winner.data.username}}</b></a></h4>
                     <p>WINNER</p>
                 </div>
 
@@ -108,13 +105,13 @@
         </div>
         <div class="item item-avatar item-text-wrap" ng-repeat="comment in post.comments.data">
             <img src="{{comment.from.profile_picture}}">
-            <h4 style="margin: 0;"><a href="instragram://media?id={{comment.from.id}}" class="positive"><b>@{{comment.from.username}}</b></a></h4>
+            <h4 style="margin: 0;"><a instagram="user?username?id={{comment.from.username}}" class="positive"><b>@{{comment.from.username}}</b></a></h4>
             <p>
                 {{comment.text}}
             </p>
         </div>
         <div class="item item-avatar item-input-inset" ng-show="post.comments.data" >
-           <button class="button button-positive button-block">OPEN COMMENTS</button>
+           <button class="button button-positive button-block" instagram="media?id={{post.id}}">OPEN COMMENTS</button>
         </div>
 
 

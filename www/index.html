@@ -84,7 +84,7 @@
 
         </div>
         <ion-footer-bar padding="false">
-                <button class="button button-block" style="margin-top:0;">Logout</button>
+                <button class="button button-block" ng-click="c.logout()" style="margin-top:0;">Logout</button>
         </ion-footer-bar>
     </ion-side-menu>
 </ion-side-menus>
@@ -97,23 +97,15 @@
 
 <script id="giveaway-card" type="text/ng-template">
     <div class="giveaway {{giveaway.type}}">
-
         <div class="item item-avatar">
             <img src="{{profileImage}}">
             <h2 ng-show="userLink == 'feed'"><a href="{{path}}/user/{{userId}}" class="positive"><b>@{{username}}</b></a></h2>
-            <h2 ng-show="userLink == 'instagram'"><a href="instragram://media?id={{mediaId}}" class="positive"><b>@{{username}}</b></a></h2>
+            <h2 ng-show="userLink == 'instagram'"><a instagram="media?id={{mediaId}}" class="positive"><b>@{{username}}</b></a></h2>
             <p ng-show="layout=='posts' && !giveaway">Posted <span ng-show="layout=='posts'" time="timeLeft"></span></p>
-
         </div>
         <div class="item item-image" ng-show="layout=='posts'">
             <a href="{{path}}/giveaway/{{mediaId}}"> <img class="full-image animated loading-bg" src="{{loadedImg || 'img/px.png'}}" ng-class="loadedImg && 'fadeIn'"></a>
         </div>
-       <!-- <div class="item item-body" ng-show="layout=='posts'">
-            <button class="button icon-left ion-ios-heart button-block" ng-show="giveaway.type=='owner'">View your participants</button>
-            <button class="button icon-left ion-ios-heart button-block" ng-show="giveaway.type=='participating'">View participants</button>
-            <button class="button  button-positive icon-left flaticon-opening button-block" ng-hide="giveaway">Open details</button>
-        </div> -->
-
     </div>
 </script>
 
@@ -128,31 +120,25 @@
             <ion-slide-box>
                 <ion-slide>
                     <div class="item dark light-border" style="text-align: center;">
-                        <h1>Giveaway</h1>
-                        <i class="flaticon-opening dark" style="font-size:20px;"></i>
-                        <p>Native way to find new followers</p>
-                        <!--<iframe src="http://instagiveaway.s3.amazonaws.com/login.html?action=login" frameborder="0" style="height:0; width:0;"></iframe>-->
-                        <button ng-click="nextSlide()">Next slide!</button>
+                        <h1>Welcome to Giveaway</h1>
+                        <img src="img/noImage.png" alt=""/>
+                        <p>Help people to share things</p>
+                    </div>
+                </ion-slide>
+                <ion-slide>
+                    <div class="item dark light-border" style="text-align: center;">
+                        <h1>Join trendy giveaways</h1>
+                        <img src="img/noImage.png" alt=""/>
+                        <p>Best place to find freebies</p>
                     </div>
                     <br/><br/><br/><br/>
                 </ion-slide>
                 <ion-slide>
                     <div class="item dark light-border" style="text-align: center;">
-                        <h1>Giveaway</h1>
-                        <i class="flaticon-opening dark" style="font-size:20px;"></i>
+                        <h1>Share things with others</h1>
+                        <img src="img/noImage.png" alt=""/>
                         <p>Native way to find new followers</p>
-
                     </div>
-                    <br/><br/><br/><br/>
-                </ion-slide>
-                <ion-slide>
-                    <div class="item dark light-border" style="text-align: center;">
-                        <h1>Giveaway</h1>
-                        <i class="flaticon-opening dark" style="font-size:20px;"></i>
-                        <p>Native way to find new followers</p>
-
-                    </div>
-                    <br/><br/><br/><br/>
                 </ion-slide>
             </ion-slide-box>
 

@@ -1,6 +1,6 @@
 angular.module('giveaways.controllers', [])
 
-    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaFileOpener2,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet) {
+    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaFileOpener2,$cordovaDevice,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet) {
         $scope.c={}
 
 
@@ -26,7 +26,18 @@ angular.module('giveaways.controllers', [])
         $scope.c.hideLike = function () {
             $ionicLoading.hide();
         };
+        $scope.c.logout = function()
+        {
+            $scope.c.showLoading()
+            instagram.logout.get({},function()
+            {
+                $scope.c.hideLoading()
+                profile.logout()
+                location.href = "#/tab/feed"
+                location.reload()
+            })
 
+        }
         $scope.c.getUserInfo = function(callback)
         {
 
@@ -42,6 +53,41 @@ angular.module('giveaways.controllers', [])
                 })
             })
 
+        }
+        $scope.c.report = function(giveawayImageSrc,giveAwayHashTag, giveAwayMediaId, giveAwayAuthor)
+        {
+            var device = $cordovaDevice.getDevice();
+
+            var cordova = $cordovaDevice.getCordova();
+
+            var model = $cordovaDevice.getModel();
+
+            var platform = $cordovaDevice.getPlatform();
+
+            var uuid = $cordovaDevice.getUUID();
+
+            var version = $cordovaDevice.getVersion();
+
+
+            var email = {
+                to: 'giveaway.support@gmail.com',
+                subject: 'Giveaway #'+giveAwayHashTag+' issue',
+                body: "Hi there!<br> <b>Issue:</b><br><i>Type here...</i><br><br><small>Technical info(please do not delete it):<br>" +
+                    "<b>Giveaway:</b> <img src='"+giveawayImageSrc+"' /><br>"+
+                    "<b>Giveaway mediaId:</b> "+giveAwayMediaId+"<br>"+
+                    "<b>Giveaway author:</b> "+giveAwayAuthor+"<br>"+
+                    "<b>Sender cordova:</b> "+cordova+"<br>"+
+                    "<b>Sender model:</b> "+model+"<br>"+
+                    "<b>Sender platform:</b> "+platform+"<br>"+
+                    "<b>Sender uuid:</b> "+uuid+"<br>"+
+                    "<b>Sender version:</b> "+version+"<br>"+
+                    "<small>"+(new Date())+"</small></small>",
+                isHtml: true
+            };
+
+            $cordovaEmailComposer.open(email).then(null, function () {
+                // user cancelled email
+            });
         }
         $scope.c.submit_giveaway = function(media_id, hashtag)
         {
@@ -102,6 +148,32 @@ angular.module('giveaways.controllers', [])
                         //@TODO: What to do...
                     });
             }
+            $scope.c.submit.create = function()
+            {
+                var options = {GiveawayMediaID:$scope.c.submit.media_id,HashtagID:$scope.c.submit.hashtag}
+                var expire = $scope.c.submit.days*86400+Math.floor((new Date()).getTime()/1000)
+                $scope.c.showLoading()
+                if($scope.c.submit.type=="new")
+                {
+                    options.ExpirationTimestamp=expire
+                    server.submitGiveaway.get(options,function()
+                    {
+                        $scope.c.hideLoading()
+                        $scope.c.submit.close()
+                        document.location.href = "#/tab/giveaways/giveaway/"+$scope.c.submit.media_id
+                    })
+                }
+                else if($scope.c.submit.type=="join")
+                {
+                    server.joinGiveaway.get(options,function()
+                    {
+                        $scope.c.hideLoading()
+                        document.location.href = "#/tab/joined/giveaway/"+$scope.c.submit.media_id
+                        $scope.c.submit.close()
+                    })
+                }
+
+            }
             $scope.c.submit.showModal = function()
             {
                 $ionicModal.fromTemplateUrl('templates/create-giveaway.html', {
@@ -137,26 +209,38 @@ angular.module('giveaways.controllers', [])
                         else if($scope.c.submit.active_slide==1)
                         {
                            $scope.c.showLoading()
-                           instagram.hashes.get({tag:$scope.c.submit.hashtag, action:"media",type:"recent"}, function(data)
+                           instagram.users.get({user:"self",action:"media",type:"recent"}, function(data)
                            {
+                               var foundMatches = data.data.filter(function(post) {return post.caption!=undefined && post.caption.from.id==profile.instagram_id()}).filter(function(post){return post.tags.indexOf($scope.c.submit.hashtag)!=-1}).length
                                $scope.c.hideLoading()
-                               if(data.data.length ==1 && data.data.caption.from.id==profile.instagram_id())
+                               if(foundMatches>0)
                                {
                                    if($scope.c.submit.media_id==undefined)
                                    {
-                                       $scope.c.submit.media_id = data.data.caption.id
+                                       $scope.c.submit.media_id = data.data[0].caption.id
+                                       $scope.c.submit.days = 1
+                                       $scope.c.submit.done = true
                                    }
                                    else
                                    {
-                                       //@TODO: Follow, like the author
+                                       instagram.media.save({action:$scope.c.submit.media_id,type:'likes'},{},function()
+                                       {
+                                           $scope.c.submit.liked=true
+                                           instagram.follow.save({userId:$scope.c.submit.author.id},{action:"follow"},function()
+                                           {
+                                               $scope.c.submit.followed=true
+                                               $scope.c.submit.done = true
+                                           })
+                                       })
                                    }
                                }
                                else
                                {
-
+                                   $ionicSlideBoxDelegate.previous();
                                }
                            })
                         }
+
                         console.log($ionicSlideBoxDelegate.currentIndex())
 
 
@@ -191,7 +275,7 @@ angular.module('giveaways.controllers', [])
                                 .then(function (results) {
                                     $scope.c.submit.imageUrl =  results[0]
                                     $scope.c.submit.showModal()
-                                    $scope.c.submit.hashtag = giveawayDecor.generateHashTag()
+                                    $scope.c.submit.hashtag = "hHhdjerFGSwrtw12345"//giveawayDecor.generateHashTag()
                                     $scope.c.submit.type='new'
                                 }, function(error) {
                                     // error getting photos
@@ -555,10 +639,11 @@ angular.module('giveaways.controllers', [])
             }
         })
     })
-    .controller('UserPostsCtrl', function($scope,$stateParams,instagram, $ionicScrollDelegate) {
+    .controller('UserPostsCtrl', function($scope,$stateParams,instagram, $ionicScrollDelegate,$location) {
 
         $scope.layout="posts"
         $scope.c.showLoading()
+        $scope.tab=$location.$$url.split("/")[2]
         var results = instagram.users.get({user:$stateParams.userid,action:"media",type:"recent"}).$promise
         results.then(function(data)
         {

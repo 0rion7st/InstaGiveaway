@@ -1,4 +1,60 @@
 angular.module('giveaways.services', ['ngResource'])
+    .config(['$httpProvider', function ($httpProvider) {
+        // Intercept POST requests, convert to standard form encoding
+        $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+        $httpProvider.defaults.transformRequest.unshift(function (data, headersGetter) {
+            var key, result = [];
+            for (key in data) {
+                if (data.hasOwnProperty(key)) {
+                    result.push(encodeURIComponent(key) + "=" + encodeURIComponent(data[key]));
+                }
+            }
+            return result.join("&");
+        });
+
+    }])
+
+.factory('timestampMarker', ['$cordovaLocalNotification',function($cordovaLocalNotification) {
+    var timestampMarker = {
+        request: function(config) {
+            if(config.params !=undefined && (config.params.command == "SUBMIT_GIVEAWAY" || config.params.command == "JOIN_GIVEAWAY"))
+            {
+                config.notification = config.params.command
+                config.ExpirationTimestamp =  config.params.ExpirationTimestamp
+            }
+            return config;
+        },
+        response: function(response) {
+
+            if(response.config.notification!=undefined)
+            {
+                var uid = Math.floor(Math.random()*10000)
+                if(response.config.notification == "SUBMIT_GIVEAWAY")
+                {
+                    $cordovaLocalNotification.add({
+                        id: uid,
+                        title: "Choose winner!",
+                        text: "Your giveaway came to an end.",
+                        at: new Date(response.config.ExpirationTimestamp*1000),
+                        badge:1
+                    }).then(function () {
+                        console.log('callback for adding background notification');
+                    });
+                }
+                else if(response.config.notification == "JOIN_GIVEAWAY")
+                {
+                  //@TODO: Findout expiration time
+                }
+            }
+
+            return response;
+        }
+    };
+    return timestampMarker;
+}])
+.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.interceptors.push('timestampMarker');
+}])
 
 //<editor-fold  desc="server">
     .factory('server', function ($resource, profile) {
@@ -23,6 +79,8 @@ angular.module('giveaways.services', ['ngResource'])
             server.users = $resource(instagram+"/users/:user/:action/:type",{access_token:profile.access_token()}),
             server.media = $resource(instagram+"/media/:action/:type",{access_token:profile.access_token()}),
             server.hashes = $resource(instagram+"/tags/:tag/:action/:type",{access_token:profile.access_token()}),
+            server.follow = $resource(instagram+"/users/:userId/relationship",{access_token:profile.access_token()}),
+            server.logout = $resource(instagram+"/accounts/logout/",{}),
             server.reinit = function()
                 {
                     initServer()
@@ -67,7 +125,7 @@ angular.module('giveaways.services', ['ngResource'])
                     window.localStorage.setItem("instagram_username", value)
                 }
                 else {
-                    console.log("instagram_id: GET")
+                    console.log("instagram_username: GET")
                     return window.localStorage.getItem("instagram_username") || false
                 }
 
@@ -82,6 +140,13 @@ angular.module('giveaways.services', ['ngResource'])
                     return window.localStorage.getItem("instagram_avatar") || false
                 }
 
+            },
+            logout: function()
+            {
+                window.localStorage.removeItem("access_token")
+                window.localStorage.removeItem("instagram_id")
+                window.localStorage.removeItem("instagram_username")
+                window.localStorage.removeItem("instagram_avatar")
             },
             valid: function()
             {

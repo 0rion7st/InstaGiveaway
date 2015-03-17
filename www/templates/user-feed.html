@@ -3,6 +3,8 @@
     <ion-content  class="content-bg">
 
         <ion-list>
+
+
             <giveaway ng-repeat="post in feed.data" profile-image="{{post.user.profile_picture || post.profile_picture}}"
                       media-id="{{post.id}}"
                       time-left="{{post.caption.created_time}}"

@@ -104,7 +104,39 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
             }
         }
     }])
+    .directive('instagram', ['$rootScope', function($rootScope) {
+        return {
+            restrict: 'A',
+            scope:
+            {
+                instagram:'@'
+            },
+            link: function($scope,element,attrs) {
 
+                var tapping;
+                tapping = false;
+                element.bind('touchstart', function(e) {
+                    element.addClass('active');
+                    tapping = true;
+                });
+                element.bind('touchmove', function(e) {
+                    element.removeClass('active');
+                    tapping = false;
+                });
+                element.bind('touchend', function(e) {
+                    element.removeClass('active');
+                    if (tapping) {
+                        navigator.startApp.start("instagram://"+$scope.instagram, function(message) {  /* success */
+                                console.log(message); // => OK
+                            },
+                            function(error) { /* error */
+                                console.log(error);
+                            });
+                    }
+                });
+            }
+        }
+    }])
 
     .config(function($stateProvider, $urlRouterProvider) {
 
