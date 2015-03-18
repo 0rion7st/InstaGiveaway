@@ -1,8 +1,8 @@
 angular.module('giveaways.controllers', [])
 
-    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaFileOpener2,$cordovaDevice,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet) {
+    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaFileOpener2,registerNotifications,$cordovaDevice,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet) {
         $scope.c={}
-
+        registerNotifications()
 
         $scope.c.toggleRight = function() {
             $ionicSideMenuDelegate.toggleRight();

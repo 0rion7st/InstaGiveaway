@@ -14,8 +14,39 @@ angular.module('giveaways.services', ['ngResource'])
 
     }])
 
-.factory('timestampMarker', ['$cordovaLocalNotification',function($cordovaLocalNotification) {
-    var timestampMarker = {
+    .factory('registerNotifications', ['$cordovaPush','$cordovaDevice','server',function($cordovaPush,$cordovaDevice,server) {
+        return function()
+        {
+            document.addEventListener("deviceready", function () {
+
+                var platform = $cordovaDevice.getPlatform();
+                var config = {
+                    "senderID": "replace_with_sender_id"
+                };
+
+                if(platform=="iOS")
+                {
+                    config = {
+                        "badge": true,
+                        "sound": true,
+                        "alert": true
+                    }
+                }
+
+                $cordovaPush.register(config).then(function(result) {
+                    console.log("result: " + result)
+                    server.updateDeviceToken.get({DeviceToken: result.deviceToken, OS:platform})
+                }, function(err) {
+                    alert("Registration error: " + err)
+                });
+
+            }, false);
+        }
+
+    }])
+
+.factory('localNotificationInterceptor', ['$cordovaLocalNotification',function($cordovaLocalNotification) {
+    var localNotificationInterceptor = {
         request: function(config) {
             if(config.params !=undefined && (config.params.command == "SUBMIT_GIVEAWAY" || config.params.command == "JOIN_GIVEAWAY"))
             {
@@ -50,10 +81,10 @@ angular.module('giveaways.services', ['ngResource'])
             return response;
         }
     };
-    return timestampMarker;
+    return localNotificationInterceptor;
 }])
 .config(['$httpProvider', function($httpProvider) {
-    $httpProvider.interceptors.push('timestampMarker');
+    $httpProvider.interceptors.push('localNotificationInterceptor');
 }])
 
 //<editor-fold  desc="server">
@@ -64,8 +95,8 @@ angular.module('giveaways.services', ['ngResource'])
             getGiveaway: $resource(server_endpoint+"GET_GIVEAWAY",{command:'GET_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token(),InstagramUsername:profile.instagram_username(),InstagramAvatar:profile.instagram_avatar()}),
             getUserInfo: $resource(server_endpoint+"GET_USER_INFO",{command:'GET_USER_INFO',InstagramID:profile.instagram_id(),AccessToken:profile.access_token(),InstagramUsername:profile.instagram_username(),InstagramAvatar:profile.instagram_avatar()}),
             submitGiveaway: $resource(server_endpoint+"SUBMIT_GIVEAWAY",{command:'SUBMIT_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token(),InstagramUsername:profile.instagram_username(),InstagramAvatar:profile.instagram_avatar()}),
-            joinGiveaway: $resource(server_endpoint+"JOIN_GIVEAWAY",{command:'JOIN_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token(),InstagramUsername:profile.instagram_username(),InstagramAvatar:profile.instagram_avatar()})
-
+            joinGiveaway: $resource(server_endpoint+"JOIN_GIVEAWAY",{command:'JOIN_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token(),InstagramUsername:profile.instagram_username(),InstagramAvatar:profile.instagram_avatar()}),
+            updateDeviceToken: $resource(server_endpoint+"UPDATE_DEVICE_TOKEN",{command:'UPDATE_DEVICE_TOKEN',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()})
         }
     })
 //</editor-fold>
@@ -80,7 +111,7 @@ angular.module('giveaways.services', ['ngResource'])
             server.media = $resource(instagram+"/media/:action/:type",{access_token:profile.access_token()}),
             server.hashes = $resource(instagram+"/tags/:tag/:action/:type",{access_token:profile.access_token()}),
             server.follow = $resource(instagram+"/users/:userId/relationship",{access_token:profile.access_token()}),
-            server.logout = $resource(instagram+"/accounts/logout/",{}),
+            server.logout = $resource("https://instagram.com/accounts/logout/",{}),
             server.reinit = function()
                 {
                     initServer()
