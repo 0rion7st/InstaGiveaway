@@ -183,6 +183,12 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
         }
       }
     })
+      .state('profile', {
+          url: '/profile',
+          templateUrl: 'templates/user-profile.html',
+          controller: 'MyProfileCtrl'
+
+      })
       .state('tab.feed-giveaway-details', {
           url: '/feed/giveaway/:media_id',
           views: {

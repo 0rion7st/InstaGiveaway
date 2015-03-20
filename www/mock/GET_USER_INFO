@@ -4,11 +4,20 @@
             {
                 "hashtag": "womenleadersproject",
                 "owner_id": "176478112",
-                "media_id": "937011498785613160_6036192",
+                "media_id": "944309979409292450_380850774",
                 "expiration_timestamp": "1426118400",
                 "status": "active",
                 "winner_id": "",
-                "participants": 23
+                "participants": {
+                                    "totalCount": "100",
+                                    "data": [
+                                        {
+                                            "InstagramID": 1234,
+                                            "InstagramUsername": "Karen",
+                                            "InstagramAvatar": "https://..."
+                                        }
+                                    ]
+                                }
             },
             {
                 "hashtag": "notthere",
@@ -17,7 +26,16 @@
                 "expiration_timestamp": "1426118400",
                 "status": "completed",
                 "winner_id": "347257336",
-                "participants": 23
+                "participants": {
+                                    "totalCount": "100",
+                                    "data": [
+                                        {
+                                            "InstagramID": 1234,
+                                            "InstagramUsername": "Karen",
+                                            "InstagramAvatar": "https://..."
+                                        }
+                                    ]
+                                }
             }
         ],
         "participating": [
@@ -27,8 +45,17 @@
                 "media_id": "937008803358242644_291786340",
                 "expiration_timestamp": "1438642143",
                 "status": "completed",
-                "winner_id": "648108897",
-                "participants": 23
+                "winner_id": "1536841688",
+                "participants": {
+                                    "totalCount": "100",
+                                    "data": [
+                                        {
+                                            "InstagramID": 1234,
+                                            "InstagramUsername": "Karen",
+                                            "InstagramAvatar": "https://..."
+                                        }
+                                    ]
+                                }
             },
             {
                 "hashtag": "welovewodka",
@@ -37,7 +64,16 @@
                 "expiration_timestamp": "1426518400",
                 "status": "active",
                 "winner_id": "",
-                "participants": 23
+                "participants": {
+                                    "totalCount": "100",
+                                    "data": [
+                                        {
+                                            "InstagramID": 1234,
+                                            "InstagramUsername": "Karen",
+                                            "InstagramAvatar": "https://..."
+                                        }
+                                    ]
+                                }
             }
         ]
     }

@@ -18,23 +18,16 @@
                     <p ng-if="c.submit.type!='new'">Click next</p>
                 </div>
                 <div class="item" ng-if="c.submit.type=='new'" style="text-align: center; border: 0">
-                    <h2>Select ribbon</h2>
+                    <h2>Select sticker</h2>
                 </div>
-                <div class="item item-text-wrap row" ng-if="c.submit.type=='new'" style="text-align: center; border: 0">
-
-                    <div class="col-25" ng-class="{true:'selected'}[c.submit.ribbon==1]" ng-click="c.submit.setRibbon(1)">
-                        <img src="img/ribbons/ribbon_01.png" class="full-image" alt=""/>
-                    </div>
-                    <div class="col-25"  ng-class="{true:'selected'}[c.submit.ribbon==2]" ng-click="c.submit.setRibbon(2)">
-                        <img src="img/ribbons/ribbon_02.png" class="full-image" alt=""/>
-                    </div>
-                    <div class="col-25"  ng-class="{true:'selected'}[c.submit.ribbon==3]" ng-click="c.submit.setRibbon(3)">
-                        <img src="img/ribbons/ribbon_03.png" class="full-image" alt=""/>
-                    </div>
-                    <div class="col-25"  ng-class="{true:'selected'}[c.submit.ribbon==4]" ng-click="c.submit.setRibbon(4)">
-                        <img src="img/ribbons/ribbon_04.png" class="full-image" alt=""/>
-                    </div>
-                </div>
+                <ion-scroll direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;" ng-if="c.submit.type=='new'">
+                    <img src="img/ribbons/ribbon_01.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(1)"/>
+                    <img src="img/ribbons/ribbon_02.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(2)"/>
+                    <img src="img/ribbons/ribbon_03.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(3)"/>
+                    <img src="img/ribbons/ribbon_04.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(4)"/>
+                    <img src="img/ribbons/ribbon_05.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(5)" />
+                    <img src="img/ribbons/ribbon_06.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(6)"/>
+                </ion-scroll>
             </ion-slide>
             <ion-slide>
                 <div class="item dark light-border item-text-wrap " style="text-align: center; border: 0">

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="flaticon.css"/>
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="css/animate.css"/>
-
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
@@ -51,31 +51,35 @@
     <!-- Right menu -->
     <ion-side-menu side="right">
         <div class="list">
+            <a class="item item-avatar item-icon-right positive" href="#/profile" ng-click="c.toggleRight()">
+               <img src="{{c.userInstagram.data.profile_picture}}">
+                <h2>{{c.userInstagram.data.username}}</h2>
+                <p>My profile</p>
+                <i class="icon ion-gear-a"></i>
+            </a>
 
-            <div class="item">
-                <button class="button button-block button-positive" ng-click="c.submit_giveaway()">Create giveaway</button>
-            </div>
             <a href="#/tab/feed" class="item light-bg" menu-close>
-                Feed <span class="badge badge-assertive">3</span>
+                Feed
             </a>
 
             <a href="#/tab/giveaways" class="item light-bg" menu-close>
-                My giveaways <span class="badge badge-energized">30</span>
+                My giveaways <span class="badge">{{c.userInfo.data.giveaways.length}}</span>
             </a>
             <a href="#/tab/joined" class="item light-bg" menu-close>
-                Participating
-            </a>
-            <a class="item item-avatar" href="#">
-                <img src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/128/gift.png">
-                <h2>Venkman</h2>
-                <p>Back off, man. I'm a scientist.</p>
+                Participating <span class="badge">{{c.userInfo.data.participating.length}}</span>
             </a>
 
-            <a class="item item-avatar" href="#">
-                <img src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/128/gift.png">
-                <h2>Venkman</h2>
-                <p>Back off, man. I'm a scientist.</p>
+            <a href="#/tab/joined" class="item light-bg" menu-close>
+                What's hot
             </a>
+            <a href="#/tab/joined" class="item light-bg" menu-close>
+                About
+            </a>
+            <a href="#/tab/joined" class="item light-bg" menu-close>
+                Help
+            </a>
+
+
 
 
 
@@ -83,9 +87,7 @@
 
 
         </div>
-        <ion-footer-bar padding="false">
-                <button class="button button-block" ng-click="c.logout()" style="margin-top:0;">Logout</button>
-        </ion-footer-bar>
+
     </ion-side-menu>
 </ion-side-menus>
 

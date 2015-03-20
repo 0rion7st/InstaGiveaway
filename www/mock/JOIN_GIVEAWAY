@@ -6,6 +6,15 @@
         "expiration_timestamp": "1426314400",
         "status": "active",
         "winner_id": "",
-        "participants": 54
+        "participants": {
+                            "totalCount": "100",
+                            "data": [
+                                {
+                                    "InstagramID": 1234,
+                                    "InstagramUsername": "Karen",
+                                    "InstagramAvatar": "https://..."
+                                }
+                            ]
+                        }
     }]
 }

@@ -658,4 +658,16 @@ angular.module('giveaways.controllers', [])
         })
 
     })
+    .controller('MyProfileCtrl', function($scope) {
+        $scope.loadingFadeIn=false
+        $scope.reposts = 0
+        $scope.wins = 0
+        $scope.c.getUserInfo(function()
+        {
+            $scope.loadingFadeIn=true
+            $scope.reposts = $scope.c.userInfo.data.giveaways.reduce(function(a,b){ return a.participants.totalCount*1 + b.participants.totalCount*1})
+            $scope.wins = $scope.c.userInfo.data.participating.filter(function(a){ return a.winner_id==$scope.c.userInstagram.data.id}).length
+            //TODO: what we what here?
+        })
 
+    })

@@ -29,7 +29,7 @@
                 <div class="col col-50 dark">
 
 
-                    <h3 class="positive" style="margin: 0;">{{post.giveaway.participants}}</h3>
+                    <h3 class="positive" style="margin: 0;">{{post.giveaway.participants.totalCount}}</h3>
                     <p>PARTICIPANTS</p>
 
                     <h4 style="margin: 0;"><a instagram="user?username={{post.author.data.username}}" class="positive"><b>@{{post.author.data.username}}</b></a></h4>
@@ -49,11 +49,18 @@
                 </div>
 
             </div>
+
             <div class="item item-icon-left item-text-wrap light-bg  dark" style="font-style: italic;">
                 <i class="icon ion-quote"></i>
                 {{post.caption.text}}
 
             </div>
+            <div class="item light-bg" ng-if="post.giveaway.participants.data.length!=0" style="padding-bottom: 0px; border-bottom:0px;">
+                <small>Recently joined:</small>
+            </div>
+            <ion-scroll  ng-if="post.giveaway.participants.data.length!=0" direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;">
+                <img ng-repeat="joined in post.giveaway.participants.data" instagram="user?username={{joined.InstagramUsername}}" src="{{joined.InstagramAvatar}}" class="avatar" alt=""/><br>
+            </ion-scroll >
             <div class="item"  ng-show="post.giveaway.status!='completed' && timeNow<post.giveaway.expiration_timestamp">
                 <h2 class="balanced" style="text-transform: uppercase; text-align: center;">
 
@@ -72,7 +79,7 @@
                     <i class="icon " ng-class="{true:'ion-ios-heart',false:'ion-ios-heart-outline'}[post.user_has_liked==true]"></i>
                     {{post.likes.count}}
                 </a>
-                <a class="tab-item" instagram="media?id={{post.id}}">
+                <a class="tab-item" instagram="media?id={{post.id}}" style="text-overflow: clip;">
                     <i class="icon ion-social-instagram"></i>
                     Open in instagram
                 </a>
