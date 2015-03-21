@@ -211,13 +211,13 @@ angular.module('giveaways.controllers', [])
                            $scope.c.showLoading()
                            instagram.users.get({user:"self",action:"media",type:"recent"}, function(data)
                            {
-                               var foundMatches = data.data.filter(function(post) {return post.caption!=undefined && post.caption.from.id==profile.instagram_id()}).filter(function(post){return post.tags.indexOf($scope.c.submit.hashtag)!=-1}).length
+                               var foundMatches = data.data.filter(function(post) {return post.caption!=undefined && post.caption.from.id==profile.instagram_id()}).filter(function(post){return post.tags.indexOf($scope.c.submit.hashtag.toLocaleLowerCase())!=-1}).length
                                $scope.c.hideLoading()
                                if(foundMatches>0)
                                {
                                    if($scope.c.submit.media_id==undefined)
                                    {
-                                       $scope.c.submit.media_id = data.data[0].caption.id
+                                       $scope.c.submit.media_id = data.data[0].id
                                        $scope.c.submit.days = 1
                                        $scope.c.submit.done = true
                                    }
@@ -275,7 +275,7 @@ angular.module('giveaways.controllers', [])
                                 .then(function (results) {
                                     $scope.c.submit.imageUrl =  results[0]
                                     $scope.c.submit.showModal()
-                                    $scope.c.submit.hashtag = "hHhdjerFGSwrtw12345"//giveawayDecor.generateHashTag()
+                                    $scope.c.submit.hashtag = giveawayDecor.generateHashTag()
                                     $scope.c.submit.type='new'
                                 }, function(error) {
                                     // error getting photos
@@ -665,7 +665,14 @@ angular.module('giveaways.controllers', [])
         $scope.c.getUserInfo(function()
         {
             $scope.loadingFadeIn=true
-            $scope.reposts = $scope.c.userInfo.data.giveaways.reduce(function(a,b){ return a.participants.totalCount*1 + b.participants.totalCount*1})
+            if($scope.c.userInfo.data.giveaways.length>1)
+            {
+                $scope.reposts = $scope.c.userInfo.data.giveaways.reduce(function(a,b){ return a.participants.totalCount*1 + b.participants.totalCount*1})
+
+            }
+            else if($scope.c.userInfo.data.giveaways.length==1)
+                $scope.reposts = $scope.c.userInfo.data.giveaways[0].participants.totalCount*1
+
             $scope.wins = $scope.c.userInfo.data.participating.filter(function(a){ return a.winner_id==$scope.c.userInstagram.data.id}).length
             //TODO: what we what here?
         })

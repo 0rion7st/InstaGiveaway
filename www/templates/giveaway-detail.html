@@ -117,7 +117,7 @@
                 {{comment.text}}
             </p>
         </div>
-        <div class="item item-avatar item-input-inset" ng-show="post.comments.data" >
+        <div class="item item-avatar item-input-inset" ng-show="post.comments.data &&  post.comments.data.length!=0" >
            <button class="button button-positive button-block" instagram="media?id={{post.id}}">OPEN COMMENTS</button>
         </div>
 

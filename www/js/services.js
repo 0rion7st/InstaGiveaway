@@ -35,7 +35,7 @@ angular.module('giveaways.services', ['ngResource'])
 
                 $cordovaPush.register(config).then(function(result) {
                     console.log("result: " + result)
-                    server.updateDeviceToken.get({DeviceToken: result.deviceToken, OS:platform})
+                    server.updateDeviceToken.get({DeviceToken: result, OS: platform})
                 }, function(err) {
                     alert("Registration error: " + err)
                 });
@@ -89,14 +89,14 @@ angular.module('giveaways.services', ['ngResource'])
 
 //<editor-fold  desc="server">
     .factory('server', function ($resource, profile) {
-       var server_endpoint = "mock/"
-       //var server_endpoint = "http://107.20.138.124/GiveAway/main_commander.php"
+       //var server_endpoint = "mock/"
+       var server_endpoint = "http://107.20.138.124/GiveAway/main_commander.php"
         return {
-            getGiveaway: $resource(server_endpoint+"GET_GIVEAWAY",{command:'GET_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token(),InstagramUsername:profile.instagram_username(),InstagramAvatar:profile.instagram_avatar()}),
-            getUserInfo: $resource(server_endpoint+"GET_USER_INFO",{command:'GET_USER_INFO',InstagramID:profile.instagram_id(),AccessToken:profile.access_token(),InstagramUsername:profile.instagram_username(),InstagramAvatar:profile.instagram_avatar()}),
-            submitGiveaway: $resource(server_endpoint+"SUBMIT_GIVEAWAY",{command:'SUBMIT_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token(),InstagramUsername:profile.instagram_username(),InstagramAvatar:profile.instagram_avatar()}),
-            joinGiveaway: $resource(server_endpoint+"JOIN_GIVEAWAY",{command:'JOIN_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token(),InstagramUsername:profile.instagram_username(),InstagramAvatar:profile.instagram_avatar()}),
-            updateDeviceToken: $resource(server_endpoint+"UPDATE_DEVICE_TOKEN",{command:'UPDATE_DEVICE_TOKEN',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()})
+            getGiveaway: $resource(server_endpoint/*+"GET_GIVEAWAY"*/,{command:'GET_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()}),
+            getUserInfo: $resource(server_endpoint/*+"GET_USER_INFO"*/,{command:'GET_USER_INFO',InstagramID:profile.instagram_id(),AccessToken:profile.access_token(),InstagramUsername:profile.instagram_username(),InstagramAvatar:profile.instagram_avatar()}),
+            submitGiveaway: $resource(server_endpoint/*+"SUBMIT_GIVEAWAY"*/,{command:'SUBMIT_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()}),
+            joinGiveaway: $resource(server_endpoint/*+"JOIN_GIVEAWAY"*/,{command:'JOIN_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()}),
+            updateDeviceToken: $resource(server_endpoint/*+"UPDATE_DEVICE_TOKEN"*/,{command:'UPDATE_DEVICE_TOKEN',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()})
         }
     })
 //</editor-fold>
@@ -326,7 +326,7 @@ angular.module('giveaways.services', ['ngResource'])
                 for( var i=0; i < 6; i++ )
                     text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-                return "ga"+text
+                return "ww"+text
             },
             decoratePost: function (post, myGiveaways,participatingGiveaways) {
 
@@ -369,7 +369,7 @@ angular.module('giveaways.services', ['ngResource'])
                  */
                 function coreValidation(hashtag)
                 {
-                    return true
+                    return hashtag.substr(0, 2).toLowerCase()=="ww"
                 }
                 if(post.tags.length==0)
                 {

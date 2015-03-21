@@ -34,7 +34,7 @@ ion-infinite-scroll i:before
 .giveaway.owner:before
 {
 
-    content: 'Your giveaway';
+    content: 'My WW';
 
 }
 .spinner-ios, .spinner-ios-small {
@@ -42,7 +42,7 @@ ion-infinite-scroll i:before
 }
 .giveaway.participating:before
 {
-    content: 'Participating';
+    content: 'Joined WW';
 }
 
 .scroll-refresher .ionic-refresher-content
