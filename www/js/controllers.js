@@ -133,7 +133,7 @@ angular.module('giveaways.controllers', [])
             }
             $scope.c.submit.share = function()
             {
-                var caption  = 'Giveaway hashtag #'+$scope.c.submit.hashtag
+                var caption  = '\n\n\n\n\nWanna win? Install WannaWin app\n WannaWin ID #'+$scope.c.submit.hashtag
                 if($scope.c.submit.type=="join")
                 {
                     caption+=" repost of @"+$scope.c.submit.author.username
