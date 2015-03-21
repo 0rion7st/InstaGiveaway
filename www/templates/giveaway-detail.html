@@ -107,7 +107,7 @@
                 Please contact winner to deliver him giveaway!
             </div>
             <div class="item item-avatar item-input-inset" ng-if="post.giveaway.winner_id!='' && post.author.data.id==c.userInstagram.data.id">
-                <button class="button button-positive button-block">CONTACT WINNER</button>
+                <button class="button button-positive button-block"  instagram="user?username={{post.winner.data.username}}">CONTACT WINNER</button>
             </div>
         </div>
         <div class="item item-avatar item-text-wrap" ng-repeat="comment in post.comments.data">

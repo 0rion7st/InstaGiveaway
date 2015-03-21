@@ -73,7 +73,7 @@ angular.module('giveaways.controllers', [])
                 to: 'giveaway.support@gmail.com',
                 subject: 'Giveaway #'+giveAwayHashTag+' issue',
                 body: "Hi there!<br> <b>Issue:</b><br><i>Type here...</i><br><br><small>Technical info(please do not delete it):<br>" +
-                    "<b>Giveaway:</b> <img src='"+giveawayImageSrc+"' /><br>"+
+                    "<b>Giveaway:</b> <img style='width:100%;' src='"+giveawayImageSrc+"' /><br>"+
                     "<b>Giveaway mediaId:</b> "+giveAwayMediaId+"<br>"+
                     "<b>Giveaway author:</b> "+giveAwayAuthor+"<br>"+
                     "<b>Sender cordova:</b> "+cordova+"<br>"+
