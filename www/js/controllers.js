@@ -153,7 +153,7 @@ angular.module('giveaways.controllers', [])
             }
             $scope.c.submit.share = function()
             {
-                var caption  = '\n\n\n\n\nWanna win? Install WannaWin app\n WannaWin ID #'+$scope.c.submit.hashtag
+                var caption  = '\n\n\n\n\nWanna win? Install WannaWin app\n #'+$scope.c.submit.hashtag
                 if($scope.c.submit.type=="join")
                 {
                     caption+=" repost of @"+$scope.c.submit.author.username
@@ -611,7 +611,7 @@ angular.module('giveaways.controllers', [])
                         $scope.$broadcast('scroll.refreshComplete');
                         $scope.post = giveawayDecor.decoratePost(post.data,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
                         if($scope.post.caption.text.split('Wanna win?').length>1)
-                            $scope.post.caption.text = $scope.post.caption.text.split('Wanna win?')[1]
+                            $scope.post.caption.text = $scope.post.caption.text.split('Wanna win?')[0]
 
                         $scope.loadingFadeIn = false
                         var img = new Image()
