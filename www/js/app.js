@@ -81,10 +81,14 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 time:'='
             },
             link: function($scope,el,attrs) {
-
+                var timerCounting
                 function renderTime()
                 {
-                    el[0].innerHTML =  moment.unix($scope.time ).fromNow()
+                    if(($scope.time-(new Date()).getTime()/1000)<0 || ($scope.time-(new Date()).getTime()/1000)>60)
+                        el[0].innerHTML =  moment.unix($scope.time ).fromNow()
+                    else
+                        el[0].innerHTML = "in " + Math.floor(($scope.time-(new Date()).getTime()/1000))+" seconds."
+
                 }
 
                 $scope.$watch("time",function()
@@ -100,7 +104,10 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                     },1000)
                 }
 
-
+                $scope.$on('$destroy', function() {
+                    console.log("destroy timer")
+                    clearInterval(timerCounting)
+                });
             }
         }
     }])

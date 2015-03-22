@@ -1,6 +1,6 @@
 angular.module('giveaways.controllers', [])
 
-    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaFileOpener2,registerNotifications,$cordovaDevice,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet) {
+    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaFileOpener2,registerNotifications,$cordovaDevice,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout) {
         $scope.c={}
         registerNotifications()
 
@@ -10,7 +10,27 @@ angular.module('giveaways.controllers', [])
 
         $scope.c.showLoading = function () {
             $ionicLoading.show({
-                template: '<i class="icon ion-load-a"></i>'
+                template: '<ion-spinner icon="ios"></ion-spinner>'
+
+            });
+        };
+
+        $scope.c.notifyErr = function (code) {
+            var message = "Damn!!11"
+            switch(code*1)
+            {
+                case 13:
+                    message = "WW not exists. Sorry :("
+                    break;
+                case 400:
+                    message = "Now such media in instagram."
+                    break;
+            }
+            message = "<h2><i class='positive ion-sad'></i></h2><br><small>"+message+"</small>"
+            $ionicLoading.show({
+                template:'<span style="color:white;">'+message+"</span>",
+                noBackdrop:false,
+                duration:1000
             });
         };
         $scope.c.hideLoading = function () {
@@ -20,7 +40,7 @@ angular.module('giveaways.controllers', [])
 
         $scope.c.showLike = function () {
             $ionicLoading.show({
-                template: '<i class="icon ion-ios-heart" style="font-size:30px;"></i>'
+                template: '<h1><i class="icon ion-ios-heart" style="font-size:30px;"></i></h1>'
             });
         };
         $scope.c.hideLike = function () {
@@ -371,7 +391,7 @@ angular.module('giveaways.controllers', [])
 
     })
     .controller('FeedCtrl', function($scope,$stateParams,profile,server,instagram,$timeout,$ionicScrollDelegate,giveawayDecor) {
-
+        $scope.loadMoreTimes=0
         $scope.clearSearch = function()
         {
             $scope.searchQuery = undefined
@@ -391,9 +411,15 @@ angular.module('giveaways.controllers', [])
             }
             else
             {
+                if($scope.loadMoreTimes>10)
+                {
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                    return
+                }
                 var results = instagram.users.get({user:"self",action:"feed",max_id:$scope.next_max_id}).$promise;
                 results.then(function(data)
                 {
+                    $scope.loadMoreTimes++
                     $scope.next_max_id = data.pagination.next_max_id
                     data.data=data.data.filter(giveawayDecor.filterPosts)
                     data.data.map(function(post)
@@ -560,50 +586,81 @@ angular.module('giveaways.controllers', [])
 
     })
 
-    .controller('GiveAwayDetailCtrl', function($scope,server, $stateParams,post,instagram,giveawayDecor) {
-        $scope.c.getUserInfo(function()
-        {
-        post.$promise.then(function(post)
-        {
-            $scope.post = giveawayDecor.decoratePost(post.data,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
+    .controller('GiveAwayDetailCtrl', function($scope,server, $stateParams,post,instagram,giveawayDecor,$ionicHistory,$interval) {
 
-            $scope.loadingFadeIn = false
-            var img = new Image()
-            img.onload=function()
-            {
-                $scope.$apply(function()
+        $scope.initTimer = function()
+        {
+            $scope.timeNow = (new Date()).getTime()/1000
+            var interval = $interval(function(){
+                $scope.timeNow = (new Date()).getTime()/1000
+
+                if($scope.post.giveaway.status=='active' && $scope.timeNow>$scope.post.giveaway.expiration_timestamp)
                 {
-                    $scope.loadingFadeIn = true
-                })
+                    $scope.loadGiveaway()
+                }
+            },1000)
 
-            }
-            img.src=$scope.post.images.standard_resolution.url
-
-            if($scope.post.giveaway==undefined)
+        }
+        $scope.initTimer()
+        $scope.loadGiveaway = function()
+        {
+            $scope.c.getUserInfo(function()
             {
-                $scope.post.giveaway= server.getGiveaway.get({HashtagID:giveawayDecor.filterPosts($scope.post)}).$promise.then(
-                    function(giveaway)
+                post.$promise.then(function(post)
                     {
-                        $scope.post.giveaway = giveaway.data[0]
-                        $scope.post.author =  instagram.users.get({user:$scope.post.giveaway.owner_id})
-                        if($scope.post.giveaway.winner_id!="")
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $scope.post = giveawayDecor.decoratePost(post.data,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
+                        if($scope.post.caption.text.split('Wanna win?').length>1)
+                            $scope.post.caption.text = $scope.post.caption.text.split('Wanna win?')[1]
+
+                        $scope.loadingFadeIn = false
+                        var img = new Image()
+                        img.onload=function()
                         {
+                            $scope.$apply(function()
+                            {
+                                $scope.loadingFadeIn = true
+                            })
+
+                        }
+                        img.src=$scope.post.images.standard_resolution.url
+
+                        if($scope.post.giveaway==undefined)
+                        {
+                            $scope.post.giveaway= server.getGiveaway.get({HashtagID:giveawayDecor.filterPosts($scope.post)}).$promise.then(
+                                function(giveaway)
+                                {
+                                    $scope.post.giveaway = giveaway.data[0]
+                                    $scope.post.author =  instagram.users.get({user:$scope.post.giveaway.owner_id})
+                                    if($scope.post.giveaway.winner_id!="")
+                                    {
+                                        $scope.post.winner =  instagram.users.get({user:$scope.post.giveaway.winner_id})
+                                    }
+                                }
+                                ,function(error)
+                                {
+                                    $scope.c.notifyErr(error.data.errorCode)
+                                    $ionicHistory.goBack()
+                                })
+                            $scope.post.giveaway.type="unjoined"
+                        }
+                        else{
+
+                            $scope.post.author =  instagram.users.get({user:$scope.post.giveaway.owner_id})
                             $scope.post.winner =  instagram.users.get({user:$scope.post.giveaway.winner_id})
                         }
+
+
                     }
-                )
-                $scope.post.giveaway.type="unjoined"
-            }
-            else{
+                    ,function(error)
+                    {
+                        $scope.c.notifyErr(error.data.meta.code)
+                        $ionicHistory.goBack()
+                    })
+            })
 
-                $scope.post.author =  instagram.users.get({user:$scope.post.giveaway.owner_id})
-                $scope.post.winner =  instagram.users.get({user:$scope.post.giveaway.winner_id})
-            }
-
-
-        })
-        })
-
+        }
+        $scope.loadGiveaway()
 
         $scope.likePost = function()
         {
@@ -639,14 +696,25 @@ angular.module('giveaways.controllers', [])
             }
         })
     })
-    .controller('UserPostsCtrl', function($scope,$stateParams,instagram, $ionicScrollDelegate,$location) {
+    .controller('UserPostsCtrl', function($scope,$stateParams,instagram, $ionicScrollDelegate,$location,giveawayDecor) {
 
         $scope.layout="posts"
         $scope.c.showLoading()
         $scope.tab=$location.$$url.split("/")[2]
+        $scope.c.getUserInfo(function()
+        {
+
+
         var results = instagram.users.get({user:$stateParams.userid,action:"media",type:"recent"}).$promise
         results.then(function(data)
         {
+            $scope.user = data.data[0].user
+            data.data=data.data.filter(giveawayDecor.filterPosts)
+            data.data.map(function(post)
+            {
+                var fileredPost =  giveawayDecor.decoratePost(post,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
+                post.giveawayHashtag = giveawayDecor.filterPosts(fileredPost)
+            })
             $scope.feed = data
 
             $ionicScrollDelegate.scrollTop(0)
@@ -656,7 +724,7 @@ angular.module('giveaways.controllers', [])
             $scope.feed = undefined
             $scope.c.hideLoading()
         })
-
+        })
     })
     .controller('MyProfileCtrl', function($scope) {
         $scope.loadingFadeIn=false
@@ -667,7 +735,9 @@ angular.module('giveaways.controllers', [])
             $scope.loadingFadeIn=true
             if($scope.c.userInfo.data.giveaways.length>1)
             {
-                $scope.reposts = $scope.c.userInfo.data.giveaways.reduce(function(a,b){ return a.participants.totalCount*1 + b.participants.totalCount*1})
+
+                $scope.reposts = 0
+                $scope.c.userInfo.data.giveaways.filter(function(a){$scope.reposts +=a.participants.totalCount*1; return true;})
 
             }
             else if($scope.c.userInfo.data.giveaways.length==1)

@@ -4,7 +4,12 @@
 
         <ion-list>
 
-
+            <div ng-show="feed.data.length==0" class="giveaway" style="opacity: 0.7;">
+                <div class="item item-text-wrap">
+                    <i class="flaticon-birthday19"></i>
+                    <small>@{{user.username}} hasn't any Wanna Wins</small>
+                </div>
+            </div>
             <giveaway ng-repeat="post in feed.data" profile-image="{{post.user.profile_picture || post.profile_picture}}"
                       media-id="{{post.id}}"
                       time-left="{{post.caption.created_time}}"

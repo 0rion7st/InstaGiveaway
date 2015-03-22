@@ -333,17 +333,17 @@ angular.module('giveaways.services', ['ngResource'])
                 /*
                 * On demand calculation
                 * */
-                if(myGiveaways.length != __myGiveaways.length)
-                {
+                //if(myGiveaways.length != __myGiveaways.length)
+                //{
                     __myGiveaways = myGiveaways
                     __myGiveawaysHashtags = getHashtags(myGiveaways)
-                }
+                //}
 
-                if(participatingGiveaways.length != __participatingGiveaways.length)
-                {
+                //if(participatingGiveaways.length != __participatingGiveaways.length)
+                //{
                     __participatingGiveaways = participatingGiveaways
                     __participatingHashtags = getHashtags(participatingGiveaways)
-                }
+                //}
 
                 var inMyGiveawaysHashtags = intersectionHashes(post.tags.sort(), __myGiveawaysHashtags)
                 if(inMyGiveawaysHashtags.length>0)
@@ -369,7 +369,7 @@ angular.module('giveaways.services', ['ngResource'])
                  */
                 function coreValidation(hashtag)
                 {
-                    return hashtag.substr(0, 2).toLowerCase()=="ww"
+                    return hashtag.substr(0, 2).toLowerCase()=="ww" &&  hashtag.length==10
                 }
                 if(post.tags.length==0)
                 {

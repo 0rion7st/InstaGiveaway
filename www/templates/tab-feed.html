@@ -14,7 +14,7 @@
         <ion-refresher pulling-text="Pull to refresh" class="light" on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <div class="giveaway owner" ng-show="layout=='posts'">
+            <div class="giveaway owner" ng-show="feed.data.length==0 && layout=='posts'">
                 <div class="item item-avatar">
                     <img src="{{c.userInstagram.data.profile_picture}}">
                     <h2><a><b class="positive" instagram="user?username={{c.userInstagram.data.username}}">@{{c.userInstagram.data.username}}</b></a></h2>
@@ -34,12 +34,8 @@
                       media-image-link="{{post.images.standard_resolution.url}}"
                       username="{{post.user.username || post.username}}"
                       path="#/tab/feed" layout="{{layout}}"></giveaway>
-
-            <div ng-show="feed.data.length==0">
-                <h1>No giveaways in your feed</h1>
-            </div>
         </ion-list>
-        <ion-infinite-scroll
+        <ion-infinite-scroll ng-if="layout=='posts'"
                 on-infinite="loadMore()"
                 distance="10%" immediate-check="false">
         </ion-infinite-scroll>
