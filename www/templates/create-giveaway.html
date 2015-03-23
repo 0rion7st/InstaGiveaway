@@ -2,7 +2,7 @@
     <ion-header-bar class="bar bar-header positive-bg ">
 
             <button class="button button-icon icon ion-ios-close-empty light" ng-click="c.submit.close()"></button>
-            <div class="h1 title light" ng-bind="{true:'JOIN GIVEAWAY', false:'CREATE GIVEAWAY'}[c.submit.post!=undefined]"></div>
+            <div class="h1 title light" ng-bind="{true:'JOIN WANNA WIN', false:'CREATE WANNA WIN'}[c.submit.post!=undefined]"></div>
             <button class="button button-icon icon ion-ios-arrow-right light" ng-disabled="stepDisabled" ng-show="c.submit.active_slide!=2" ng-click="c.submit.nextStep()"></button>
 
     </ion-header-bar >
@@ -10,7 +10,7 @@
         <ion-slide-box show-pager="false" active-slide="c.submit.active_slide">
             <ion-slide>
                 <div class="item dark light-border" style="text-align: center; border: 0">
-                    <h2>Giveaway you liked</h2>
+                    <h2>Wanna win you liked</h2>
                 </div>
                 <div class="item item-image" style="border: 0">
 
@@ -34,7 +34,7 @@
                     <h2>Share and come back!</h2>
                     <img src="img/noImage.png" alt="" style="max-width: 100%;"/>
 
-                    <p>Hashtag of this giveaway: <b>#{{c.submit.hashtag}}</b> do not delete it!</p>
+                    <p>Hashtag of this wanna win: <b>#{{c.submit.hashtag}}</b> do not delete it!</p>
                     <button class="button button-block button-positive" ng-click="c.submit.share()">SHARE ON INSTAGRAM</button>
                     <small>And then click next</small>
                 </div>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="item"  ng-if="c.submit.type=='join'">
                     <h2>
-                        Giveaway recipe is:
+                        Wanna win recipe:
                     </h2>
                 </div>
                 <div class="item dark light-border item-icon-left item-borderless" ng-if="c.submit.type=='join'">
@@ -72,18 +72,18 @@
                 <div class="item item-text-wrap light-border item-icon-left assertive item-borderless" ng-if="c.submit.type=='join'">
 
                         <i class="icon ion-alert-circled"></i>
-                       <small> Please do not <b>unfollow</b> or <b>unlike</b> the author of the giveaway until giveaway ends.
+                       <small> Please do not delete <b>repost</b>, <b>unfollow</b> nor <b>unlike</b> the author of the WW until WW ends.
                         Otherwise you will be excluded from participation.</small>
                 </div>
 
                 <div class="item"  ng-if="c.submit.type=='new'">
                     <div class="item item-image" style="border:0;">
-                        <h2>You giveaway almost ready!</h2>
+                        <h2>You wanna win almost ready!</h2>
                         <img src="img/noImage.png" style="max-width: 100%;"/>
 
                     </div>
                     <div class="list">
-                        <h2>Giveaway ends in:</h2>
+                        <h2>Wanna win ends in:</h2>
                         <label class="item item-radio">
                             <input type="radio" ng-model="c.submit.days" checked value="1">
                             <div class="item-content">
