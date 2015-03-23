@@ -195,6 +195,7 @@ angular.module('giveaways.controllers', [])
                     options.ExpirationTimestamp=expire
                     $scope.c.userInfo = server.submitGiveaway.get(options,function(data)
                     {
+                        $scope.c.refreshTimeStamp = (new Date()).getTime()/1000
                         $scope.c.userInfo.data.giveaways.sort(function(a,b) {return b.creation_timestamp - a.creation_timestamp})
                         $scope.c.userInfo.data.participating.sort(function(a,b) {return b.creation_timestamp - a.creation_timestamp})
                         $scope.c.hideLoading()
@@ -210,6 +211,7 @@ angular.module('giveaways.controllers', [])
                 {
                     $scope.c.userInfo = server.joinGiveaway.get(options,function()
                     {
+                        $scope.c.refreshTimeStamp = (new Date()).getTime()/1000
                         $scope.c.userInfo.data.giveaways.sort(function(a,b) {return b.creation_timestamp - a.creation_timestamp})
                         $scope.c.userInfo.data.participating.sort(function(a,b) {return b.creation_timestamp - a.creation_timestamp})
                         $scope.c.hideLoading()
@@ -595,22 +597,33 @@ angular.module('giveaways.controllers', [])
 
     .controller('JoinedCtrl', function($scope,$stateParams,instagram,giveawayDecor ) {
         $scope.layout = "posts"
-        $scope.participating = []
+
         $scope.c.showLoading()
-        $scope.c.getUserInfo(function()
+        $scope.refreshJoin = function()
         {
-            $scope.c.hideLoading()
+            $scope.participating = []
             for(var index in $scope.c.userInfo.data.participating)
             {
-                instagram.media.get({action:$scope.c.userInfo.data.participating[index].media_id},function(data)
+                instagram.media.get({action:$scope.c.userInfo.data.participating[index].media_id},(function(index) { return function(data)
                 {
                     var fileredPost =  giveawayDecor.decoratePost(data.data,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
                     data.data.giveawayHashtag = giveawayDecor.filterPosts(fileredPost)
 
-                    $scope.participating.push(data.data)
-                })
+                    $scope.participating[index]=(data.data)
+                }})(index))
             }
+        }
+        $scope.c.getUserInfo(function()
+        {
+            $scope.c.hideLoading()
+            $scope.refreshJoin()
         })
+
+        $scope.$watch("c.userInfo.data.participating",function()
+        {
+            if($scope.c.userInfo !=undefined && $scope.c.userInfo.data.participating.length!=0)
+                $scope.refreshJoin()
+        },true)
 
 
     })
@@ -726,22 +739,31 @@ angular.module('giveaways.controllers', [])
 
     .controller('MyGiveawaysCtrl', function($scope,instagram,giveawayDecor) {
         $scope.layout = "posts"
-        $scope.giveaways = []
+
         $scope.c.showLoading()
-        $scope.c.getUserInfo(function()
+        $scope.refreshMyWW = function()
         {
-            $scope.c.hideLoading()
+            $scope.giveaways = []
             for(var index in $scope.c.userInfo.data.giveaways)
             {
-                instagram.media.get({action:$scope.c.userInfo.data.giveaways[index].media_id},function(data)
+                instagram.media.get({action:$scope.c.userInfo.data.giveaways[index].media_id},(function(index) { return function(data)
                 {
                     var fileredPost =  giveawayDecor.decoratePost(data.data,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
                     data.data.giveawayHashtag = giveawayDecor.filterPosts(fileredPost)
 
-                    $scope.giveaways.push(data.data)
-                })
+                    $scope.giveaways[index]=(data.data)
+                }})(index))
             }
+        }
+        $scope.c.getUserInfo(function()
+        {
+            $scope.c.hideLoading()
+            $scope.refreshMyWW()
         })
+        $scope.$watch("c.userInfo.data.giveaways",function(){
+            if($scope.c.userInfo !=undefined && $scope.c.userInfo.data.giveaways.length!=0)
+                $scope.refreshMyWW()
+        },true)
     })
     .controller('UserPostsCtrl', function($scope,$stateParams,instagram, $ionicScrollDelegate,$location,giveawayDecor) {
 
