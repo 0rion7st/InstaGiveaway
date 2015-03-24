@@ -63,10 +63,10 @@
             </a>
 
             <a href="#/tab/giveaways" class="item light-bg" menu-close>
-                My Wanna Wins <span class="badge">{{c.userInfo.data.giveaways.length}}</span>
+                My Wanna Wins <span class="badge badge-assertive" ng-show="c.userInfo.data.newsMy!=0">{{c.userInfo.data.newsMy}}</span>
             </a>
             <a href="#/tab/joined" class="item light-bg" menu-close>
-                Joined Wanna Wins <span class="badge">{{c.userInfo.data.participating.length}}</span>
+                Joined Wanna Wins <span class="badge badge-assertive" ng-show="c.userInfo.data.newsJoin!=0">{{c.userInfo.data.newsJoin}}</span>
             </a>
             <a ng-repeat="collection in c.userInfo.data.giveawayCategories" href="#/collection/{{collection}}" class="item light-bg" menu-close>
                 {{collection}}
@@ -74,14 +74,6 @@
             <a href="#/tab/joined" class="item light-bg" menu-close>
                 About Wanna Win
             </a>
-
-
-
-
-
-
-
-
         </div>
 
     </ion-side-menu>
@@ -94,12 +86,12 @@
 
 
 <script id="giveaway-card" type="text/ng-template">
-    <div class="giveaway {{giveaway.type}}">
+    <div class="giveaway {{giveaway.type}} {{giveaway.showFinished && 'finished'}}" >
         <div class="item item-avatar">
             <img src="{{profileImage}}">
             <h2 ng-show="userLink == 'feed'"><a href="{{path}}/user/{{userId}}" class="positive"><b>@{{username}}</b></a></h2>
             <h2 ng-show="userLink == 'instagram'"><a instagram="media?id={{mediaId}}" class="positive"><b>@{{username}}</b></a></h2>
-            <p ng-show="layout=='posts' && giveaway">Posted <span ng-show="layout=='posts'" time="timeLeft"></span></p>
+            <p ng-show="layout=='posts'">Posted <span ng-show="layout=='posts'" time="timeLeft"></span></p>
         </div>
         <div class="item item-image" ng-show="layout=='posts'">
             <a href="{{path}}/giveaway/{{mediaId}}"> <img class="full-image animated loading-bg" src="{{loadedImg || 'img/px.png'}}" ng-class="loadedImg && 'fadeIn'"></a>

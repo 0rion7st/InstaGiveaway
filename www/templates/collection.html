@@ -1,20 +1,15 @@
-<ion-header-bar class="bar bar-subheader item-input-inset">
-
-
-        <label class="item-input-wrapper" ng-click="clearSearch()">
-            <i class="icon ion-ios-search placeholder-icon"></i>
-            <input type="search" ng-model="searchQuery" placeholder="URL, #hashtag, @nickname">
-            <button class="button button-clear">X</button>
-        </label>
-
-</ion-header-bar>
-<ion-view view-title="Feed">
+<ion-view view-title="{{collectionName}}">
 
     <ion-content class="content-bg">
-        <ion-refresher pulling-text="Pull to refresh" class="light" on-refresh="doRefresh()">
-        </ion-refresher>
+
         <ion-list>
-            <div class="giveaway owner" ng-show="feed.data.length==0 && layout=='posts'">
+            <div ng-show="giveaways.length==0" class="giveaway" style="opacity: 0.7;">
+                <div class="item item-text-wrap">
+                    <i class="flaticon-birthday19"></i>
+                    <small>You haven't created any Wanna Wins</small>
+                </div>
+            </div>
+            <div class="giveaway owner"  ng-if="giveaways.length==0">
                 <div class="item item-avatar">
                     <img src="{{c.userInstagram.data.profile_picture}}">
                     <h2><a><b class="positive" instagram="user?username={{c.userInstagram.data.username}}">@{{c.userInstagram.data.username}}</b></a></h2>
@@ -24,7 +19,7 @@
                     <img class="full-image animated loading-bg" src="img/create.png" ng-click="c.submit_giveaway()">
                 </div>
             </div>
-            <giveaway ng-repeat="post in feed.data track by $index" profile-image="{{post.user.profile_picture || post.profile_picture}}"
+            <giveaway ng-repeat="post in giveaways track by $index" profile-image="{{post.user.profile_picture || post.profile_picture}}"
                       media-id="{{post.id}}"
                       time-left="{{post.caption.created_time}}"
                       giveaway="post.giveaway"
@@ -33,11 +28,10 @@
                       user-link="feed"
                       media-image-link="post.images.standard_resolution.url"
                       username="{{post.user.username || post.username}}"
-                      path="#/tab/feed" layout="{{layout}}"></giveaway>
+                      path="#/tab/giveaways" layout="{{layout}}">
+            </giveaway>
+
+
         </ion-list>
-        <ion-infinite-scroll ng-if="layout=='posts'"
-                on-infinite="loadMore()"
-                distance="10%" immediate-check="false">
-        </ion-infinite-scroll>
     </ion-content>
 </ion-view>

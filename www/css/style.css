@@ -37,6 +37,12 @@ ion-infinite-scroll i:before
     content: 'My WW';
 
 }
+.giveaway.finished:before
+{
+    background: #ef473a;
+    content: 'Finished';
+    border:0px;
+}
 .spinner-ios, .spinner-ios-small {
     stroke: #fff;
 }

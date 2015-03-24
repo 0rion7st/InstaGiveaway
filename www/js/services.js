@@ -21,7 +21,7 @@ angular.module('giveaways.services', ['ngResource'])
 
                 var platform = $cordovaDevice.getPlatform();
                 var config = {
-                    "senderID": "replace_with_sender_id"
+                    "senderID": "49237053026"
                 };
 
                 if(platform=="iOS")
@@ -68,7 +68,7 @@ angular.module('giveaways.services', ['ngResource'])
                         text: "Your giveaway came to an end.",
                         at: new Date(response.config.ExpirationTimestamp*1000),
                         badge:1
-                    }).then(function () {
+                    },function () {
                         console.log('callback for adding background notification');
                     });
                 }
@@ -83,8 +83,56 @@ angular.module('giveaways.services', ['ngResource'])
     };
     return localNotificationInterceptor;
 }])
+    .factory('updatedInterseptor', ['profile',function(profile) {
+        var updatedInterseptor = {
+            request: function(config) {
+                if(config.params !=undefined)
+                {
+                    config.command = config.params.command
+                }
+                return config;
+            },
+            response: function(response) {
+
+                if(response.config.command!=undefined)
+                {
+                    var now = Math.floor((new Date()).getTime()/1000)
+                    if(!profile.getLatestTime())
+                        profile.getLatestTime(Math.floor((new Date()).getTime()/1000))
+
+                    response.data.data.newsMy = 0
+                    response.data.data.newsJoin = 0
+                    for(var index in response.data.data.giveaways)
+                    {
+                        var timeStamp = response.data.data.giveaways[index].expiration_timestamp
+                        if(profile.getLatestTime()<timeStamp && timeStamp<now)
+                        {
+                            response.data.data.newsMy++
+                            response.data.data.giveaways[index].showFinished = true
+                        }
+                    }
+
+                    for(var index in response.data.data.participating)
+                    {
+                        var timeStamp = response.data.data.participating[index].expiration_timestamp
+                        if(profile.getLatestTime()<timeStamp && timeStamp<now)
+                        {
+                            response.data.data.newsJoin++
+                            response.data.data.participating[index].showFinished = true
+                        }
+                    }
+
+                    profile.getLatestTime(Math.floor((new Date()).getTime()/1000))
+                }
+
+                return response;
+            }
+        };
+        return updatedInterseptor;
+    }])
 .config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('localNotificationInterceptor');
+        $httpProvider.interceptors.push('updatedInterseptor');
 }])
 
 //<editor-fold  desc="server">
@@ -96,7 +144,9 @@ angular.module('giveaways.services', ['ngResource'])
             getUserInfo: $resource(server_endpoint/*+"GET_USER_INFO"*/,{command:'GET_USER_INFO',InstagramID:profile.instagram_id(),AccessToken:profile.access_token(),InstagramUsername:profile.instagram_username(),InstagramAvatar:profile.instagram_avatar()}),
             submitGiveaway: $resource(server_endpoint/*+"SUBMIT_GIVEAWAY"*/,{command:'SUBMIT_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()}),
             joinGiveaway: $resource(server_endpoint/*+"JOIN_GIVEAWAY"*/,{command:'JOIN_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()}),
-            updateDeviceToken: $resource(server_endpoint/*+"UPDATE_DEVICE_TOKEN"*/,{command:'UPDATE_DEVICE_TOKEN',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()})
+            updateDeviceToken: $resource(server_endpoint/*+"UPDATE_DEVICE_TOKEN"*/,{command:'UPDATE_DEVICE_TOKEN',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()}),
+            getCollection: $resource(server_endpoint/*+"JOIN_GIVEAWAY"*/,{command:'GET_GIVEAWAYS_IN_CATEGORY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()})
+
         }
     })
 //</editor-fold>
@@ -127,6 +177,18 @@ angular.module('giveaways.services', ['ngResource'])
 //<editor-fold  desc="profile">
     .factory('profile', function () {
         return {
+            getLatestTime: function (value) {
+
+                if (value != undefined) {
+                    console.log("getLatestTime: SET")
+                    window.localStorage.setItem("getLatestTime", value)
+                }
+                else {
+                    console.log("getLatestTime: GET")
+                    return window.localStorage.getItem("getLatestTime") || false
+                }
+
+            },
             access_token: function (value) {
 
                 if (value != undefined) {

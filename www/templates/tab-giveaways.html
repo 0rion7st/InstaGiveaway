@@ -19,14 +19,14 @@
                     <img class="full-image animated loading-bg" src="img/create.png" ng-click="c.submit_giveaway()">
                 </div>
             </div>
-            <giveaway ng-repeat="post in giveaways" profile-image="{{post.user.profile_picture || post.profile_picture}}"
+            <giveaway ng-repeat="post in giveaways track by $index" profile-image="{{post.user.profile_picture || post.profile_picture}}"
                       media-id="{{post.id}}"
                       time-left="{{post.caption.created_time}}"
                       giveaway="post.giveaway"
                       giveaway-hashtag="{{post.giveawayHashtag}}"
                       user-id="{{post.user.id || post.id}}"
                       user-link="feed"
-                      media-image-link="{{post.images.standard_resolution.url}}"
+                      media-image-link="post.images.standard_resolution.url"
                       username="{{post.user.username || post.username}}"
                       path="#/tab/giveaways" layout="{{layout}}">
             </giveaway>

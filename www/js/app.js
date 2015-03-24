@@ -37,7 +37,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 timeLeft:'@',
                 username:'@',
                 giveawayHashtag:'@',
-                mediaImageLink:'@',
+                mediaImageLink:'=',
                 path:'@',
                 layout:'@',
                 userId:'@',
@@ -46,25 +46,24 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
             },
             link: function($scope,elm,attrs) {
 
-                if($scope.mediaImageLink!="")
+                $scope.$watch("mediaImageLink",function()
                 {
-
-                    var img = new Image()
-                    img.onload=function()
+                    if($scope.mediaImageLink!="")
                     {
-                        $scope.$apply(function()
+                        var img = new Image()
+                        img.onload=function()
                         {
                             $scope.loadedImg=$scope.mediaImageLink
-                        })
+                            $scope.$apply()
 
+                        }
+                        img.src=$scope.mediaImageLink
                     }
-                    img.src=$scope.mediaImageLink
-                }
-                else
-                {
-
-                }
-
+                    else
+                    {
+                        console.log("no image")
+                    }
+                },true)
                 $scope.$on('$destroy', function() {
 
 
@@ -195,7 +194,18 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
           templateUrl: 'templates/user-profile.html',
           controller: 'MyProfileCtrl'
 
-      })
+      }).state('collection', {
+          url: '/collection/:collection',
+          templateUrl: 'templates/collection.html',
+          controller: 'CollectionCtrl',
+          resolve: {
+
+              collection: function (server, $stateParams) {
+                  return server.getCollection.get({Categories: $stateParams.collection})
+              }
+          }
+
+          })
       .state('tab.feed-giveaway-details', {
           url: '/feed/giveaway/:media_id',
           views: {

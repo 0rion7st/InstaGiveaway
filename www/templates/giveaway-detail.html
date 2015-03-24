@@ -110,7 +110,7 @@
                 <h2 class="positive">You won!!! Contact the author!</h2>
             </div>
             <div class="item item-avatar item-input-inset" ng-if="post.giveaway.winner_info.InstagramUsername && post.giveaway.winner_info.InstagramID!='' && post.giveaway.winner_info.InstagramID==c.userInstagram.data.id">
-                <button class="button button-positive button-block"  instagram="user?username={{post.giveaway.owner_info.InstagramID}}">CONTACT AUTHOR</button>
+                <button class="button button-positive button-block"  instagram="user?username={{post.giveaway.owner_info.InstagramUsername}}">CONTACT AUTHOR</button>
             </div>
             <div class="item item-avatar item-input-inset" ng-if="post.giveaway.winner_info.InstagramUsername && post.giveaway.winner_info.InstagramID!='' && post.giveaway.owner_info.InstagramID==c.userInstagram.data.id">
                 <button class="button button-positive button-block"  instagram="user?username={{post.giveaway.winner_info.InstagramUsername}}">CONTACT WINNER</button>
