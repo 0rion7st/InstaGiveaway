@@ -1,6 +1,6 @@
 angular.module('giveaways.controllers', [])
 
-    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaFileOpener2,registerNotifications,$cordovaDevice,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout) {
+    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaFileOpener2,$state,registerNotifications,$cordovaDevice,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout) {
         $scope.c={}
         $scope.c.refreshTimeStamp=-1
         $scope.c.refreshPeriod=10
@@ -212,7 +212,8 @@ angular.module('giveaways.controllers', [])
                         $scope.c.userInfo.data.participating.sort($scope.c.complexSorting)
                         $scope.c.hideLoading()
                         $scope.c.submit.close()
-                        document.location.href = "#/tab/giveaways/giveaway/"+$scope.c.submit.media_id
+                        $state.go("tab.giveaways")
+                        $state.go("tab.giveaways-giveaway-details",{media_id:$scope.c.submit.media_id})
                     },function(error)
                     {
                         $scope.c.hideLoading()
@@ -227,7 +228,8 @@ angular.module('giveaways.controllers', [])
                         $scope.c.userInfo.data.giveaways.sort($scope.c.complexSorting)
                         $scope.c.userInfo.data.participating.sort($scope.c.complexSorting)
                         $scope.c.hideLoading()
-                        document.location.href = "#/tab/joined/giveaway/"+$scope.c.submit.media_id
+                        $state.go("tab.joined")
+                        $state.go("tab.joined-giveaway-details",{media_id:$scope.c.submit.media_id})
                         $scope.c.submit.close()
                     },function(error)
                     {
@@ -239,6 +241,7 @@ angular.module('giveaways.controllers', [])
             }
             $scope.c.submit.showModal = function()
             {
+                $scope.shareClicked = true
                 $ionicModal.fromTemplateUrl('templates/create-giveaway.html', {
                     scope: $scope,
                     animation: 'slide-in-up',
@@ -268,6 +271,7 @@ angular.module('giveaways.controllers', [])
                             {
 
                             })
+                            $scope.shareClicked = false
                         }
                         else if($scope.c.submit.active_slide==1)
                         {
@@ -803,7 +807,7 @@ angular.module('giveaways.controllers', [])
                     var fileredPost =  giveawayDecor.decoratePost(data.data,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
                     data.data.giveawayHashtag = giveawayDecor.filterPosts(fileredPost)
 
-                    $scope.giveaways[index]=(data.data)
+                    $scope.giveaways[index] = (data.data)
                 }})(index))
             }
         }
