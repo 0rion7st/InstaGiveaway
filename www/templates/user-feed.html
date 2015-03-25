@@ -1,4 +1,4 @@
-<ion-view view-title="{{post.user.username || post.username}}">
+<ion-view view-title="{{user.username}}">
 
     <ion-content  class="content-bg">
 
@@ -7,7 +7,7 @@
             <div ng-show="feed.data.length==0" class="giveaway" style="opacity: 0.7;">
                 <div class="item item-text-wrap">
                     <i class="flaticon-birthday19"></i>
-                    <small>@{{user.username}} hasn't any Wanna Wins</small>
+                    <small>No Wanna Wins here</small>
                 </div>
             </div>
             <giveaway ng-repeat="post in feed.data" profile-image="{{post.user.profile_picture || post.profile_picture}}"

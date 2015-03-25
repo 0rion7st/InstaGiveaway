@@ -51,7 +51,7 @@
     <!-- Right menu -->
     <ion-side-menu side="right">
         <div class="list">
-            <a class="item item-avatar item-icon-right positive" href="#/profile" menu-close>
+            <a class="item item-avatar item-icon-right positive" href="#/tab/profile" menu-close>
                <img src="{{c.userInstagram.data.profile_picture}}">
                 <h2>{{c.userInstagram.data.username}}</h2>
                 <p>My profile</p>
@@ -68,7 +68,7 @@
             <a href="#/tab/joined" class="item light-bg" menu-close>
                 Joined Wanna Wins <span class="badge badge-assertive" ng-show="c.userInfo.data.newsJoin!=0">{{c.userInfo.data.newsJoin}}</span>
             </a>
-            <a ng-repeat="collection in c.userInfo.data.giveawayCategories" href="#/collection/{{collection}}" class="item light-bg" menu-close>
+            <a ng-repeat="collection in c.userInfo.data.giveawayCategories" href="#/tab/feed/collection/{{collection}}" class="item light-bg" menu-close>
                 {{collection}}
             </a>
             <a href="#/tab/joined" class="item light-bg" menu-close>
@@ -86,7 +86,7 @@
 
 
 <script id="giveaway-card" type="text/ng-template">
-    <div class="giveaway {{giveaway.type}} {{giveaway.showFinished && 'finished'}}">
+    <div class="giveaway {{giveaway.type}} {{giveaway.status=='completed' && 'finished'}} {{giveaway.status=='failed' && 'no-winner'}} {{giveaway.showFinished && 'notify'}}">
         <div class="item item-avatar">
             <img src="{{profileImage}}">
             <h2 ng-show="userLink == 'feed'"><a href="{{path}}/user/{{userId}}" class="positive"><b>@{{username}}</b></a></h2>

@@ -14,9 +14,21 @@ angular.module('giveaways.services', ['ngResource'])
 
     }])
 
-    .factory('registerNotifications', ['$cordovaPush','$cordovaDevice','server',function($cordovaPush,$cordovaDevice,server) {
+    .factory('registerNotifications', ['$cordovaPush','$cordovaDevice','server','$rootScope',function($cordovaPush,$cordovaDevice,server,$rootScope) {
         return function()
         {
+            $rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
+                switch(notification.event) {
+                    case 'registered':
+                        if (notification.regid.length > 0 ) {
+                            server.updateDeviceToken.get({DeviceToken: notification.regid, OS: "Android"})
+                        }
+                        break;
+                }
+            });
+
+
+
             document.addEventListener("deviceready", function () {
 
                 var platform = $cordovaDevice.getPlatform();
@@ -34,6 +46,9 @@ angular.module('giveaways.services', ['ngResource'])
                 }
 
                 $cordovaPush.register(config).then(function(result) {
+                    //Android patch
+                    if(result=="OK")
+                        return;
                     console.log("result: " + result)
                     server.updateDeviceToken.get({DeviceToken: result, OS: platform})
                 }, function(err) {

@@ -1,24 +1,15 @@
-<ion-view view-title="My WW">
+<ion-view view-title="My Wanna Wins">
 
     <ion-content class="content-bg">
 
         <ion-list>
-            <div ng-show="giveaways.length==0" class="giveaway" style="opacity: 0.7;">
+            <div ng-hide="giveaways!=undefined" class="giveaway" style="opacity: 0.7;">
                 <div class="item item-text-wrap">
                     <i class="flaticon-birthday19"></i>
                     <small>You haven't created any Wanna Wins</small>
                 </div>
             </div>
-            <div class="giveaway owner"  ng-if="giveaways.length==0">
-                <div class="item item-avatar">
-                    <img src="{{c.userInstagram.data.profile_picture}}">
-                    <h2><a><b class="positive" instagram="user?username={{c.userInstagram.data.username}}">@{{c.userInstagram.data.username}}</b></a></h2>
-                    <p><b>Posted right now!</b></p>
-                </div>
-                <div class="item item-image" ng-show="layout=='posts'">
-                    <img class="full-image animated loading-bg" src="img/create.png" ng-click="c.submit_giveaway()">
-                </div>
-            </div>
+
             <giveaway ng-repeat="post in giveaways track by $index" profile-image="{{post.user.profile_picture || post.profile_picture}}"
                       media-id="{{post.id}}"
                       time-left="{{post.caption.created_time}}"
@@ -30,7 +21,16 @@
                       username="{{post.user.username || post.username}}"
                       path="#/tab/giveaways" layout="{{layout}}">
             </giveaway>
-
+            <div class="giveaway owner"  ng-if="giveaways==undefined || giveaways.length<5">
+                <div class="item item-avatar">
+                    <img src="{{c.userInstagram.data.profile_picture}}">
+                    <h2><a><b class="positive" instagram="user?username={{c.userInstagram.data.username}}">@{{c.userInstagram.data.username}}</b></a></h2>
+                    <p><b>Posted right now!</b></p>
+                </div>
+                <div class="item item-image" ng-show="layout=='posts'">
+                    <img class="full-image animated loading-bg" src="img/create.png" ng-click="c.submit_giveaway()">
+                </div>
+            </div>
 
         </ion-list>
     </ion-content>

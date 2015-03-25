@@ -1,9 +1,9 @@
 angular.module('giveaways.controllers', [])
 
-    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaFileOpener2,$state,registerNotifications,$cordovaDevice,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout) {
+    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaFileOpener2,$state,registerNotifications,$cordovaDevice,$rootScope,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout,$ionicPopover ) {
         $scope.c={}
         $scope.c.refreshTimeStamp=-1
-        $scope.c.refreshPeriod=10
+        $scope.c.refreshPeriod=30
         registerNotifications()
 
         $scope.c.toggleRight = function() {
@@ -17,6 +17,41 @@ angular.module('giveaways.controllers', [])
             });
         };
 
+
+
+
+
+        $scope.c.openBoost = function(event,giveaway) {
+
+            $ionicPopover.fromTemplateUrl('templates/boost.html', {
+                scope: $scope
+            }).then(function(popover) {
+                $scope.giveaway = giveaway
+                $scope.c.boost = popover
+                $scope.c.boost.show(event)
+
+            });
+        };
+
+        $scope.c.buyBoost = function(giveaway)
+        {
+            $scope.c.showLoading()
+            $timeout(function()
+            {
+                $scope.c.hideLoading()
+
+                $ionicLoading.show({
+                    template:' <h1 class="animated flip"><i class="icon ion-ios-bolt energized"></i></h1>',
+                    noBackdrop:false,
+                    duration:1000
+                });
+
+
+                giveaway.boost=2
+                $scope.c.boost.hide()
+            },1000)
+
+        }
         $scope.c.notifyErr = function (code) {
             var message = "Damn!!11"
             switch(code*1)
@@ -97,7 +132,18 @@ angular.module('giveaways.controllers', [])
                     })
                 },function(error)
                 {
-                    $scope.c.notifyErr(error.data.meta.code)
+                    if(error.data.error_type=="OAuthAccessTokenException" && profile.valid())
+                    {
+                        $scope.c.logout()
+                    }
+                    else if(!profile.valid())
+                    {
+
+                    }
+                    else
+                    {
+                        $scope.c.notifyErr(error.data.code || error.data.meta.code )
+                    }
                 })
             }
 
@@ -360,12 +406,15 @@ angular.module('giveaways.controllers', [])
 
 
 
-            }else {
+            }else
+            {
+                $scope.c.showLoading()
                 $scope.c.submit.media_id = media_id
                 $scope.c.submit.hashtag = hashtag
                 $scope.c.submit.type='join'
                 $scope.c.submit.post = instagram.media.get({action: $scope.c.submit.media_id}, function (data) {
 
+                    $scope.c.hideLoading()
                     $scope.c.submit.imageUrl = data.data.images.standard_resolution.url
                     $scope.c.submit.author = data.data.user
                     $scope.c.submit.showModal()
@@ -432,8 +481,11 @@ angular.module('giveaways.controllers', [])
             }
         }
 
+
+
     })
     .controller('FeedCtrl', function($scope,$stateParams,profile,server,instagram,$timeout,$ionicScrollDelegate,giveawayDecor) {
+
         $scope.loadMoreTimes=0
         $scope.clearSearch = function()
         {
@@ -454,7 +506,7 @@ angular.module('giveaways.controllers', [])
             }
             else
             {
-                if($scope.loadMoreTimes>10)
+                if($scope.loadMoreTimes>100)
                 {
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                     return
@@ -472,6 +524,8 @@ angular.module('giveaways.controllers', [])
 
                     })
                     $scope.feed.data = $scope.feed.data.concat(data.data.filter($scope.uniqueHashtags));
+
+
                 }).finally(function() {
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                 })
@@ -479,7 +533,7 @@ angular.module('giveaways.controllers', [])
         }
         $scope.addAdditional = function()
         {
-            for(var index in $scope.c.userInfo.data.additional)
+            for(var index in $scope.c.userInfo.data.additional.filter($scope.uniqueHashtags))
             {
                 var giveaway = $scope.c.userInfo.data.additional[index]
                 if($scope.showedTags.indexOf(giveaway.hashtag)==-1) {
@@ -498,18 +552,20 @@ angular.module('giveaways.controllers', [])
                 }
             }
         }
+
+        $scope.uniqueHashtags = function(post)
+        {
+            if($scope.showedTags.indexOf(post.giveawayHashtag)==-1)
+            {
+                $scope.showedTags.push(post.giveawayHashtag)
+                return true
+            }
+            return false
+        }
         $scope.fillFeed = function()
         {
+
             $scope.showedTags = []
-            $scope.uniqueHashtags = function(post)
-            {
-                if($scope.showedTags.indexOf(post.giveawayHashtag)==-1)
-                {
-                    $scope.showedTags.push(post.giveawayHashtag)
-                    return true
-                }
-                return false
-            }
             if($scope.searchQuery==undefined || $scope.searchQuery=="")
             {
                 $scope.layout = "posts"
@@ -763,7 +819,7 @@ angular.module('giveaways.controllers', [])
                     ,function(error)
                     {
                         $scope.c.hideLoading()
-                        $scope.c.notifyErr(error.data.meta.code)
+                        $scope.c.notifyErr(error.data.code || error.data.meta.code )
                         $ionicHistory.goBack()
                     })
             })
@@ -833,6 +889,14 @@ angular.module('giveaways.controllers', [])
             var results = instagram.users.get({user:$stateParams.userid,action:"media",type:"recent"}).$promise
             results.then(function(data)
             {
+                if(data.data.length==0)
+                {
+                    $scope.user = undefined
+                    $scope.feed={}
+                    $scope.feed.data=[]
+                    $scope.c.hideLoading()
+                    return
+                }
                 $scope.user = data.data[0].user
                 data.data=data.data.filter(giveawayDecor.filterPosts)
                 data.data.map(function(post)
@@ -874,9 +938,10 @@ angular.module('giveaways.controllers', [])
             //TODO: what we what here?
         })
 
-    }).controller('CollectionCtrl', function($scope,collection,instagram,$ionicHistory ) {
+    }).controller('CollectionCtrl', function($scope,collection,instagram,$ionicHistory ,giveawayDecor ) {
         $scope.c.showLoading()
         $scope.loadingFadeIn=false
+        $scope.layout="posts"
         $scope.c.getUserInfo(function()
         {
             collection.$promise.then(function()
@@ -897,7 +962,10 @@ angular.module('giveaways.controllers', [])
                             data.data.giveawayHashtag = giveawayDecor.filterPosts(fileredPost)
 
                             $scope.giveaways[index]=(data.data)
-                        }})(index))
+                        }})(index),function(error)
+                        {
+                            //$scope.c.notifyErr(error.data.code || error.data.meta.code )
+                        })
                     }
 
                     if(!collection.data[key].length)

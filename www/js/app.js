@@ -11,19 +11,19 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
 
 })
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
-})
+    .run(function($ionicPlatform) {
+        $ionicPlatform.ready(function() {
+            // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+            // for form inputs)
+            if (window.cordova && window.cordova.plugins.Keyboard) {
+                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            }
+            if (window.StatusBar) {
+                // org.apache.cordova.statusbar required
+                StatusBar.styleDefault();
+            }
+        });
+    })
 
 
     .directive('giveaway', ['$rootScope','$stateParams', function($rootScope,$stateParams) {
@@ -83,10 +83,22 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 var timerCounting
                 function renderTime()
                 {
-                    if(($scope.time-(new Date()).getTime()/1000)<0 || ($scope.time-(new Date()).getTime()/1000)>60)
+                    if(($scope.time-(new Date()).getTime()/1000)<0 || ($scope.time-(new Date()).getTime()/1000)>60*60*24)
                         el[0].innerHTML =  moment.unix($scope.time ).fromNow()
                     else
-                        el[0].innerHTML = "in " + Math.floor(($scope.time-(new Date()).getTime()/1000))+" seconds."
+                    {
+                        var secs = $scope.time-Math.floor((new Date()).getTime()/1000)
+                        var hr  = Math.floor(secs / 3600);
+                        var min = Math.floor((secs - (hr * 3600))/60);
+                        var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
+
+                        if (hr < 10)   { hr    = "0" + hr; }
+                        if (min < 10) { min = "0" + min; }
+                        if (sec < 10)  { sec  = "0" + sec; }
+                        if (hr)            { hr   = "00"; }
+
+                        el[0].innerHTML = "in " + hr + ':' + min + ':' + sec
+                    }
 
                 }
 
@@ -146,149 +158,159 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
 
     .config(function($stateProvider, $urlRouterProvider) {
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
-  $stateProvider
+        // Ionic uses AngularUI Router which uses the concept of states
+        // Learn more here: https://github.com/angular-ui/ui-router
+        // Set up the various states which the app can be in.
+        // Each state's controller can be found in controllers.js
+        $stateProvider
 
-  // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: "/tab",
-    abstract: true,
-    templateUrl: "templates/tabs.html"
+            // setup an abstract state for the tabs directive
+            .state('tab', {
+                url: "/tab",
+                abstract: true,
+                templateUrl: "templates/tabs.html"
 
-  })
+            })
 
-  // Each tab has its own nav history stack:
+            // Each tab has its own nav history stack:
 
-  .state('tab.feed', {
-    url: '/feed',
-    views: {
-      'tab-feed': {
-        templateUrl: 'templates/tab-feed.html',
-        controller: 'FeedCtrl'
-      }
-    }
-  })
-  .state('tab.joined', {
-      url: '/joined',
-      views: {
-        'tab-joined': {
-          templateUrl: 'templates/tab-joined.html',
-          controller: 'JoinedCtrl'
-        }
-      }
-    })
-  .state('tab.giveaways', {
-      url: '/giveaways',
-      views: {
-        'tab-giveaways': {
-          templateUrl: 'templates/tab-giveaways.html',
-          controller: 'MyGiveawaysCtrl'
-        }
-      }
-    })
-      .state('profile', {
-          url: '/profile',
-          templateUrl: 'templates/user-profile.html',
-          controller: 'MyProfileCtrl'
+            .state('tab.feed', {
+                url: '/feed',
+                views: {
+                    'tab-feed': {
+                        templateUrl: 'templates/tab-feed.html',
+                        controller: 'FeedCtrl'
+                    }
+                }
+            })
+            .state('tab.joined', {
+                url: '/joined',
+                views: {
+                    'tab-joined': {
+                        templateUrl: 'templates/tab-joined.html',
+                        controller: 'JoinedCtrl'
+                    }
+                }
+            })
+            .state('tab.giveaways', {
+                url: '/giveaways',
+                views: {
+                    'tab-giveaways': {
+                        templateUrl: 'templates/tab-giveaways.html',
+                        controller: 'MyGiveawaysCtrl'
+                    }
+                }
+            })
+            .state('tab.profile', {
+                url: '/profile',
+                views: {
+                    'tab-profile': {
+                        templateUrl: 'templates/user-profile.html',
+                        controller: 'MyProfileCtrl'
+                    }
+                }
+            })
 
-      }).state('collection', {
-          url: '/collection/:collection',
-          templateUrl: 'templates/collection.html',
-          controller: 'CollectionCtrl',
-          resolve: {
+            .state('tab.feed-collection', {
+                url: '/feed/collection/:collection',
+                views: {
+                    'tab-feed': {
+                        templateUrl: 'templates/collection.html',
+                        controller: 'CollectionCtrl'
+                    }
+                },
+                resolve: {
 
-              collection: function (server, $stateParams) {
-                  return server.getCollection.get({Categories: $stateParams.collection})
-              }
-          }
-
-          })
-      .state('tab.feed-giveaway-details', {
-          url: '/feed/giveaway/:media_id',
-          views: {
-              'tab-feed': {
-                  templateUrl: 'templates/giveaway-detail.html',
-                  controller: 'GiveAwayDetailCtrl'
-              }
-          },
-          resolve: {
-
-              post: function (instagram,$stateParams) {
-                  return instagram.media.get({action:$stateParams.media_id})
-              }
-
-          }
-      })
+                    collection: function (server, $stateParams) {
+                        return server.getCollection.get({Categories: $stateParams.collection})
+                    }
+                }
 
 
-      .state('tab.joined-giveaway-details', {
-          url: '/joined/giveaway/:media_id',
-          views: {
-              'tab-joined': {
-                  templateUrl: 'templates/giveaway-detail.html',
-                  controller: 'GiveAwayDetailCtrl'
-              }
-          },
-          resolve: {
+            })
+            .state('tab.feed-giveaway-details', {
+                url: '/feed/giveaway/:media_id',
+                views: {
+                    'tab-feed': {
+                        templateUrl: 'templates/giveaway-detail.html',
+                        controller: 'GiveAwayDetailCtrl'
+                    }
+                },
+                resolve: {
 
-              post: function (instagram,$stateParams) {
-                  return instagram.media.get({action:$stateParams.media_id})
-              }
+                    post: function (instagram,$stateParams) {
+                        return instagram.media.get({action:$stateParams.media_id})
+                    }
 
-          }
-      })
-      .state('tab.giveaways-giveaway-details', {
-          url: '/giveaways/giveaway/:media_id',
-          views: {
-              'tab-giveaways': {
-                  templateUrl: 'templates/giveaway-detail.html',
-                  controller: 'GiveAwayDetailCtrl'
-              }
-          },
-          resolve: {
-
-              post: function (instagram,$stateParams) {
-                  return instagram.media.get({action:$stateParams.media_id})
-              }
-
-          }
-      })
+                }
+            })
 
 
-      .state('tab.feed-user-giveaways', {
-          url: '/feed/user/:userid',
-          views: {
-              'tab-feed': {
-                  templateUrl: 'templates/user-feed.html',
-                  controller: 'UserPostsCtrl'
-              }
-          }
-      })
-      .state('tab.joined-user-giveaways', {
-          url: '/joined/user/:userid',
-          views: {
-              'tab-joined': {
-                  templateUrl: 'templates/user-feed.html',
-                  controller: 'UserPostsCtrl'
-              }
-          }
-      })
-      .state('tab.giveaways-user-giveaways', {
-          url: '/giveaways/user/:userid',
-          views: {
-              'tab-giveaways': {
-                  templateUrl: 'templates/user-feed.html',
-                  controller: 'UserPostsCtrl'
-              }
-          }
-      })
+            .state('tab.joined-giveaway-details', {
+                url: '/joined/giveaway/:media_id',
+                views: {
+                    'tab-joined': {
+                        templateUrl: 'templates/giveaway-detail.html',
+                        controller: 'GiveAwayDetailCtrl'
+                    }
+                },
+                resolve: {
+
+                    post: function (instagram,$stateParams) {
+                        return instagram.media.get({action:$stateParams.media_id})
+                    }
+
+                }
+            })
+            .state('tab.giveaways-giveaway-details', {
+                url: '/giveaways/giveaway/:media_id',
+                views: {
+                    'tab-giveaways': {
+                        templateUrl: 'templates/giveaway-detail.html',
+                        controller: 'GiveAwayDetailCtrl'
+                    }
+                },
+                resolve: {
+
+                    post: function (instagram,$stateParams) {
+                        return instagram.media.get({action:$stateParams.media_id})
+                    }
+
+                }
+            })
+
+
+            .state('tab.feed-user-giveaways', {
+                url: '/feed/user/:userid',
+                views: {
+                    'tab-feed': {
+                        templateUrl: 'templates/user-feed.html',
+                        controller: 'UserPostsCtrl'
+                    }
+                }
+            })
+            .state('tab.joined-user-giveaways', {
+                url: '/joined/user/:userid',
+                views: {
+                    'tab-joined': {
+                        templateUrl: 'templates/user-feed.html',
+                        controller: 'UserPostsCtrl'
+                    }
+                }
+            })
+            .state('tab.giveaways-user-giveaways', {
+                url: '/giveaways/user/:userid',
+                views: {
+                    'tab-giveaways': {
+                        templateUrl: 'templates/user-feed.html',
+                        controller: 'UserPostsCtrl'
+                    }
+                }
+            })
 
 
 
         // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/feed');
+        $urlRouterProvider.otherwise('/tab/feed');
 
-});
+    });

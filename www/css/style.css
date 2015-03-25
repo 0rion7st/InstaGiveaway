@@ -37,11 +37,19 @@ ion-infinite-scroll i:before
     content: 'My WW';
 
 }
+.giveaway.notify:before
+{
+    background: #ef473a !important;
+    border:0px !important;
+}
 .giveaway.finished:before
 {
-    background: #ef473a;
-    content: 'Finished';
-    border:0px;
+    content: 'Finished' !important;
+}
+
+.giveaway.no-winner:before
+{
+    content: 'No winner' !important;
 }
 .spinner-ios, .spinner-ios-small {
     stroke: #fff;
