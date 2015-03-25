@@ -96,33 +96,36 @@ angular.module('giveaways.services', ['ngResource'])
 
                 if(response.config.command!=undefined)
                 {
-                    var now = Math.floor((new Date()).getTime()/1000)
-                    if(!profile.getLatestTime())
+                    if(response.config.command == "GET_USER_INFO")
+                    {
+                        var now = Math.floor((new Date()).getTime()/1000)
+                        if(!profile.getLatestTime())
+                            profile.getLatestTime(Math.floor((new Date()).getTime()/1000))
+
+                        response.data.data.newsMy = 0
+                        response.data.data.newsJoin = 0
+                        for(var index in response.data.data.giveaways)
+                        {
+                            var timeStamp = response.data.data.giveaways[index].expiration_timestamp
+                            if(profile.getLatestTime()<timeStamp && timeStamp<now)
+                            {
+                                response.data.data.newsMy++
+                                response.data.data.giveaways[index].showFinished = true
+                            }
+                        }
+
+                        for(var index in response.data.data.participating)
+                        {
+                            var timeStamp = response.data.data.participating[index].expiration_timestamp
+                            if(profile.getLatestTime()<timeStamp && timeStamp<now)
+                            {
+                                response.data.data.newsJoin++
+                                response.data.data.participating[index].showFinished = true
+                            }
+                        }
+
                         profile.getLatestTime(Math.floor((new Date()).getTime()/1000))
-
-                    response.data.data.newsMy = 0
-                    response.data.data.newsJoin = 0
-                    for(var index in response.data.data.giveaways)
-                    {
-                        var timeStamp = response.data.data.giveaways[index].expiration_timestamp
-                        if(profile.getLatestTime()<timeStamp && timeStamp<now)
-                        {
-                            response.data.data.newsMy++
-                            response.data.data.giveaways[index].showFinished = true
-                        }
                     }
-
-                    for(var index in response.data.data.participating)
-                    {
-                        var timeStamp = response.data.data.participating[index].expiration_timestamp
-                        if(profile.getLatestTime()<timeStamp && timeStamp<now)
-                        {
-                            response.data.data.newsJoin++
-                            response.data.data.participating[index].showFinished = true
-                        }
-                    }
-
-                    profile.getLatestTime(Math.floor((new Date()).getTime()/1000))
                 }
 
                 return response;
@@ -145,7 +148,7 @@ angular.module('giveaways.services', ['ngResource'])
             submitGiveaway: $resource(server_endpoint/*+"SUBMIT_GIVEAWAY"*/,{command:'SUBMIT_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()}),
             joinGiveaway: $resource(server_endpoint/*+"JOIN_GIVEAWAY"*/,{command:'JOIN_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()}),
             updateDeviceToken: $resource(server_endpoint/*+"UPDATE_DEVICE_TOKEN"*/,{command:'UPDATE_DEVICE_TOKEN',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()}),
-            getCollection: $resource(server_endpoint/*+"JOIN_GIVEAWAY"*/,{command:'GET_GIVEAWAYS_IN_CATEGORY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()})
+            getCollection: $resource(server_endpoint/*+"JOIN_GIVEAWAY"*/,{command:'GET_GIVEAWAYS_IN_CATEGORIES',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()})
 
         }
     })

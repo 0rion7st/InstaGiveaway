@@ -102,6 +102,12 @@ angular.module('giveaways.controllers', [])
             }
 
         }
+
+        document.addEventListener("resume", (function($scope){
+            return $scope.c.getUserInfo
+        })($scope), false);
+
+
         $scope.c.report = function(giveawayImageSrc,giveAwayHashTag, giveAwayMediaId, giveAwayAuthor)
         {
             var device = $cordovaDevice.getDevice();
@@ -327,7 +333,7 @@ angular.module('giveaways.controllers', [])
                     buttonLabels: [
                         'Choose existing photo'
                     ],
-                    title: 'Select giveaway image',
+                    title: 'Select WW square image',
                     addCancelButtonWithLabel: 'Cancel',
                     androidEnableCancelButton : true,
                     winphoneEnableCancelButton : true
@@ -369,11 +375,6 @@ angular.module('giveaways.controllers', [])
         }
 
 
-        window.addEventListener("message", function(token)
-        {
-            document.location.href = location.href+"?"+token.data
-            location.reload()
-        }, false);
 
         if(!profile.valid())
         {
@@ -430,11 +431,6 @@ angular.module('giveaways.controllers', [])
 
             }
         }
-        /* else
-         {
-         $scope.self = instagram.users.get({user:"self"})
-         }*/
-
 
     })
     .controller('FeedCtrl', function($scope,$stateParams,profile,server,instagram,$timeout,$ionicScrollDelegate,giveawayDecor) {
@@ -903,6 +899,9 @@ angular.module('giveaways.controllers', [])
                             $scope.giveaways[index]=(data.data)
                         }})(index))
                     }
+
+                    if(!collection.data[key].length)
+                        $scope.giveaways =$scope.giveaways || []
                 }
             },function(error)
             {
