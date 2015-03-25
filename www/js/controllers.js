@@ -150,7 +150,12 @@ angular.module('giveaways.controllers', [])
         }
 
         document.addEventListener("resume", (function($scope){
-            return $scope.c.getUserInfo
+
+            return function()
+            {
+                setTimeout($scope.c.getUserInfo,0)
+            }
+
         })($scope), false);
 
 
@@ -234,7 +239,7 @@ angular.module('giveaways.controllers', [])
             $scope.c.submit.share = function()
             {
 
-                var caption  = '\n\n\n\n\nWanna win? Install WannaWin app\n #'+$scope.c.submit.hashtag
+                var caption  = 'Description...\n\n\n\nWanna win? Install WannaWin app\n #'+$scope.c.submit.hashtag
                 if($scope.c.submit.type=="join")
                 {
                     caption+=" repost of @"+$scope.c.submit.author.username

@@ -95,7 +95,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                         if (hr < 10)   { hr    = "0" + hr; }
                         if (min < 10) { min = "0" + min; }
                         if (sec < 10)  { sec  = "0" + sec; }
-                        if (hr)            { hr   = "00"; }
+                        if (!(hr*1))            { hr   = "00"; }
 
                         el[0].innerHTML = "in " + hr + ':' + min + ':' + sec
                     }
