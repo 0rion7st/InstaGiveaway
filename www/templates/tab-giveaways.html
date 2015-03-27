@@ -21,7 +21,7 @@
                       username="{{post.user.username || post.username}}"
                       path="#/tab/giveaways" layout="{{layout}}">
             </giveaway>
-            <div class="giveaway owner"  ng-if="giveaways==undefined || giveaways.length<5">
+            <div class="giveaway owner">
                 <div class="item item-avatar">
                     <img src="{{c.userInstagram.data.profile_picture}}">
                     <h2><a><b class="positive" instagram="user?username={{c.userInstagram.data.username}}">@{{c.userInstagram.data.username}}</b></a></h2>

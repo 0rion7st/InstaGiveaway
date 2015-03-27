@@ -16,6 +16,7 @@
 
                     <canvas id="giveaway_canvas" class="loading-bg"></canvas>
                     <p ng-if="c.submit.type!='new'">Click next</p>
+                    <button class="button button-block button-positive icon-left ion-camera" ng-click="c.submit.selectImage()">Select different image</button>
                 </div>
                 <div class="item" ng-if="c.submit.type=='new'" style="text-align: center; border: 0">
                     <h2>Select sticker</h2>
@@ -27,6 +28,8 @@
                     <img src="img/ribbons/ribbon_04.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(4)"/>
                     <img src="img/ribbons/ribbon_05.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(5)" />
                     <img src="img/ribbons/ribbon_06.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(6)"/>
+                    <img src="img/ribbons/ribbon_07.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(7)" />
+                    <img src="img/ribbons/ribbon_08.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(8)"/>
                 </ion-scroll>
             </ion-slide>
             <ion-slide>

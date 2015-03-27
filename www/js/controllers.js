@@ -18,40 +18,44 @@ angular.module('giveaways.controllers', [])
         };
 
 
-
-
-
-        $scope.c.openBoost = function(event,giveaway) {
-
-            $ionicPopover.fromTemplateUrl('templates/boost.html', {
-                scope: $scope
-            }).then(function(popover) {
-                $scope.giveaway = giveaway
-                $scope.c.boost = popover
-                $scope.c.boost.show(event)
-
-            });
-        };
-
-        $scope.c.buyBoost = function(giveaway)
+        $scope.c.pushState = function(state,href)
         {
-            $scope.c.showLoading()
-            $timeout(function()
-            {
-                $scope.c.hideLoading()
-
-                $ionicLoading.show({
-                    template:' <h1 class="animated flip"><i class="icon ion-ios-bolt energized"></i></h1>',
-                    noBackdrop:false,
-                    duration:1000
-                });
-
-
-                giveaway.boost=2
-                $scope.c.boost.hide()
-            },1000)
-
+            location.href=state
+            location.href=$scope.$eval('"'+href+'"',$scope)
+            //$rootScope.$broadcast('state:'+state,{href:$scope.$eval('"'+href+'"',$scope)});
         }
+
+//        $scope.c.openBoost = function(event,giveaway) {
+//
+//            $ionicPopover.fromTemplateUrl('templates/boost.html', {
+//                scope: $scope
+//            }).then(function(popover) {
+//                $scope.giveaway = giveaway
+//                $scope.c.boost = popover
+//                $scope.c.boost.show(event)
+//
+//            });
+//        };
+//
+//        $scope.c.buyBoost = function(giveaway)
+//        {
+//            $scope.c.showLoading()
+//            $timeout(function()
+//            {
+//                $scope.c.hideLoading()
+//
+//                $ionicLoading.show({
+//                    template:' <h1 class="animated flip"><i class="icon ion-ios-bolt energized"></i></h1>',
+//                    noBackdrop:false,
+//                    duration:1000
+//                });
+//
+//
+//                giveaway.boost=2
+//                $scope.c.boost.hide()
+//            },1000)
+//
+//        }
         $scope.c.notifyErr = function (code) {
             var message = "Damn!!11"
             switch(code*1)
@@ -238,8 +242,13 @@ angular.module('giveaways.controllers', [])
             }
             $scope.c.submit.share = function()
             {
+                var desc = "Description..."
+                if($scope.c.submit.post!=undefined)
+                {
+                    desc = $scope.c.submit.post.caption.text.split('Wanna win?')[0]
+                }
 
-                var caption  = 'Description...\n\n\n\nWanna win? Install WannaWin app\n #'+$scope.c.submit.hashtag
+                var caption  = desc+'\n\n\n\nWanna win? Install WannaWin app\n #'+$scope.c.submit.hashtag
                 if($scope.c.submit.type=="join")
                 {
                     caption+=" repost of @"+$scope.c.submit.author.username
@@ -269,8 +278,9 @@ angular.module('giveaways.controllers', [])
                         $scope.c.userInfo.data.participating.sort($scope.c.complexSorting)
                         $scope.c.hideLoading()
                         $scope.c.submit.close()
-                        $state.go("tab.giveaways")
-                        $state.go("tab.giveaways-giveaway-details",{media_id:$scope.c.submit.media_id})
+                        $scope.pushState("#/tab/giveaways","/giveaways/giveaway/"+$scope.c.submit.media_id)
+//                        $state.go("tab.giveaways")
+//                        $state.go("tab.giveaways-giveaway-details",{media_id:$scope.c.submit.media_id})
                     },function(error)
                     {
                         $scope.c.hideLoading()
@@ -285,8 +295,9 @@ angular.module('giveaways.controllers', [])
                         $scope.c.userInfo.data.giveaways.sort($scope.c.complexSorting)
                         $scope.c.userInfo.data.participating.sort($scope.c.complexSorting)
                         $scope.c.hideLoading()
-                        $state.go("tab.joined")
-                        $state.go("tab.joined-giveaway-details",{media_id:$scope.c.submit.media_id})
+//                        $state.go("tab.joined")
+//                        $state.go("tab.joined-giveaway-details",{media_id:$scope.c.submit.media_id})
+                        $scope.pushState("#/tab/joined","/joined/giveaway/"+$scope.c.submit.media_id)
                         $scope.c.submit.close()
                     },function(error)
                     {
@@ -374,7 +385,25 @@ angular.module('giveaways.controllers', [])
 
                 })
             }
-
+            $scope.c.submit.selectImage = function()
+            {
+                $cordovaImagePicker.getPictures({
+                    maximumImagesCount: 1,
+                    width: 640,
+                    quality: 100
+                })
+                    .then(function (results) {
+                        $scope.c.submit.imageUrl =  results[0]
+                        if($scope.c.submit.modal == undefined)
+                            $scope.c.submit.showModal()
+                        else
+                            $scope.c.submit.fillCanvas()
+                        $scope.c.submit.hashtag = giveawayDecor.generateHashTag()
+                        $scope.c.submit.type='new'
+                    }, function(error) {
+                        // error getting photos
+                    });
+            }
             if(media_id==undefined)
             {
 
@@ -391,19 +420,7 @@ angular.module('giveaways.controllers', [])
                 }).then(function(btnIndex) {
                     if(btnIndex!=2)
                     {
-                        $cordovaImagePicker.getPictures({
-                            maximumImagesCount: 1,
-                            width: 640,
-                            quality: 100
-                        })
-                            .then(function (results) {
-                                $scope.c.submit.imageUrl =  results[0]
-                                $scope.c.submit.showModal()
-                                $scope.c.submit.hashtag = giveawayDecor.generateHashTag()
-                                $scope.c.submit.type='new'
-                            }, function(error) {
-                                // error getting photos
-                            });
+                        $scope.c.submit.selectImage()
                     }
                 });
 
@@ -472,6 +489,7 @@ angular.module('giveaways.controllers', [])
                             {
                                 profile.instagram_avatar(data.data.profile_picture)
                                 profile.instagram_username(data.data.username)
+                                $scope.c.login_modal.remove()
                                 location.href = "#/tab/feed"
                                 location.reload()
                             })
@@ -490,6 +508,8 @@ angular.module('giveaways.controllers', [])
 
     })
     .controller('FeedCtrl', function($scope,$stateParams,profile,server,instagram,$timeout,$ionicScrollDelegate,giveawayDecor) {
+
+
 
         $scope.loadMoreTimes=0
         $scope.clearSearch = function()
@@ -538,7 +558,7 @@ angular.module('giveaways.controllers', [])
         }
         $scope.addAdditional = function()
         {
-            for(var index in $scope.c.userInfo.data.additional.filter($scope.uniqueHashtags))
+            for(var index in $scope.c.userInfo.data.additional)
             {
                 var giveaway = $scope.c.userInfo.data.additional[index]
                 if($scope.showedTags.indexOf(giveaway.hashtag)==-1) {
@@ -848,6 +868,9 @@ angular.module('giveaways.controllers', [])
     })
 
     .controller('MyGiveawaysCtrl', function($scope,instagram,giveawayDecor,$timeout) {
+
+
+
         $scope.layout = "posts"
         $scope.lazyTimeout = 0
         $scope.c.showLoading()
@@ -883,6 +906,7 @@ angular.module('giveaways.controllers', [])
 
     })
     .controller('UserPostsCtrl', function($scope,$stateParams,instagram, $ionicScrollDelegate,$location,giveawayDecor) {
+
 
         $scope.layout="posts"
         $scope.c.showLoading()
@@ -944,6 +968,8 @@ angular.module('giveaways.controllers', [])
         })
 
     }).controller('CollectionCtrl', function($scope,collection,instagram,$ionicHistory ,giveawayDecor ) {
+
+
         $scope.c.showLoading()
         $scope.loadingFadeIn=false
         $scope.layout="posts"
@@ -956,6 +982,7 @@ angular.module('giveaways.controllers', [])
                 for(var key in collection.data)
                 {
                     $scope.collectionName = key
+                    $scope.$apply()
                     for(var index in collection.data[key])
                     {
 
