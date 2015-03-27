@@ -13,7 +13,9 @@ angular.module('giveaways.services', ['ngResource'])
         });
 
     }])
-
+.config(function($ionicConfigProvider) {
+        $ionicConfigProvider.tabs.position('bottom')
+})
     .factory('registerNotifications', ['$cordovaPush','$cordovaDevice','server','$rootScope',function($cordovaPush,$cordovaDevice,server,$rootScope) {
         return function()
         {
