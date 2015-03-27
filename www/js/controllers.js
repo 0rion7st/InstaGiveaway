@@ -245,7 +245,7 @@ angular.module('giveaways.controllers', [])
                 var desc = "Description..."
                 if($scope.c.submit.post!=undefined)
                 {
-                    desc = $scope.c.submit.post.caption.text.split('Wanna win?')[0]
+                    desc = $scope.c.submit.post.data.caption.text.split('Wanna win?')[0]
                 }
 
                 var caption  = desc+'\n\n\n\nWanna win? Install WannaWin app\n #'+$scope.c.submit.hashtag
@@ -278,7 +278,7 @@ angular.module('giveaways.controllers', [])
                         $scope.c.userInfo.data.participating.sort($scope.c.complexSorting)
                         $scope.c.hideLoading()
                         $scope.c.submit.close()
-                        $scope.pushState("#/tab/giveaways","/giveaways/giveaway/"+$scope.c.submit.media_id)
+                        $scope.c.pushState("#/tab/giveaways","/giveaways/giveaway/"+$scope.c.submit.media_id)
 //                        $state.go("tab.giveaways")
 //                        $state.go("tab.giveaways-giveaway-details",{media_id:$scope.c.submit.media_id})
                     },function(error)
@@ -297,7 +297,7 @@ angular.module('giveaways.controllers', [])
                         $scope.c.hideLoading()
 //                        $state.go("tab.joined")
 //                        $state.go("tab.joined-giveaway-details",{media_id:$scope.c.submit.media_id})
-                        $scope.pushState("#/tab/joined","/joined/giveaway/"+$scope.c.submit.media_id)
+                        $scope.c.pushState("#/tab/joined","/joined/giveaway/"+$scope.c.submit.media_id)
                         $scope.c.submit.close()
                     },function(error)
                     {

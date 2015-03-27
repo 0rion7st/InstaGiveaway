@@ -16,7 +16,7 @@
 
                     <canvas id="giveaway_canvas" class="loading-bg"></canvas>
                     <p ng-if="c.submit.type!='new'">Click next</p>
-                    <button class="button button-block button-positive icon-left ion-camera" ng-click="c.submit.selectImage()">Select different image</button>
+                    <button ng-if="c.submit.type=='new'" class="button button-block button-positive icon-left ion-camera" ng-click="c.submit.selectImage()">Select different image</button>
                 </div>
                 <div class="item" ng-if="c.submit.type=='new'" style="text-align: center; border: 0">
                     <h2>Select sticker</h2>
