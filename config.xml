@@ -2,12 +2,13 @@
 <widget id="co.ekza.giveaway" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>WannaWin</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+       Wanna win is a social service for creating giveaways in Instagram.
     </description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+       EKZA
     </author>
     <content src="index.html" />
     <access origin="*" />
     <preference name="DisallowOverscroll" value="true" />
+    <preference name="Fullscreen" value="true" />
 </widget>

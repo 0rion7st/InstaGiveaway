@@ -16,14 +16,17 @@ angular.module('giveaways.services', ['ngResource'])
 .config(function($ionicConfigProvider) {
         $ionicConfigProvider.tabs.position('bottom')
 })
-    .factory('registerNotifications', ['$cordovaPush','$cordovaDevice','server','$rootScope',function($cordovaPush,$cordovaDevice,server,$rootScope) {
+    .factory('registerNotifications', ['$cordovaPush','$cordovaDevice','server','$rootScope','profile',function($cordovaPush,$cordovaDevice,server,$rootScope,profile) {
         return function()
         {
             $rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
                 switch(notification.event) {
                     case 'registered':
                         if (notification.regid.length > 0 ) {
-                            server.updateDeviceToken.get({DeviceToken: notification.regid, OS: "Android"})
+                            server.updateDeviceToken.get({DeviceToken: notification.regid, OS: "Android"},function()
+                            {
+                                profile.deviceToken(notification.regid)
+                            })
                         }
                         break;
                 }
@@ -32,7 +35,8 @@ angular.module('giveaways.services', ['ngResource'])
 
 
             document.addEventListener("deviceready", function () {
-
+                if(profile.deviceToken())
+                    return
                 var platform = $cordovaDevice.getPlatform();
                 var config = {
                     "senderID": "49237053026"
@@ -52,7 +56,10 @@ angular.module('giveaways.services', ['ngResource'])
                     if(result=="OK")
                         return;
                     console.log("result: " + result)
-                    server.updateDeviceToken.get({DeviceToken: result, OS: platform})
+                    server.updateDeviceToken.get({DeviceToken: result, OS: platform},function()
+                    {
+                        profile.deviceToken(result)
+                    })
                 }, function(err) {
                     alert("Registration error: " + err)
                 });
@@ -69,7 +76,13 @@ angular.module('giveaways.services', ['ngResource'])
             {
                 config.notification = config.params.command
                 config.ExpirationTimestamp =  config.params.ExpirationTimestamp
+                if(config.params.command == "JOIN_GIVEAWAY")
+                {
+                    delete config.params.ExpirationTimestamp
+                }
             }
+
+
             return config;
         },
         response: function(response) {
@@ -81,8 +94,8 @@ angular.module('giveaways.services', ['ngResource'])
                 {
                     $cordovaLocalNotification.add({
                         id: uid,
-                        title: "Choose winner!",
-                        text: "Your giveaway came to an end.",
+                        title: "Winner has been chosen!",
+                        text: "Your Wanna Win finished.",
                         at: new Date(response.config.ExpirationTimestamp*1000),
                         badge:1
                     },function () {
@@ -91,7 +104,15 @@ angular.module('giveaways.services', ['ngResource'])
                 }
                 else if(response.config.notification == "JOIN_GIVEAWAY")
                 {
-                  //@TODO: Findout expiration time
+                    $cordovaLocalNotification.add({
+                        id: uid,
+                        title: "Winner has been chosen!",
+                        text: "Wanna Win finished.",
+                        at: new Date(response.config.ExpirationTimestamp*1000),
+                        badge:1
+                    },function () {
+                        console.log('callback for adding background notification');
+                    });
                 }
             }
 
@@ -197,6 +218,30 @@ angular.module('giveaways.services', ['ngResource'])
 //<editor-fold  desc="profile">
     .factory('profile', function () {
         return {
+            eula:function (value) {
+
+                if (value != undefined) {
+                    console.log("eula: SET")
+                    window.localStorage.setItem("eula", value)
+                }
+                else {
+                    console.log("eula: GET")
+                    return window.localStorage.getItem("eula") || false
+                }
+
+            },
+            deviceToken:function (value) {
+
+                if (value != undefined) {
+                    console.log("deviceToken: SET")
+                    window.localStorage.setItem("deviceToken", value)
+                }
+                else {
+                    console.log("deviceToken: GET")
+                    return window.localStorage.getItem("deviceToken") || false
+                }
+
+            },
             getLatestTime: function (value) {
 
                 if (value != undefined) {

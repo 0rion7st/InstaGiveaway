@@ -28,10 +28,10 @@
 
 
                     <h3 class="positive" style="margin: 0;">{{post.giveaway.participants.totalCount}}</h3>
-                    <p>PARTICIPANTS</p>
+                    <small>PARTICIPANTS</small>
 
                     <h4 style="margin: 0;" ><a instagram="user?username={{post.giveaway.owner_info.InstagramUsername}}" class="positive"><b>@{{post.giveaway.owner_info.InstagramUsername}}</b></a></h4>
-                    <p> AUTHOR</p>
+                    <small> AUTHOR</small>
 
                  <!--   <h2 style="margin: 0;" ng-show="post.giveaway.type=='owner'" class="energized animated {{loadingFadeIn && 'bounceIn'}}">
                         <i class="padding-right" ng-class="{false:'ion-ios-bolt-outline',true:'ion-ios-bolt'}[post.giveaway.boost>0]"></i>
@@ -44,7 +44,7 @@
                     <button ng-show="post.giveaway.type=='owner' && post.giveaway.status=='active'" class="button button-block button-energized"  ng-click="c.openBoost($event,post.giveaway)" ng-disabled=" post.giveaway.boost==5">
                         BOOST
                     </button> -->
-                    <button ng-show="post.giveaway.status!='completed' && post.giveaway.type!='participating' && post.giveaway.owner_info.InstagramID !=c.userInstagram.data.id" class="button button-block button-positive" ng-click="c.submit_giveaway(post.giveaway.media_id, post.giveaway.hashtag)">
+                    <button ng-show="post.giveaway.status!='completed' && post.giveaway.type!='participating' && post.giveaway.owner_info.InstagramID !=c.userInstagram.data.id" class="button button-block button-positive" ng-click="c.submit_giveaway(post.giveaway.media_id, post.giveaway.hashtag,post.giveaway.expiration_timestamp)">
                         WANNA WIN!
                     </button>
                     <button ng-show="post.giveaway.status=='completed'" class="button button-block" disabled >
