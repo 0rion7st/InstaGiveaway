@@ -2,6 +2,7 @@ angular.module('giveaways.controllers', [])
 
     .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaFileOpener2,$cordovaGoogleAnalytics,$state,registerNotifications,$cordovaDevice,$rootScope,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout,$ionicPopover ) {
         $scope.c={}
+        $scope.c.followersNeeded = 15
         $scope.c.refreshTimeStamp=-1
         $scope.c.refreshPeriod=30
         registerNotifications()
@@ -66,7 +67,7 @@ angular.module('giveaways.controllers', [])
             switch(code*1)
             {
                 case -1:
-                    message = "You should have at least 15 followers."
+                    message = "You should have at least "+$scope.c.followersNeeded+" followers."
                     break;
                 case 10:
                     message = "WW not exists. Sorry :("
@@ -236,7 +237,7 @@ angular.module('giveaways.controllers', [])
         }
         $scope.c.submit_giveaway = function(media_id, hashtag,joinExpire)
         {
-            if($scope.c.userInstagram.data.counts.followed_by<15)
+            if($scope.c.userInstagram.data.counts.followed_by<$scope.c.followersNeeded)
             {
                 $scope.c.notifyErr(-1)
                 return
@@ -251,7 +252,6 @@ angular.module('giveaways.controllers', [])
                 var ctx=canvas.getContext("2d");
                 canvas.width=640
                 canvas.height=640
-                var delta = {x:0,y:0}
                 ctx.clearRect ( 0 , 0 , canvas.width, canvas.height );
                 var img = new Image()
                 img.onload=function()
@@ -607,11 +607,14 @@ angular.module('giveaways.controllers', [])
                     $scope.loadMoreTimes++
                     $scope.next_max_id = data.pagination.next_max_id
                     data.data=data.data.filter(giveawayDecor.filterPosts)
+                    console.log("124")
                     data.data.map(function(post)
                     {
                         var fileredPost =  giveawayDecor.decoratePost(post,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
                         post.giveawayHashtag = giveawayDecor.filterPosts(fileredPost)
-
+                        post.giveaway = post.giveaway || {}
+                        post.giveaway.new = post.new
+                        $scope.c.userInfo.data.newsFeed +=post.new*1
                     })
                     $scope.feed.data = $scope.feed.data.concat(data.data.filter($scope.uniqueHashtags));
 
@@ -631,11 +634,13 @@ angular.module('giveaways.controllers', [])
                         return function (data) {
 
                             if ($scope.showedTags.indexOf(giveaway.hashtag) == -1) {
-                                $scope.showedTags.push(giveaway.hshtag)
+                                $scope.showedTags.push(giveaway.hashtag)
                                 data.data.giveaway = giveaway
                                 data.data.giveaway.type = "unjoined"
                                 data.data.giveawayHashtag = giveaway.hashtag
+                                data.data.giveaway.new = (data.data.caption && profile.getLatestTime()*1<data.data.caption.created_time*1)
                                 $scope.feed.data.push(data.data)
+                                $scope.c.userInfo.data.newsFeed +=(data.data.caption && profile.getLatestTime()*1<data.data.caption.created_time*1)*1
                             }
                         }
                     })(giveaway))
@@ -654,7 +659,7 @@ angular.module('giveaways.controllers', [])
         }
         $scope.fillFeed = function()
         {
-
+            $scope.c.userInfo.data.newsFeed = 0
             $scope.showedTags = []
             if($scope.searchQuery==undefined || $scope.searchQuery=="")
             {
@@ -668,6 +673,9 @@ angular.module('giveaways.controllers', [])
                     {
                         var fileredPost =  giveawayDecor.decoratePost(post,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
                         post.giveawayHashtag = giveawayDecor.filterPosts(fileredPost)
+                        post.giveaway = post.giveaway || {}
+                        post.giveaway.new = post.new
+                        $scope.c.userInfo.data.newsFeed +=post.new*1
                     })
                     $scope.feed={}
                     $scope.feed.data = data.data.filter($scope.uniqueHashtags)

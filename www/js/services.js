@@ -132,7 +132,19 @@ angular.module('giveaways.services', ['ngResource'])
             },
             response: function(response) {
 
-                if(response.config.command!=undefined)
+                if(response.config.url == "https://api.instagram.com/v1/users/self/feed")
+                {
+                    var now = Math.floor((new Date()).getTime()/1000)
+                    for(var i in response.data.data)
+                    {
+                        if(profile.getLatestTime()*1<response.data.data[i].caption.created_time*1)
+                        {
+                            response.data.data[i].new=true
+                        }
+                    }
+
+                }
+                else if(response.config.command!=undefined)
                 {
                     if(response.config.command == "GET_USER_INFO")
                     {
@@ -144,8 +156,8 @@ angular.module('giveaways.services', ['ngResource'])
                         response.data.data.newsJoin = 0
                         for(var index in response.data.data.giveaways)
                         {
-                            var timeStamp = response.data.data.giveaways[index].expiration_timestamp
-                            if(profile.getLatestTime()<timeStamp && timeStamp<now)
+                            var timeStamp = response.data.data.giveaways[index].expiration_timestamp*1
+                            if(profile.getLatestTime()*1<timeStamp && timeStamp<now)
                             {
                                 response.data.data.newsMy++
                                 response.data.data.giveaways[index].showFinished = true
@@ -162,7 +174,9 @@ angular.module('giveaways.services', ['ngResource'])
                             }
                         }
 
-                        profile.getLatestTime(Math.floor((new Date()).getTime()/1000))
+                        setTimeout(function() {
+                            profile.getLatestTime(Math.floor((new Date()).getTime() / 1000))
+                        },5000)
                     }
                 }
 

@@ -42,6 +42,13 @@ ion-infinite-scroll i:before
     background: #ef473a !important;
     border:0px !important;
 }
+.giveaway.new:before
+{
+    background: #ef473a !important;
+    border:0px !important;
+    content: 'New!' !important;
+}
+
 .giveaway.finished:before
 {
     content: 'Finished' !important;
