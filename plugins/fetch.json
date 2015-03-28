@@ -97,5 +97,12 @@
             "url": "https://github.com/danwilson/google-analytics-plugin.git",
             "subdir": "."
         }
+    },
+    "com.vladstirbu.cordova.instagram": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/vstirbu/InstagramPlugin",
+            "subdir": "."
+        }
     }
 }

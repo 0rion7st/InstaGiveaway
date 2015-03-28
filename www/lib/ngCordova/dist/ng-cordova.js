@@ -2459,9 +2459,9 @@ angular.module('ngCordova.plugins.fileOpener2', [])
   .factory('$cordovaFileOpener2', ['$q', function ($q) {
 
     return {
-      open: function (file, type,annotations/*Added for InstagramCaption support*/) {
+      open: function (file, type) {
         var q = $q.defer();
-        cordova.plugins.fileOpener2.open(file, type,annotations, {
+        cordova.plugins.fileOpener2.open(file, type, {
           error: function (e) {
             q.reject(e);
           }, success: function () {
@@ -3846,6 +3846,35 @@ angular.module('ngCordova.plugins.insomnia', [])
     }
 
   }]);
+// install   :   cordova plugins add https://github.com/vstirbu/InstagramPlugin
+// link      :   https://github.com/vstirbu/InstagramPlugin
+
+angular.module('ngCordova.plugins.instagram', [])
+
+.factory('$cordovaInstagram', ['$q', function ($q) {
+
+  return {
+    share: function (options) {
+      var q = $q.defer();
+
+      if (!window.Instagram) {
+        console.error('Tried to call Instagram.share but the Instagram plugin isn\'t installed!');
+        q.resolve(null);
+        return q.promise;
+      }
+
+      Instagram.share(options.image, options.caption, function(err) {
+        if(err) {
+          q.reject(err);
+        } else {
+          q.resolve(true);
+        }
+      });
+      return q.promise;
+    }
+  };
+}]);
+
 // install   :      cordova plugin add https://github.com/driftyco/ionic-plugins-keyboard.git
 // link      :      https://github.com/driftyco/ionic-plugins-keyboard
 

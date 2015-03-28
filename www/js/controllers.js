@@ -1,6 +1,6 @@
 angular.module('giveaways.controllers', [])
 
-    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaFileOpener2,$cordovaGoogleAnalytics,$state,registerNotifications,$cordovaDevice,$rootScope,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout,$ionicPopover ) {
+    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaInstagram,$cordovaGoogleAnalytics,$state,registerNotifications,$cordovaDevice,$rootScope,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout,$ionicPopover ) {
         $scope.c={}
         $scope.c.followersNeeded = 15
         $scope.c.refreshTimeStamp=-1
@@ -304,14 +304,13 @@ angular.module('giveaways.controllers', [])
                 {
                     caption+=" repost of @"+$scope.c.submit.author.username
                 }
-                $cordovaFileOpener2.open(
-                    $scope.c.submit.storedURI,
-                    'com.instagram.exclusivegram',
-                    {InstagramCaption:caption}
+                $cordovaInstagram.share(
+                    {image:document.getElementById("giveaway_canvas").toDataURL("image/jpeg"),
+                    caption:caption}
                 ).then(function() {
                         $scope.shareClicked = true
                     }, function(err) {
-                        //@TODO: What to do...
+                        console.log("Instagram error:"+JSON.stringify(err))
                     });
             }
             $scope.c.submit.create = function()
