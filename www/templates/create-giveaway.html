@@ -15,7 +15,7 @@
 
                         <label class="item item-input item-select" style="border:0;">
                             <div class="input-label">
-                                Wanna win ends in
+                                Wanna Win ends in
                             </div>
                             <select ng-model="c.submit.days">
                                 <option value="1">1 day</option>
@@ -32,7 +32,7 @@
                     <canvas id="giveaway_canvas" class="loading-bg"></canvas>
                     <p ng-if="c.submit.type!='new'">Click next</p>
                     <br/>
-                    <button ng-if="c.submit.type=='new'" class="button button-outline button-positive icon-left ion-camera" ng-click="c.submit.selectImage()">Select different image</button>
+                    <button ng-if="c.submit.type=='new'" class="button button-clear button-positive icon-left ion-camera" ng-click="c.submit.selectImage()">Select different image</button>
                 </div>
                 <div class="item" ng-if="c.submit.type=='new'" style="border: 0">
                     <h2>Select sticker</h2>

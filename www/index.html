@@ -109,17 +109,14 @@
         <ion-header-bar class="bar bar-header bar-secondary positive-bg">
             <h1 class="title light">Login</h1>
         </ion-header-bar>
-        <ion-content>
-
-
-
+        <ion-content has-bouncing="false">
             <ion-slide-box show-pager="true">
                 <ion-slide>
                     <div class="item dark light-border" style="text-align: center; border:0px;">
                         <h2 class="positive">Welcome to <b>Wanna Win</b>!</h2>
                         <img src="img/image_00.png" alt="" style="width:100%;"/>
                         <br/>
-                        <h2><i class="ion-chevron-left"></i> <i class="ion-chevron-left"></i>SWIPE</h2>
+                        <small><i class="ion-chevron-left"></i> <i class="ion-chevron-left"></i>SWIPE</small>
                     </div>
                 </ion-slide>
                 <ion-slide>
@@ -127,7 +124,7 @@
                         <h2 class="positive">Join trendy Wanna Wins</h2>
                         <img src="img/image_02.png" alt="" style="width:100%;"/>
                         <h2 class="positive">Best place to find freebies</h2><br/>
-                        <h2><i class="ion-chevron-left"></i> <i class="ion-chevron-left"></i>SWIPE </h2>
+                        <small><i class="ion-chevron-left"></i> <i class="ion-chevron-left"></i>SWIPE </small>
                     </div>
                     <br/><br/><br/><br/>
                 </ion-slide>
@@ -137,16 +134,10 @@
                         <img src="img/image_01.png" alt="" style="width:100%;"/>
                         <h2 class="positive">Native way to find new followers</h2><br/>
                         <button class="button button-large button-positive" ng-click="c.login_modal.login()">LOGIN WITH INSTAGRAM</button>
-
                     </div>
                 </ion-slide>
             </ion-slide-box>
-
         </ion-content>
-
-        <ion-footer-bar padding="false">
-
-        </ion-footer-bar>
     </ion-modal-view>
 </script>
 </body>
