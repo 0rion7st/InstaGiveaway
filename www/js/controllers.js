@@ -45,7 +45,12 @@ angular.module('giveaways.controllers', [])
 
         $scope.c.pushState = function(state,href)
         {
+
             location.href=state
+            setTimeout(function()
+            {
+                location.href=$scope.$eval('"'+href+'"',$scope)
+            },0)
             location.href=$scope.$eval('"'+href+'"',$scope)
             //$rootScope.$broadcast('state:'+state,{href:$scope.$eval('"'+href+'"',$scope)});
         }
@@ -395,9 +400,8 @@ angular.module('giveaways.controllers', [])
                         $scope.c.userInfo.data.participating.sort($scope.c.complexSorting)
                         $scope.c.hideLoading()
                         $scope.c.submit.close()
-                        $scope.c.pushState("#/tab/profile/giveaways","#/tab/profile/giveaways/giveaway/"+$scope.c.submit.media_id)
-//                        $state.go("tab.giveaways")
-//                        $state.go("tab.giveaways-giveaway-details",{media_id:$scope.c.submit.media_id})
+                        $scope.c.pushState("#/tab/giveaways","#/tab/giveaways/giveaway/"+$scope.c.submit.media_id)
+                        $scope.$apply()
                     },function(error)
                     {
                         $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Error','error',error.data.errorCode);
@@ -415,10 +419,9 @@ angular.module('giveaways.controllers', [])
                         $scope.c.userInfo.data.giveaways.sort($scope.c.complexSorting)
                         $scope.c.userInfo.data.participating.sort($scope.c.complexSorting)
                         $scope.c.hideLoading()
-//                        $state.go("tab.joined")
-//                        $state.go("tab.joined-giveaway-details",{media_id:$scope.c.submit.media_id})
-                        $scope.c.pushState("#/tab/joined","#/tab/joined/giveaway/"+$scope.c.submit.media_id)
                         $scope.c.submit.close()
+                        $scope.c.pushState("#/tab/joined","#/tab/joined/giveaway/"+$scope.c.submit.media_id)
+                        $scope.$apply()
                     },function(error)
                     {
                         $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join:Submit:Error','error',error.data.errorCode);
