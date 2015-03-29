@@ -104,5 +104,12 @@
             "url": "https://github.com/vstirbu/InstagramPlugin",
             "subdir": "."
         }
+    },
+    "com.ionic.keyboard": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/driftyco/ionic-plugins-keyboard.git",
+            "subdir": "."
+        }
     }
 }
