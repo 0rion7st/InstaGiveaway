@@ -174,9 +174,9 @@ angular.module('giveaways.services', ['ngResource'])
                             }
                         }
 
-                        setTimeout(function() {
-                            profile.getLatestTime(Math.floor((new Date()).getTime() / 1000))
-                        },5000)
+                        setTimeout((function(date) {return function() {
+                            profile.getLatestTime(date)
+                        }})(Math.floor((new Date()).getTime() / 1000)),10000)
                     }
                 }
 

@@ -101,7 +101,7 @@ angular.module('giveaways.controllers', [])
                     message = "WW not exists. Sorry :("
                     break;
                 case 11:
-                    message = "Empty Wanna Win."
+                    message = "Wanna Win already exists."
                     break;
                 case 400:
                     message = "Now such media in instagram."
@@ -234,14 +234,14 @@ angular.module('giveaways.controllers', [])
 
         }
 
-        document.addEventListener("resume", (function($scope){
+         /*document.addEventListener("resume", (function($scope){
 
             return function()
             {
                 setTimeout($scope.c.getUserInfo,0)
             }
 
-        })($scope), false);
+        })($scope), false);*/
 
         $scope.c.help = function()
         {
@@ -625,6 +625,21 @@ angular.module('giveaways.controllers', [])
             $cordovaGoogleAnalytics.trackView('Feed');
         }, false);
 
+        document.addEventListener("resume", (function($scope){
+
+            return function()
+            {
+                setTimeout(function()
+                {
+                    $scope.c.getUserInfo(function()
+                    {
+                        $scope.fillFeed()
+                    })
+                },0)
+            }
+
+        })($scope), false);
+
         $scope.loadMoreTimes=0
         $scope.clearSearch = function()
         {
@@ -694,7 +709,7 @@ angular.module('giveaways.controllers', [])
                             if ($scope.showedTags.indexOf(giveaway.hashtag) == -1) {
                                 $scope.showedTags.push(giveaway.hashtag)
                                 data.data.giveaway = giveaway
-                                data.data.giveaway.type = giveawayDecor.getType(post,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
+                                data.data.giveaway.type = giveawayDecor.getType(data.data,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
                                 data.data.giveawayHashtag = giveaway.hashtag
                                 data.data.giveaway.new = (data.data.caption && profile.getLatestTime()*1<data.data.caption.created_time*1)
                                 $scope.feed.data.push(data.data)
