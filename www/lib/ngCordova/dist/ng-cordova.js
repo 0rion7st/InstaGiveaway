@@ -21,16 +21,12 @@ angular.module('ngCordova.plugins.actionSheet', [])
       show: function (options) {
         var q = $q.defer();
 
-        if($window.plugins)
-        {
-            $window.plugins.actionsheet.show(options, function (result) {
-                q.resolve(result);
-            });
-        }
-          else
-        {
-            q.resolve(true);
-        }
+
+
+        $window.plugins.actionsheet.show(options, function (result) {
+            q.resolve(result);
+        });
+
 
 
         return q.promise;
@@ -3767,21 +3763,11 @@ angular.module('ngCordova.plugins.imagePicker', [])
     return {
       getPictures: function (options) {
         var q = $q.defer();
-
-          if($window.imagePicker)
-          {
-              $window.imagePicker.getPictures(function (results) {
-                  q.resolve(results);
-              }, function (error) {
-                  q.reject(error);
-              }, options);
-          }
-          else
-          {
-              q.resolve(["img/create.png"]);
-          }
-
-
+          $window.imagePicker.getPictures(function (results) {
+              q.resolve(results);
+          }, function (error) {
+              q.reject(error);
+          }, options);
         return q.promise;
       }
     };
