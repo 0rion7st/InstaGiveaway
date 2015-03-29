@@ -912,9 +912,10 @@ angular.module('giveaways.controllers', [])
 
         $scope.refreshGiveaway = function()
         {
-            $scope.post.giveaway= server.getGiveaway.get({HashtagID:giveawayDecor.filterPosts($scope.post)}).$promise.then(
+             server.getGiveaway.get({HashtagID:giveawayDecor.filterPosts($scope.post)}).$promise.then(
                 function(giveaway)
                 {
+                    $scope.post.giveaway=giveaway
                     $scope.c.hideLoading()
                     $scope.loadingFadeIn = true
                     $scope.post.giveaway = giveaway.data[0]
