@@ -92,6 +92,9 @@ angular.module('giveaways.controllers', [])
                 case -2:
                     message = "No instagram app found."
                     break;
+                case -3:
+                    message = "Share post in Instagram first."
+                    break;
                 case 10:
                     message = "WW not exists. Sorry :("
                     break;
@@ -355,7 +358,7 @@ angular.module('giveaways.controllers', [])
             }
             $scope.c.submit.share = function()
             {
-                var desc = "Describe your Wanna Win here"
+                var desc = ""
                 if($scope.c.submit.post!=undefined)
                 {
                     desc = $scope.c.submit.post.data.caption.text.split('Wanna win?')[0]
@@ -481,7 +484,8 @@ angular.module('giveaways.controllers', [])
                                 }
                                 else
                                 {
-                                    $ionicSlideBoxDelegate.previous();
+                                    $ionicSlideBoxDelegate.previous()
+                                    $scope.c.notifyErr(-3)
                                 }
                             })
                         }

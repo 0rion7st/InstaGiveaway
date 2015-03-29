@@ -9,7 +9,7 @@
     <ion-content  class="has-header" has-bouncing="false">
         <ion-slide-box show-pager="false" active-slide="c.submit.active_slide">
             <ion-slide>
-                <div class="item dark light-border" style="text-align: center; border: 0" ng-if="c.submit.type=='new'">
+                <div class="item dark item-borderless" style="text-align: center; border: 0" ng-if="c.submit.type=='new'">
 
                     <div class="list">
 
@@ -27,14 +27,14 @@
                     </div>
 
                 </div>
-                <div class="item item-image" style="border: 0">
+                <div class="item item-image item-borderless" style="border: 0">
 
                     <canvas id="giveaway_canvas" class="loading-bg"></canvas>
                     <p ng-if="c.submit.type!='new'">Click next</p>
                     <br/>
                     <button ng-if="c.submit.type=='new'" class="button button-clear button-positive icon-left ion-camera" ng-click="c.submit.selectImage()">Select different image</button>
                 </div>
-                <div class="item" ng-if="c.submit.type=='new'" style="border: 0">
+                <div class="item item-borderless" ng-if="c.submit.type=='new'" style="border: 0">
                     <h2 class="positive">Select sticker</h2>
                 </div>
                 <ion-scroll direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;" ng-if="c.submit.type=='new'">
@@ -52,7 +52,7 @@
             </ion-slide>
 
             <ion-slide>
-                <div class="item dark light-border item-text-wrap " style="text-align: center; border: 0">
+                <div class="item dark item-borderless item-text-wrap " style="text-align: center; border: 0">
                     <h2>Share and come back!</h2>
                     <img src="img/image_03.png" alt="" style="max-width: 100%;"/>
                     <p>Hashtag of this wanna win: <b>#{{c.submit.hashtag}}</b> do not delete it!</p>
@@ -67,15 +67,15 @@
                 </h2></div>
                 <div class="row" ng-if="c.submit.type=='join'">
                     <div class="col col-50">
-                        <div class="item item-text-wrap dark light-border item-borderless">
+                        <div class="item item-text-wrap dark item-borderless item-borderless">
                             <i class="balanced ion-checkmark-circled"></i>
                             Repost
                         </div>
-                        <div class="item item-text-wrap dark light-border item-borderless">
+                        <div class="item item-text-wrap dark item-borderless item-borderless">
                             <i ng-class="{false:'ion-load-c',true:'balanced ion-checkmark-circled'}[c.submit.liked==true]"></i>
                             Like post
                         </div>
-                        <div class="item item-text-wrap dark light-border item-borderless">
+                        <div class="item item-text-wrap dark item-borderless item-borderless">
                             <i ng-class="{false:'ion-load-c',true:'balanced ion-checkmark-circled'}[c.submit.followed==true]"></i>
                             Follow
                         </div>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
 
-                <div class="item item-text-wrap light-border item-icon-left assertive item-borderless" ng-if="c.submit.type=='join'">
+                <div class="item item-text-wrap item-borderless item-icon-left assertive item-borderless" ng-if="c.submit.type=='join'">
 
                     <i class="icon ion-alert-circled"></i>
                     <small> Please do not delete <b>repost</b>, <b>unfollow</b> nor <b>unlike</b> the author of the WW until WW ends.
