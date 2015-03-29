@@ -137,7 +137,7 @@ angular.module('giveaways.services', ['ngResource'])
                     var now = Math.floor((new Date()).getTime()/1000)
                     for(var i in response.data.data)
                     {
-                        if(profile.getLatestTime()*1<response.data.data[i].caption.created_time*1)
+                        if(response.data.data[i].caption && profile.getLatestTime()*1<response.data.data[i].caption.created_time*1)
                         {
                             response.data.data[i].new=true
                         }

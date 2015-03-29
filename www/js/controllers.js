@@ -21,7 +21,27 @@ angular.module('giveaways.controllers', [])
 
             });
         };
+        $scope.c.openAbout = function()
+        {
+            $ionicModal.fromTemplateUrl('templates/about.html', {
+                scope: $scope,
+                animation: 'slide-in-up',
+                backdropClickToClose: true,
+                hardwareBackButtonClose:true
+            }).then(function(modal)
+            {
+                $scope.c.about = modal
+                $scope.c.about.show()
 
+
+                $scope.c.about.close= function()
+                {
+                    $scope.c.about.remove()
+                }
+
+
+            })
+        }
 
         $scope.c.pushState = function(state,href)
         {
@@ -166,6 +186,22 @@ angular.module('giveaways.controllers', [])
                         $scope.c.refreshTimeStamp = (new Date()).getTime()/1000
                         $scope.c.userInfo.data.giveaways.sort($scope.c.complexSorting)
                         $scope.c.userInfo.data.participating.sort($scope.c.complexSorting)
+
+                        if($scope.c.userInfo.data.giveaways.length>1)
+                        {
+
+                            $scope.reposts = 0
+                            $scope.c.userInfo.data.giveaways.filter(function(a){$scope.reposts +=a.participants.totalCount*1; return true;})
+
+                        }
+                        else if($scope.c.userInfo.data.giveaways.length==1)
+                            $scope.reposts = $scope.c.userInfo.data.giveaways[0].participants.totalCount*1
+                        else
+                            $scope.reposts = 0
+
+                        $scope.wins = $scope.c.userInfo.data.participating.filter(function(a){ return a.winner_id==$scope.c.userInstagram.data.id}).length
+
+
                         if(callback)
                         {
                             callback()
@@ -202,7 +238,30 @@ angular.module('giveaways.controllers', [])
 
         })($scope), false);
 
+        $scope.c.help = function()
+        {
 
+            $cordovaGoogleAnalytics.trackEvent('Help', 'Opened', giveAwayHashTag);
+            var email = {
+                to: 'wannawin.help@gmail.com',
+                subject: 'Help request from '+$scope.c.userInstagram.data.username,
+                body: "Hi there!<br> <b>Issue:</b><br><i>Type here...</i><br><br><small>Technical info(please do not delete it):<br>" +
+                    "<b>WannaWin:</b> <img style='width:100%;' src='"+giveawayImageSrc+"' /><br>"+
+                    "<b>WannaWin mediaId:</b> "+giveAwayMediaId+"<br>"+
+                    "<b>WannaWin author:</b> "+giveAwayAuthor+"<br>"+
+                    "<b>Sender cordova:</b> "+cordova+"<br>"+
+                    "<b>Sender model:</b> "+model+"<br>"+
+                    "<b>Sender platform:</b> "+platform+"<br>"+
+                    "<b>Sender uuid:</b> "+uuid+"<br>"+
+                    "<b>Sender version:</b> "+version+"<br>"+
+                    "<small>"+(new Date())+"</small></small>",
+                isHtml: true
+            };
+
+            $cordovaEmailComposer.open(email).then(null, function () {
+                $cordovaGoogleAnalytics.trackEvent('Report', 'Send', giveAwayHashTag);
+            });
+        }
         $scope.c.report = function(giveawayImageSrc,giveAwayHashTag, giveAwayMediaId, giveAwayAuthor)
         {
             var device = $cordovaDevice.getDevice();
@@ -219,12 +278,12 @@ angular.module('giveaways.controllers', [])
 
             $cordovaGoogleAnalytics.trackEvent('Report', 'Opened', giveAwayHashTag);
             var email = {
-                to: 'giveaway.support@gmail.com',
-                subject: 'Giveaway #'+giveAwayHashTag+' issue',
+                to: 'wannawin.help@gmail.com',
+                subject: 'WannaWin #'+giveAwayHashTag+' issue',
                 body: "Hi there!<br> <b>Issue:</b><br><i>Type here...</i><br><br><small>Technical info(please do not delete it):<br>" +
-                    "<b>Giveaway:</b> <img style='width:100%;' src='"+giveawayImageSrc+"' /><br>"+
-                    "<b>Giveaway mediaId:</b> "+giveAwayMediaId+"<br>"+
-                    "<b>Giveaway author:</b> "+giveAwayAuthor+"<br>"+
+                    "<b>WannaWin:</b> <img style='width:100%;' src='"+giveawayImageSrc+"' /><br>"+
+                    "<b>WannaWin mediaId:</b> "+giveAwayMediaId+"<br>"+
+                    "<b>WannaWin author:</b> "+giveAwayAuthor+"<br>"+
                     "<b>Sender cordova:</b> "+cordova+"<br>"+
                     "<b>Sender model:</b> "+model+"<br>"+
                     "<b>Sender platform:</b> "+platform+"<br>"+
@@ -333,7 +392,7 @@ angular.module('giveaways.controllers', [])
                         $scope.c.userInfo.data.participating.sort($scope.c.complexSorting)
                         $scope.c.hideLoading()
                         $scope.c.submit.close()
-                        $scope.c.pushState("#/tab/giveaways","#/tab/giveaways/giveaway/"+$scope.c.submit.media_id)
+                        $scope.c.pushState("#/tab/profile/giveaways","#/tab/profile/giveaways/giveaway/"+$scope.c.submit.media_id)
 //                        $state.go("tab.giveaways")
 //                        $state.go("tab.giveaways-giveaway-details",{media_id:$scope.c.submit.media_id})
                     },function(error)
@@ -594,10 +653,18 @@ angular.module('giveaways.controllers', [])
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                     return
                 }
+
                 var results = instagram.users.get({user:"self",action:"feed",max_id:$scope.next_max_id}).$promise;
                 results.then(function(data)
                 {
-                    $scope.loadMoreTimes++
+                    if(data.data.length<0)
+                    {
+                        $scope.loadMoreTimes = 100
+                    }
+                    else
+                    {
+                        $scope.loadMoreTimes++
+                    }
                     $scope.next_max_id = data.pagination.next_max_id
                     data.data=data.data.filter(giveawayDecor.filterPosts)
                     console.log("124")
@@ -1012,31 +1079,7 @@ angular.module('giveaways.controllers', [])
             })
         })
     })
-    .controller('MyProfileCtrl', function($scope,$cordovaGoogleAnalytics) {
-        $cordovaGoogleAnalytics.trackView('Profile');
-        $scope.c.showLoading()
-        $scope.loadingFadeIn=false
-        $scope.reposts = 0
-        $scope.wins = 0
-        $scope.c.getUserInfo(function()
-        {
-            $scope.c.hideLoading()
-            $scope.loadingFadeIn=true
-            if($scope.c.userInfo.data.giveaways.length>1)
-            {
-
-                $scope.reposts = 0
-                $scope.c.userInfo.data.giveaways.filter(function(a){$scope.reposts +=a.participants.totalCount*1; return true;})
-
-            }
-            else if($scope.c.userInfo.data.giveaways.length==1)
-                $scope.reposts = $scope.c.userInfo.data.giveaways[0].participants.totalCount*1
-
-            $scope.wins = $scope.c.userInfo.data.participating.filter(function(a){ return a.winner_id==$scope.c.userInstagram.data.id}).length
-            //TODO: what we what here?
-        })
-
-    }).controller('CollectionCtrl', function($scope,collection,instagram,$ionicHistory ,giveawayDecor,$cordovaGoogleAnalytics ) {
+   .controller('CollectionCtrl', function($scope,collection,instagram,$ionicHistory ,giveawayDecor,$cordovaGoogleAnalytics ) {
 
         $cordovaGoogleAnalytics.trackView('Collection');
         $scope.c.showLoading()

@@ -29,9 +29,10 @@
                       user-link="feed"
                       media-image-link="post.images.standard_resolution.url"
                       username="{{post.user.username || post.username}}"
-                      path="#/tab/feed" layout="{{layout}}"></giveaway>
+                      path="#/tab/feed" layout="{{layout}}">
+            </giveaway>
         </ion-list>
-        <ion-infinite-scroll ng-if="layout=='posts'"
+        <ion-infinite-scroll ng-if="layout=='posts' && loadMoreTimes<=100"
                 on-infinite="loadMore()"
                 distance="10%" immediate-check="true">
         </ion-infinite-scroll>

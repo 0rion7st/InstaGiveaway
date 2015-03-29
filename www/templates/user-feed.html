@@ -13,7 +13,7 @@
             <giveaway ng-repeat="post in feed.data" profile-image="{{post.user.profile_picture || post.profile_picture}}"
                       media-id="{{post.id}}"
                       time-left="{{post.caption.created_time}}"
-                      giveaway-id="{{post.giveawayHashTag}}"
+                      giveaway-hashtag="{{post.giveawayHashtag}}"
                       user-id="{{post.user.id || post.id}}"
                       user-link="instagram"
                       media-image-link="post.images.standard_resolution.url"

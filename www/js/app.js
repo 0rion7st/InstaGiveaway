@@ -199,9 +199,9 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 }
             })
             .state('tab.giveaways', {
-                url: '/profile/giveaways',
+                url: '/giveaways',
                 views: {
-                    'tab-profile': {
+                    'tab-giveaways': {
                         templateUrl: 'templates/tab-giveaways.html',
                         controller: 'MyGiveawaysCtrl'
                     }
@@ -234,23 +234,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
 
 
             })
-            .state('tab.popular-collection', {
-                url: '/popular/collection/:collection',
-                views: {
-                    'tab-popular': {
-                        templateUrl: 'templates/collection.html',
-                        controller: 'CollectionCtrl'
-                    }
-                },
-                resolve: {
 
-                    collection: function (server, $stateParams) {
-                        return server.getCollection.get({Categories: $stateParams.collection})
-                    }
-                }
-
-
-            })
             .state('tab.feed-giveaway-details', {
                 url: '/feed/giveaway/:media_id',
                 views: {
@@ -286,9 +270,9 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 }
             })
             .state('tab.giveaways-giveaway-details', {
-                url: '/profile/giveaways/giveaway/:media_id',
+                url: '/giveaways/giveaway/:media_id',
                 views: {
-                    'tab-profile': {
+                    'tab-giveaways': {
                         templateUrl: 'templates/giveaway-detail.html',
                         controller: 'GiveAwayDetailCtrl'
                     }
@@ -337,9 +321,9 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 }
             })
             .state('tab.giveaways-user-giveaways', {
-                url: '/profile/giveaways/user/:userid',
+                url: '/giveaways/user/:userid',
                 views: {
-                    'tab-profile': {
+                    'tab-giveaways': {
                         templateUrl: 'templates/user-feed.html',
                         controller: 'UserPostsCtrl'
                     }

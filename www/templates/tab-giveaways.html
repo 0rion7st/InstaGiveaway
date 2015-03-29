@@ -3,7 +3,7 @@
     <ion-content class="content-bg">
 
         <ion-list>
-            <div class="giveaway " style="font-style: italic;">
+            <div class="giveaway " style="font-style: italic;"  ng-show="giveaways!=undefined">
                 <button class="button button-block button-positive" ng-click="c.submit_giveaway()">Create Wanna Win</button>
 
             </div>
@@ -25,12 +25,7 @@
                       username="{{post.user.username || post.username}}"
                       path="#/tab/profile/giveaways" layout="{{layout}}">
             </giveaway>
-            <div class="giveaway owner">
-                <div class="item item-avatar">
-                    <img src="{{c.userInstagram.data.profile_picture}}">
-                    <h2><a><b class="positive" instagram="user?username={{c.userInstagram.data.username}}">@{{c.userInstagram.data.username}}</b></a></h2>
-                    <p><b>Posted right now!</b></p>
-                </div>
+            <div class="giveaway" ng-show="giveaways==undefined || giveaways.length==0">
                 <div class="item item-image" ng-show="layout=='posts'">
                     <img class="full-image animated loading-bg" src="img/create.png" ng-click="c.submit_giveaway()">
                 </div>

@@ -18,6 +18,30 @@ ion-infinite-scroll i:before
 {
     color:#fff;
 }
+.shining {
+    background: -webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.25, #222), color-stop(0.5, #fff), color-stop(0.75, #222)) 0 0 no-repeat;
+    -webkit-background-size: 125px;
+    color: rgba(255, 255, 255, 0.1);
+    -webkit-background-clip: text;
+    -webkit-animation-name: shine;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
+    margin:0 40px;
+}
+
+
+@-webkit-keyframes shine
+{
+    0%
+    {
+        background-position: top left;
+    }
+    100%
+    {
+        background-position: top right;
+    }
+}
+
 .giveaway:before
 {
     position: absolute;
