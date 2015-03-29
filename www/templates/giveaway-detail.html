@@ -32,8 +32,8 @@
                     <h3 class="positive" style="margin: 0;">{{post.giveaway.participants.totalCount}}</h3>
 
 
-                    <small> JOINED BY</small>
-                    <h4 style="margin: 0;" ><a instragram="user?username={{post.user.username}}" class="positive"><b>@{{post.user.username}}</b></a></h4>
+                    <small ng-if="post.giveaway.owner_info.InstagramID!=post.user.id"> JOINED BY</small>
+                    <h4  ng-if="post.giveaway.owner_info.InstagramID!=post.user.id" style="margin: 0;" ><a instragram="user?username={{post.user.username}}" class="positive"><b>@{{post.user.username}}</b></a></h4>
 
 
 
