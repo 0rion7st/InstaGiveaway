@@ -4,7 +4,7 @@ angular.module('giveaways.controllers', [])
         $scope.c={}
         $scope.c.followersNeeded = 1
         $scope.c.refreshTimeStamp=-1
-        $scope.c.refreshPeriod=30
+        $scope.c.refreshPeriod=5
         registerNotifications()
 
         document.addEventListener("deviceready", function () {
