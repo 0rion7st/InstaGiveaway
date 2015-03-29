@@ -14,7 +14,7 @@
 
                 <h2><a instagram="user?username={{post.giveaway.owner_info.InstagramUsername}}" class="positive"><b>@{{post.giveaway.owner_info.InstagramUsername}}</b></a></h2>
                 <p ng-show="post.giveaway.status!='completed' && timeNow<post.giveaway.expiration_timestamp">
-                    <span>Ends <span time="post.giveaway.expiration_timestamp" counting></span></span>
+                <div class="balanced"><span>Ends <span time="post.giveaway.expiration_timestamp" counting></span></span></div>
                 </p>
                 <p ng-show="post.giveaway.status!='active' && post.giveaway.owner_info.InstagramID!=c.userInstagram.data.id">
                         <b>Wanna win finished</b>

@@ -113,7 +113,7 @@
             <a href="{{path}}/giveaway/{{mediaId}}"> <img class="full-image animated loading-bg" src="{{loadedImg || 'img/px.png'}}" ng-class="loadedImg && 'fadeIn'"></a>
         </div>
         <div class="item item-button-right"  ng-show="layout=='posts'">
-            <p ng-if="expire!=-1">Ends <span time="expire" counting></span></p>
+            <p ng-if="expire!=-1" ><div class="balanced" style="text-transform: uppercase;">Ends <span time="expire" counting></span></div></p>
             <p ng-if="expire==-1">Finished</p>
             <a href="{{path}}/giveaway/{{mediaId}}" class="button  icon-left flaticon-gift68 button-clear button-positive">DETAILS</a>
         </div>
