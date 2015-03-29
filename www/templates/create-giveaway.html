@@ -1,23 +1,23 @@
 <ion-modal-view>
     <ion-header-bar class="bar bar-header positive-bg ">
 
-            <button class="button button-icon icon ion-ios-close-empty light" ng-click="c.submit.close()"></button>
-            <div class="h1 title light" ng-bind="{true:'JOIN WANNA WIN', false:'CREATE WANNA WIN'}[c.submit.post!=undefined]"></div>
-            <button class="button icon-right ion-chevron-right button-clear button-energized" ng-disabled="stepDisabled" ng-show="c.submit.active_slide!=2" ng-click="c.submit.nextStep()">NEXT</button>
+        <button class="button button-icon icon ion-ios-close-empty light" ng-click="c.submit.close()"></button>
+        <div class="h1 title light" ng-bind="{true:'JOIN WANNA WIN', false:'CREATE WANNA WIN'}[c.submit.post!=undefined]"></div>
+        <button class="button icon-right ion-chevron-right button-clear button-energized" ng-disabled="stepDisabled" ng-show="c.submit.active_slide!=2" ng-click="c.submit.nextStep()">NEXT</button>
 
     </ion-header-bar >
-    <ion-content  class="has-header">
+    <ion-content  class="has-header" has-bouncing="false">
         <ion-slide-box show-pager="false" active-slide="c.submit.active_slide">
             <ion-slide>
-                <div class="item dark light-border" style="text-align: center; border: 0">
+                <div class="item dark light-border" style="text-align: center; border: 0" ng-if="c.submit.type=='new'">
 
                     <div class="list">
 
-                        <label class="item item-input item-select" style="border:0;">
-                            <div class="input-label">
+                        <label class="item item-input item-select item-icon-left" style="border:0;">
+                            <div class="input-label positive">
                                 Wanna Win ends in
                             </div>
-                            <select ng-model="c.submit.days">
+                            <select ng-model="c.submit.days" style="font-weight:bold;">
                                 <option value="1">1 day</option>
                                 <option value="3">3 days</option>
                                 <option value="7">7 days</option>
@@ -35,17 +35,17 @@
                     <button ng-if="c.submit.type=='new'" class="button button-clear button-positive icon-left ion-camera" ng-click="c.submit.selectImage()">Select different image</button>
                 </div>
                 <div class="item" ng-if="c.submit.type=='new'" style="border: 0">
-                    <h2>Select sticker</h2>
+                    <h2 class="positive">Select sticker</h2>
                 </div>
                 <ion-scroll direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;" ng-if="c.submit.type=='new'">
-                <img src="img/ribbons/ribbon_01.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(1)"/>
-                <img src="img/ribbons/ribbon_02.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(2)"/>
-                <img src="img/ribbons/ribbon_03.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(3)"/>
-                <img src="img/ribbons/ribbon_04.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(4)"/>
-                <img src="img/ribbons/ribbon_05.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(5)" />
-                <img src="img/ribbons/ribbon_06.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(6)"/>
-                <img src="img/ribbons/ribbon_07.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(7)" />
-                <img src="img/ribbons/ribbon_08.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(8)"/>
+                    <img src="img/ribbons/ribbon_01.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(1)"/>
+                    <img src="img/ribbons/ribbon_02.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(2)"/>
+                    <img src="img/ribbons/ribbon_03.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(3)"/>
+                    <img src="img/ribbons/ribbon_04.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(4)"/>
+                    <img src="img/ribbons/ribbon_05.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(5)" />
+                    <img src="img/ribbons/ribbon_06.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(6)"/>
+                    <img src="img/ribbons/ribbon_07.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(7)" />
+                    <img src="img/ribbons/ribbon_08.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(8)"/>
                 </ion-scroll>
 
 
@@ -62,51 +62,48 @@
                 <br/><br/><br/><br/>
             </ion-slide>
             <ion-slide>
-                <div class="item item-text-wrap" style="text-align: center; border: 0" ng-if="c.submit.type=='join'">
-                    <h2>Let's join!</h2>
-                    <img src="img/image_04.png" alt="" style="max-width: 100%;"/>
+                <div class="item item-text-wrap" ng-if="c.submit.type=='join'"> <h2>
+                    Wanna win recipe:
+                </h2></div>
+                <div class="row" ng-if="c.submit.type=='join'">
+                    <div class="col col-50">
+                        <div class="item item-text-wrap dark light-border item-borderless">
+                            <i class="balanced ion-checkmark-circled"></i>
+                            Repost
+                        </div>
+                        <div class="item item-text-wrap dark light-border item-borderless">
+                            <i ng-class="{false:'ion-load-c',true:'balanced ion-checkmark-circled'}[c.submit.liked==true]"></i>
+                            Like post
+                        </div>
+                        <div class="item item-text-wrap dark light-border item-borderless">
+                            <i ng-class="{false:'ion-load-c',true:'balanced ion-checkmark-circled'}[c.submit.followed==true]"></i>
+                            Follow
+                        </div>
+                    </div>
+                    <div class="col col-50">
+                        <div class="item item-text-wrap" style="text-align: center; border: 0" >
+                            <img src="img/image_04.png" alt="" style="max-width: 100%;"/>
+                        </div>
+                    </div>
+                </div>
 
-                </div>
-                <div class="item"  ng-if="c.submit.type=='join'">
-                    <h2>
-                        Wanna win recipe:
-                    </h2>
-                </div>
-                <div class="item dark light-border item-icon-left item-borderless" ng-if="c.submit.type=='join'">
-                    <h2>
-                        <i class="balanced ion-checkmark-circled"></i>
-                        Repost
-                    </h2>
-                </div>
-                <div class="item dark light-border item-icon-left item-borderless" ng-if="c.submit.type=='join'">
-                    <h2>
-                        <i ng-class="{false:'ion-load-c',true:'balanced ion-checkmark-circled'}[c.submit.liked==true]"></i>
-                        Like post
-                    </h2>
-                </div>
-                <div class="item dark light-border item-icon-left item-borderless" ng-if="c.submit.type=='join'">
-                    <h2>
-                        <i ng-class="{false:'ion-load-c',true:'balanced ion-checkmark-circled'}[c.submit.followed==true]"></i>
-                        Follow the author
-                    </h2>
-                </div>
                 <div class="item item-text-wrap light-border item-icon-left assertive item-borderless" ng-if="c.submit.type=='join'">
 
-                        <i class="icon ion-alert-circled"></i>
-                       <small> Please do not delete <b>repost</b>, <b>unfollow</b> nor <b>unlike</b> the author of the WW until WW ends.
+                    <i class="icon ion-alert-circled"></i>
+                    <small> Please do not delete <b>repost</b>, <b>unfollow</b> nor <b>unlike</b> the author of the WW until WW ends.
                         Otherwise you will be excluded from participation.</small>
                 </div>
 
                 <div class="item"  ng-if="c.submit.type=='new'">
                     <div class="item item-image" style="border:0;">
                         <h2>You wanna win almost ready!</h2>
-                        <img src="img/image_04.png" alt="" style="max-width: 100%;"/>
+                        <img src="img/image_04.png" alt="" style="max-width: 50%;"/>
 
                     </div>
                 </div>
 
                 <div class="item item-body" style="text-align: center; border:0;">
-                <button class="button button-large button-balanced" ng-click="c.submit.create()" ng-disabled="c.submit.done!=true" ng-bind-html="{true:'CREATE',false:'JOIN'}[c.submit.type=='new']"></button></div>
+                    <button class="button button-large button-balanced" ng-click="c.submit.create()" ng-disabled="c.submit.done!=true" ng-bind-html="{true:'CREATE',false:'JOIN'}[c.submit.type=='new']"></button></div>
             </ion-slide>
         </ion-slide-box>
     </ion-content >
