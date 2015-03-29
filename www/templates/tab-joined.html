@@ -3,10 +3,10 @@
     <ion-content class="content-bg" has-bouncing="true">
 
         <ion-list>
-            <div ng-hide="participating" class="giveaway" style="opacity: 0.7;">
+            <div ng-hide="participating" class="giveaway">
                 <div class="item item-text-wrap">
-                    <i class="flaticon-birthday19"></i>
-                    <small>You haven't joined any Wanna Wins</small>
+                    <small>You haven't joined any Wanna Wins. How about create your own?</small>
+                    <button class="button button-block button-positive icon-left flaticon-box84" ng-click="c.submit_giveaway()">Create Wanna Win</button>
                 </div>
             </div>
             <giveaway ng-repeat="post in participating  track by $index" profile-image="{{post.user.profile_picture || post.profile_picture}}"

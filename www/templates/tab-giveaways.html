@@ -4,7 +4,7 @@
 
         <ion-list>
             <div class="giveaway " style="font-style: italic;"  ng-show="giveaways!=undefined">
-                <button class="button button-block button-positive" ng-click="c.submit_giveaway()">Create Wanna Win</button>
+                <button class="button button-block button-positive icon-left flaticon-box84" ng-click="c.submit_giveaway()">Create Wanna Win</button>
 
             </div>
             <div ng-hide="giveaways!=undefined" class="giveaway" style="opacity: 0.7;">
@@ -28,6 +28,9 @@
             <div class="giveaway" ng-show="giveaways==undefined || giveaways.length==0">
                 <div class="item item-image" ng-show="layout=='posts'">
                     <img class="full-image animated loading-bg" src="img/create.png" ng-click="c.submit_giveaway()">
+                </div>
+                <div class="item">
+                    <button class="button button-positive button-block" ng-click="c.submit_giveaway()">Create Wanna Win</button>
                 </div>
             </div>
 

@@ -182,7 +182,7 @@ angular.module('giveaways.controllers', [])
                 $scope.c.userInstagram = instagram.users.get({user:"self"},function()
                 {
 
-                    $scope.c.userInfo = server.getUserInfo.get({},function(data)
+                    $scope.c.userInfo = server.getUserInfo.get({},function()
                     {
 
                         document.addEventListener("deviceready", function () {
@@ -246,7 +246,7 @@ angular.module('giveaways.controllers', [])
         $scope.c.help = function()
         {
 
-            $cordovaGoogleAnalytics.trackEvent('Help', 'Opened', giveAwayHashTag);
+            $cordovaGoogleAnalytics.trackEvent('Help', 'Opened');
             var email = {
                 to: 'wannawin.help@gmail.com',
                 subject: 'Help request from '+$scope.c.userInstagram.data.username,
@@ -547,11 +547,6 @@ angular.module('giveaways.controllers', [])
                         $scope.c.submit.selectImage()
                     }
                 });
-
-
-
-
-
             }else
             {
                 $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join','hashtag',hashtag);
@@ -686,7 +681,7 @@ angular.module('giveaways.controllers', [])
                         post.giveawayHashtag = giveawayDecor.filterPosts(fileredPost)
                         post.giveaway = post.giveaway || {}
                         post.giveaway.new = post.new
-                        $scope.c.userInfo.data.newsFeed +=post.new*1
+                        $scope.c.userInfo.data.newsFeed +=(post.new || 0)*1
                     })
                     $scope.feed.data = $scope.feed.data.concat(data.data.filter($scope.uniqueHashtags));
 
@@ -747,7 +742,7 @@ angular.module('giveaways.controllers', [])
                         post.giveawayHashtag = giveawayDecor.filterPosts(fileredPost)
                         post.giveaway = post.giveaway || {}
                         post.giveaway.new = post.new
-                        $scope.c.userInfo.data.newsFeed +=post.new*1
+                        $scope.c.userInfo.data.newsFeed +=(post.new || 0)*1
                     })
                     $scope.feed={}
                     $scope.feed.data = data.data.filter($scope.uniqueHashtags)
@@ -996,6 +991,14 @@ angular.module('giveaways.controllers', [])
             })
 
         }
+
+        $scope.$watch("c.userInfo.data",function(){
+            if($scope.c.userInfo !=undefined && $scope.c.userInfo.data !=undefined)
+            {
+                $timeout.cancel($scope.lazyTimeout)
+                $scope.lazyTimeout =  $timeout($scope.loadGiveaway,200)
+            }
+        },true)
         $scope.loadGiveaway()
 
         $scope.likePost = function()
