@@ -45,14 +45,11 @@ angular.module('giveaways.controllers', [])
 
         $scope.c.pushState = function(state,href)
         {
-
             location.href=state
             setTimeout(function()
             {
                 location.href=$scope.$eval('"'+href+'"',$scope)
-            },0)
-            location.href=$scope.$eval('"'+href+'"',$scope)
-            //$rootScope.$broadcast('state:'+state,{href:$scope.$eval('"'+href+'"',$scope)});
+            },100)
         }
 
 //        $scope.c.openBoost = function(event,giveaway) {
@@ -481,7 +478,15 @@ angular.module('giveaways.controllers', [])
                                             {
                                                 $scope.c.submit.followed=true
                                                 $scope.c.submit.done = true
+                                            },function(error)
+                                            {
+                                                $scope.c.hideLoading()
+                                                $scope.c.notifyErr(error.data.code || error.data.meta.code )
                                             })
+                                        },function(error)
+                                        {
+                                            $scope.c.hideLoading()
+                                            $scope.c.notifyErr(error.data.code || error.data.meta.code )
                                         })
                                     }
                                 }
