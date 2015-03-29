@@ -51,34 +51,34 @@
     <!-- Right menu -->
     <ion-side-menu side="right">
         <div class="list">
-            <a class="item item-avatar item-icon-right positive">
+            <div class="item item-avatar item-icon-right positive">
                <img src="{{c.userInstagram.data.profile_picture}}">
                 <h2>{{c.userInstagram.data.username}}</h2>
                 <p>My profile</p>
 
 
-            </a>
+            </div>
             <div class="item item-text-wrap light-bg  dark" style="font-style: italic;">
                 <button class="button button-block button-positive icon-left flaticon-box84" ng-click="c.submit_giveaway()">Create Wanna Win</button>
 
             </div>
             <div class="item">
-                Created Wanna Wins
+                <span class="item-note">Created Wanna Wins</span>
                 <span class="item-note">{{c.userInfo.data.giveaways.length}}</span>
             </div>
 
             <div class="item">
-                Joined Wanna Wins
+                <span class="item-note">Joined Wanna Wins</span>
                 <span class="item-note">{{c.userInfo.data.participating.length}}</span>
             </div>
 
             <div class="item">
-                Total reposts
+                <span class="item-note">Total reposts</span>
                 <span class="item-note">{{reposts}}</span>
             </div>
 
             <div class="item ">
-                Winned Wanna Wins
+                <span class="item-note">Winned Wanna Wins</span>
                 <span class="item-note">{{wins}}</span>
             </div>
 

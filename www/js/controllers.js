@@ -897,14 +897,13 @@ angular.module('giveaways.controllers', [])
 
         $scope.refreshGiveaway = function()
         {
-            var type = $scope.post.giveaway.type
             $scope.post.giveaway= server.getGiveaway.get({HashtagID:giveawayDecor.filterPosts($scope.post)}).$promise.then(
                 function(giveaway)
                 {
                     $scope.c.hideLoading()
                     $scope.loadingFadeIn = true
                     $scope.post.giveaway = giveaway.data[0]
-                    $scope.post.giveaway.type=type
+                    $scope.post.giveaway.type=giveawayDecor.getType($scope.post,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
                     $scope.$broadcast('scroll.refreshComplete');
                 }
                 ,function(error)
