@@ -69,6 +69,9 @@ angular.module('giveaways.controllers', [])
                 case -1:
                     message = "You should have at least "+$scope.c.followersNeeded+" followers."
                     break;
+                case -2:
+                    message = "No instagram app found."
+                    break;
                 case 10:
                     message = "WW not exists. Sorry :("
                     break;
@@ -310,7 +313,7 @@ angular.module('giveaways.controllers', [])
                 ).then(function() {
                         $scope.shareClicked = true
                     }, function(err) {
-                        console.log("Instagram error:"+JSON.stringify(err))
+                        $scope.c.notifyErr(-2)
                     });
             }
             $scope.c.submit.create = function()

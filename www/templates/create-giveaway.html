@@ -3,7 +3,7 @@
 
             <button class="button button-icon icon ion-ios-close-empty light" ng-click="c.submit.close()"></button>
             <div class="h1 title light" ng-bind="{true:'JOIN WANNA WIN', false:'CREATE WANNA WIN'}[c.submit.post!=undefined]"></div>
-            <button class="button icon-right ion-chevron-right button-clear button-energized" ng-disabled="stepDisabled" ng-show="c.submit.active_slide!=2 && shareClicked" ng-click="c.submit.nextStep()">NEXT</button>
+            <button class="button icon-right ion-chevron-right button-clear button-energized" ng-disabled="stepDisabled" ng-show="c.submit.active_slide!=2" ng-click="c.submit.nextStep()">NEXT</button>
 
     </ion-header-bar >
     <ion-content  class="has-header">
