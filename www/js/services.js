@@ -466,6 +466,35 @@ angular.module('giveaways.services', ['ngResource'])
 
                 return "ww"+concat.toString(36)
             },
+            getType: function(post, myGiveaways,participatingGiveaways)
+            {
+                /*
+                 * On demand calculation
+                 * */
+                //if(myGiveaways.length != __myGiveaways.length)
+                //{
+                __myGiveaways = myGiveaways
+                __myGiveawaysHashtags = getHashtags(myGiveaways)
+                //}
+
+                //if(participatingGiveaways.length != __participatingGiveaways.length)
+                //{
+                __participatingGiveaways = participatingGiveaways
+                __participatingHashtags = getHashtags(participatingGiveaways)
+                //}
+                var inMyGiveawaysHashtags = intersectionHashes(post.tags.sort(), __myGiveawaysHashtags)
+                if(inMyGiveawaysHashtags.length>0)
+                {
+                    return "owner"
+                }
+
+                var inParticipatingGiveawaysHashtags = intersectionHashes(post.tags.sort(), __participatingHashtags)
+                if(inParticipatingGiveawaysHashtags.length>0)
+                {
+                    return "participating"
+                }
+                return "unjoined";
+            },
             decoratePost: function (post, myGiveaways,participatingGiveaways) {
 
                 /*

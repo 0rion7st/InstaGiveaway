@@ -250,16 +250,7 @@ angular.module('giveaways.controllers', [])
             var email = {
                 to: 'wannawin.help@gmail.com',
                 subject: 'Help request from '+$scope.c.userInstagram.data.username,
-                body: "Hi there!<br> <b>Issue:</b><br><i>Type here...</i><br><br><small>Technical info(please do not delete it):<br>" +
-                    "<b>WannaWin:</b> <img style='width:100%;' src='"+giveawayImageSrc+"' /><br>"+
-                    "<b>WannaWin mediaId:</b> "+giveAwayMediaId+"<br>"+
-                    "<b>WannaWin author:</b> "+giveAwayAuthor+"<br>"+
-                    "<b>Sender cordova:</b> "+cordova+"<br>"+
-                    "<b>Sender model:</b> "+model+"<br>"+
-                    "<b>Sender platform:</b> "+platform+"<br>"+
-                    "<b>Sender uuid:</b> "+uuid+"<br>"+
-                    "<b>Sender version:</b> "+version+"<br>"+
-                    "<small>"+(new Date())+"</small></small>",
+                body: "<small>"+(new Date())+"</small></small>",
                 isHtml: true
             };
 
@@ -703,7 +694,7 @@ angular.module('giveaways.controllers', [])
                             if ($scope.showedTags.indexOf(giveaway.hashtag) == -1) {
                                 $scope.showedTags.push(giveaway.hashtag)
                                 data.data.giveaway = giveaway
-                                data.data.giveaway.type = "unjoined"
+                                data.data.giveaway.type = giveawayDecor.getType(post,$scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
                                 data.data.giveawayHashtag = giveaway.hashtag
                                 data.data.giveaway.new = (data.data.caption && profile.getLatestTime()*1<data.data.caption.created_time*1)
                                 $scope.feed.data.push(data.data)
@@ -899,7 +890,7 @@ angular.module('giveaways.controllers', [])
 
     })
 
-    .controller('GiveAwayDetailCtrl', function($scope,server, $stateParams,post,instagram,giveawayDecor,$ionicHistory,$interval,$cordovaGoogleAnalytics) {
+    .controller('GiveAwayDetailCtrl', function($scope,server, $stateParams,post,instagram,giveawayDecor,$ionicHistory,$interval,$cordovaGoogleAnalytics,$timeout) {
         $cordovaGoogleAnalytics.trackView('Details');
         $scope.c.showLoading()
         $scope.loadingFadeIn = true
