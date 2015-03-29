@@ -10,33 +10,51 @@
         <ion-slide-box show-pager="false" active-slide="c.submit.active_slide">
             <ion-slide>
                 <div class="item dark light-border" style="text-align: center; border: 0">
-                    <h2>Wanna win you liked</h2>
+
+                    <div class="list">
+
+                        <label class="item item-input item-select" style="border:0;">
+                            <div class="input-label">
+                                Wanna win ends in
+                            </div>
+                            <select ng-model="c.submit.days">
+                                <option value="1">1 day</option>
+                                <option value="3">3 days</option>
+                                <option value="7">7 days</option>
+                                <option value="14">14 days</option>
+                            </select>
+                        </label>
+                    </div>
+
                 </div>
                 <div class="item item-image" style="border: 0">
 
                     <canvas id="giveaway_canvas" class="loading-bg"></canvas>
                     <p ng-if="c.submit.type!='new'">Click next</p>
-                    <button ng-if="c.submit.type=='new'" class="button button-block button-positive icon-left ion-camera" ng-click="c.submit.selectImage()">Select different image</button>
+                    <br/>
+                    <button ng-if="c.submit.type=='new'" class="button button-outline button-positive icon-left ion-camera" ng-click="c.submit.selectImage()">Select different image</button>
                 </div>
-                <div class="item" ng-if="c.submit.type=='new'" style="text-align: center; border: 0">
+                <div class="item" ng-if="c.submit.type=='new'" style="border: 0">
                     <h2>Select sticker</h2>
                 </div>
                 <ion-scroll direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;" ng-if="c.submit.type=='new'">
-                    <img src="img/ribbons/ribbon_01.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(1)"/>
-                    <img src="img/ribbons/ribbon_02.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(2)"/>
-                    <img src="img/ribbons/ribbon_03.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(3)"/>
-                    <img src="img/ribbons/ribbon_04.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(4)"/>
-                    <img src="img/ribbons/ribbon_05.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(5)" />
-                    <img src="img/ribbons/ribbon_06.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(6)"/>
-                    <img src="img/ribbons/ribbon_07.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(7)" />
-                    <img src="img/ribbons/ribbon_08.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(8)"/>
+                <img src="img/ribbons/ribbon_01.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(1)"/>
+                <img src="img/ribbons/ribbon_02.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(2)"/>
+                <img src="img/ribbons/ribbon_03.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(3)"/>
+                <img src="img/ribbons/ribbon_04.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(4)"/>
+                <img src="img/ribbons/ribbon_05.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(5)" />
+                <img src="img/ribbons/ribbon_06.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(6)"/>
+                <img src="img/ribbons/ribbon_07.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(7)" />
+                <img src="img/ribbons/ribbon_08.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(8)"/>
                 </ion-scroll>
+
+
             </ion-slide>
+
             <ion-slide>
                 <div class="item dark light-border item-text-wrap " style="text-align: center; border: 0">
                     <h2>Share and come back!</h2>
                     <img src="img/image_03.png" alt="" style="max-width: 100%;"/>
-
                     <p>Hashtag of this wanna win: <b>#{{c.submit.hashtag}}</b> do not delete it!</p>
                     <button class="button button-block button-positive" ng-click="c.submit.share()">SHARE ON INSTAGRAM</button>
                     <small>And then click next</small>
@@ -83,38 +101,6 @@
                     <div class="item item-image" style="border:0;">
                         <h2>You wanna win almost ready!</h2>
                         <img src="img/image_04.png" alt="" style="max-width: 100%;"/>
-
-                    </div>
-                    <div class="list">
-                        <h2>Wanna win ends in:</h2>
-                        <label class="item item-radio">
-                            <input type="radio" ng-model="c.submit.days" checked value="1">
-                            <div class="item-content">
-                               1 day
-                            </div>
-                            <i class="radio-icon balanced ion-checkmark"></i>
-                        </label>
-                        <label class="item item-radio">
-                            <input type="radio" ng-model="c.submit.days" value="3">
-                            <div class="item-content">
-                                3 days
-                            </div>
-                            <i class="radio-icon balanced ion-checkmark"></i>
-                        </label>
-                        <label class="item item-radio">
-                            <input type="radio" ng-model="c.submit.days" value="7">
-                            <div class="item-content">
-                                7 days
-                            </div>
-                            <i class="radio-icon balanced ion-checkmark"></i>
-                        </label>
-                        <label class="item item-radio">
-                            <input type="radio" ng-model="c.submit.days" value="14">
-                            <div class="item-content">
-                               14 days
-                            </div>
-                            <i class="radio-icon balanced ion-checkmark"></i>
-                        </label>
 
                     </div>
                 </div>

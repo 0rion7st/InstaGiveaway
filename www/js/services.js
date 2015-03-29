@@ -240,7 +240,7 @@ angular.module('giveaways.services', ['ngResource'])
                 }
                 else {
                     console.log("eula: GET")
-                    return window.localStorage.getItem("eula") || false
+                    return window.localStorage.getItem("eula") || true //@TODO: Find out if we need it false
                 }
 
             },
@@ -459,15 +459,12 @@ angular.module('giveaways.services', ['ngResource'])
             }
         }
         return {
-            generateHashTag : function()
+            generateHashTag : function(days,userId)
             {
-                var text = "";
-                var possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+                var expire = (new Date()).getTime()+days*1000*60*60*24;
+                var concat = parseInt(expire + "" + userId.toString().slice(-3))
 
-                for( var i=0; i < 8; i++ )
-                    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-                return "ww"+text
+                return "ww"+concat.toString(36)
             },
             decoratePost: function (post, myGiveaways,participatingGiveaways) {
 
@@ -510,7 +507,7 @@ angular.module('giveaways.services', ['ngResource'])
                  */
                 function coreValidation(hashtag)
                 {
-                    return hashtag.substr(0, 2).toLowerCase()=="ww" &&  hashtag.length==10
+                    return hashtag.substr(0, 2).toLowerCase()=="ww" &&  hashtag.length==12
                 }
                 if(post.tags.length==0)
                 {

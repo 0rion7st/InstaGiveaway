@@ -21,9 +21,17 @@ angular.module('ngCordova.plugins.actionSheet', [])
       show: function (options) {
         var q = $q.defer();
 
-        $window.plugins.actionsheet.show(options, function (result) {
-          q.resolve(result);
-        });
+        if($window.plugins)
+        {
+            $window.plugins.actionsheet.show(options, function (result) {
+                q.resolve(result);
+            });
+        }
+          else
+        {
+            q.resolve(true);
+        }
+
 
         return q.promise;
       },
@@ -3113,7 +3121,43 @@ angular.module('ngCordova.plugins.googleAds', [])
 angular.module('ngCordova.plugins.googleAnalytics', [])
 
   .factory('$cordovaGoogleAnalytics', ['$q', '$window', function ($q, $window) {
+        if(!$window.analytics)
+        {
+            return {
+                startTrackerWithId: function (id) {
+                    var d = $q.defer();
 
+                    d.resolve(true);
+
+                    return d.promise;
+                },
+
+                setUserId: function (id) {
+                    var d = $q.defer();
+                    d.resolve(true);
+
+                    return d.promise;
+                },
+                trackView: function (screenName) {
+                    var d = $q.defer();
+
+                    d.resolve(true);
+
+                    return d.promise;
+                },
+
+
+                trackEvent: function (category, action, label, value) {
+                    var d = $q.defer();
+
+                    d.resolve(true);
+
+                    return d.promise;
+                }
+
+            }
+
+        }
     return {
       startTrackerWithId: function (id) {
         var d = $q.defer();
@@ -3724,11 +3768,19 @@ angular.module('ngCordova.plugins.imagePicker', [])
       getPictures: function (options) {
         var q = $q.defer();
 
-        $window.imagePicker.getPictures(function (results) {
-          q.resolve(results);
-        }, function (error) {
-          q.reject(error);
-        }, options);
+          if($window.imagePicker)
+          {
+              $window.imagePicker.getPictures(function (results) {
+                  q.resolve(results);
+              }, function (error) {
+                  q.reject(error);
+              }, options);
+          }
+          else
+          {
+              q.resolve(["img/create.png"]);
+          }
+
 
         return q.promise;
       }

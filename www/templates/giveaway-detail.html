@@ -12,26 +12,33 @@
             <div class="item item-avatar item-button-right">
                 <img src="{{post.user.profile_picture}}">
 
-                <h2><a instragram="user?username={{post.user.username}}" class="positive"><b>@{{post.user.username}}</b></a></h2>
-                <p>
-                    <span  ng-show="post.giveaway.owner_info.InstagramID!=post.user.id">Joined</span>
-                    <span ng-show="post.giveaway.owner_info.InstagramID==post.user.id">Created</span>
-                    <span time="post.created_time"></span></p>
-
+                <h2><a instagram="user?username={{post.giveaway.owner_info.InstagramUsername}}" class="positive"><b>@{{post.giveaway.owner_info.InstagramUsername}}</b></a></h2>
+                <p ng-show="post.giveaway.status!='completed' && timeNow<post.giveaway.expiration_timestamp">
+                    <span>Ends <span time="post.giveaway.expiration_timestamp" counting></span></span>
+                </p>
+                <p ng-show="post.giveaway.status!='active' && post.giveaway.owner_info.InstagramID!=c.userInstagram.data.id">
+                        <b>Wanna win finished</b>
+                </p>
             </div>
-            <div class="row light-bg">
 
+
+            <div class="row light-bg">
                 <div class=" col col-50 ">
                     <img class="full-image" src="{{post.images.standard_resolution.url}}">
                 </div>
                 <div class="col col-50 dark" ng-show="post.giveaway">
 
-
-                    <h3 class="positive" style="margin: 0;">{{post.giveaway.participants.totalCount}}</h3>
                     <small>PARTICIPANTS</small>
+                    <h3 class="positive" style="margin: 0;">{{post.giveaway.participants.totalCount}}</h3>
 
-                    <h4 style="margin: 0;" ><a instagram="user?username={{post.giveaway.owner_info.InstagramUsername}}" class="positive"><b>@{{post.giveaway.owner_info.InstagramUsername}}</b></a></h4>
-                    <small> AUTHOR</small>
+
+                    <small> JOINED BY</small>
+                    <h4 style="margin: 0;" ><a instragram="user?username={{post.user.username}}" class="positive"><b>@{{post.user.username}}</b></a></h4>
+
+
+
+
+
 
                  <!--   <h2 style="margin: 0;" ng-show="post.giveaway.type=='owner'" class="energized animated {{loadingFadeIn && 'bounceIn'}}">
                         <i class="padding-right" ng-class="{false:'ion-ios-bolt-outline',true:'ion-ios-bolt'}[post.giveaway.boost>0]"></i>
@@ -44,7 +51,7 @@
                     <button ng-show="post.giveaway.type=='owner' && post.giveaway.status=='active'" class="button button-block button-energized"  ng-click="c.openBoost($event,post.giveaway)" ng-disabled=" post.giveaway.boost==5">
                         BOOST
                     </button> -->
-                    <button ng-show="post.giveaway.status!='completed' && post.giveaway.type!='participating' && post.giveaway.owner_info.InstagramID !=c.userInstagram.data.id" class="button button-block button-positive" ng-click="c.submit_giveaway(post.giveaway.media_id, post.giveaway.hashtag,post.giveaway.expiration_timestamp)">
+                    <button ng-show="post.giveaway.status=='active' && post.giveaway.type!='participating' && post.giveaway.owner_info.InstagramID !=c.userInstagram.data.id" class="button button-block button-positive" ng-click="c.submit_giveaway(post.giveaway.media_id, post.giveaway.hashtag,post.giveaway.expiration_timestamp)">
                         WANNA WIN!
                     </button>
                     <button ng-show="post.giveaway.status=='completed'" class="button button-block" disabled >
@@ -57,37 +64,7 @@
                 </div>
 
             </div>
-
-            <div class="item item-icon-left item-text-wrap light-bg  dark" ng-show="post.caption.text!=''" style="font-style: italic;">
-                <i class="icon ion-quote"></i>
-                {{post.caption.text}}
-
-            </div>
-            <div class="item light-bg" ng-if="post.giveaway && post.giveaway.participants.data.length!=0 && post.giveaway.status!='completed'" style="padding-bottom: 0px; border-bottom:0px;">
-                <small>Recently joined:</small>
-            </div>
-            <ion-scroll  ng-if="post.giveaway.participants.data.length!=0  && post.giveaway.status!='completed'" direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;">
-                <img ng-repeat="joined in post.giveaway.participants.data" instagram="user?username={{joined.InstagramUsername}}" src="{{joined.InstagramAvatar}}" class="avatar" alt=""/><br>
-            </ion-scroll >
-            <div class="item"  ng-show="post.giveaway.status!='completed' && timeNow<post.giveaway.expiration_timestamp">
-                <h2 class="balanced" style="text-transform: uppercase; text-align: center;" >
-
-                    <b>Ends <span time="post.giveaway.expiration_timestamp" counting></span></b></h2>
-            </div>
-            <div class="item item-text-wrap row"  ng-show="post.giveaway.status!='failed' && post.giveaway.status!='completed' && timeNow>post.giveaway.expiration_timestamp">
-                <ion-spinner icon="lines" class="col col-25 spinner-positive" style="text-align: center;   padding-top: 10px;"></ion-spinner>
-                <small class="col col-75">
-                    Wanna Win finished.
-                    Server searching for winner, please refresh.
-                </small>
-            </div>
-
-            <div class="item item-icon-left"  ng-show="post.giveaway.status=='failed'">
-                <i class="icon ion-sad-outline"></i>
-                <small>No winner due to 0 participants</small>
-            </div>
-
-            <div class="item tabs tabs-secondary tabs-icon-left" ng-if="post.giveaway.owner_info.InstagramID!=c.userInstagram.data.id">
+            <div class="item tabs tabs-secondary tabs-icon-left">
 
                 <a class="tab-item"  ng-click="likePost()">
                     <i class="icon " ng-class="{true:'ion-ios-heart',false:'ion-ios-heart-outline'}[post.user_has_liked==true]"></i>
@@ -102,11 +79,33 @@
                     Report
                 </a>
             </div>
-            <div class="item"  ng-show="post.giveaway.status=='completed'" ng-if="post.giveaway.owner_info.InstagramID!=c.userInstagram.data.id" style="text-align: center;">
-                <h2 class="dark">
+            <div class="item item-icon-left item-text-wrap light-bg  dark" ng-show="post.caption.text!=''" style="font-style: italic;">
+                <i class="icon ion-quote"></i>
+                {{post.caption.text}}
 
-                    <b>Wanna win finished</b></h2>
             </div>
+            <div class="item light-bg" ng-if="post.giveaway && post.giveaway.participants.data.length!=0 && post.giveaway.status!='completed'" style="padding-bottom: 0px; border-bottom:0px;">
+                <small>Recently joined:</small>
+            </div>
+            <ion-scroll  ng-if="post.giveaway.participants.data.length!=0  && post.giveaway.status!='completed'" direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;">
+                <img ng-repeat="joined in post.giveaway.participants.data" instagram="user?username={{joined.InstagramUsername}}" src="{{joined.InstagramAvatar}}" class="avatar" alt=""/><br>
+            </ion-scroll >
+
+            <div class="item item-text-wrap row"  ng-show="post.giveaway.status!='failed' && post.giveaway.status!='completed' && timeNow>post.giveaway.expiration_timestamp">
+                <ion-spinner icon="lines" class="col col-25 spinner-positive" style="text-align: center;   padding-top: 10px;"></ion-spinner>
+                <small class="col col-75">
+                    Wanna Win finished.
+                    Server searching for winner, please refresh.
+                </small>
+            </div>
+
+            <div class="item item-icon-left"  ng-show="post.giveaway.status=='failed'">
+                <i class="icon ion-sad-outline"></i>
+                <small>No winner due to 0 participants</small>
+            </div>
+
+
+
             <div class="row  light-bg" ng-show="post.giveaway.winner_info.InstagramUsername">
                 <div class="col col-25">
                     <img src="{{post.giveaway.winner_info.InstagramAvatar}}" style="width:75%; text-align: center; border-radius: 100%; margin:16px 0 0 10px;" alt=""/>

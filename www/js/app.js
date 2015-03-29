@@ -48,6 +48,12 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
 
                 $scope.$watch("mediaImageLink",function()
                 {
+                    if($scope.giveawayHashtag !="")
+                    {
+                        $scope.expire = Math.floor(parseInt($scope.giveawayHashtag.slice(2),36).toString().slice(0,-3)/1000)
+                        if($scope.expire< ((new Date()).getTime()/1000))
+                            $scope.expire =-1
+                    }
                     if($scope.mediaImageLink!="")
                     {
                         var img = new Image()
@@ -193,9 +199,9 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 }
             })
             .state('tab.giveaways', {
-                url: '/giveaways',
+                url: '/profile/giveaways',
                 views: {
-                    'tab-giveaways': {
+                    'tab-profile': {
                         templateUrl: 'templates/tab-giveaways.html',
                         controller: 'MyGiveawaysCtrl'
                     }
@@ -210,11 +216,28 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                     }
                 }
             })
-
-            .state('tab.feed-collection', {
-                url: '/feed/collection/:collection',
+            .state('tab.popular', {
+                url: '/popular',
                 views: {
-                    'tab-feed': {
+                    'tab-popular': {
+                        templateUrl: 'templates/collection.html',
+                        controller: 'CollectionCtrl'
+
+                    }
+                },
+                resolve: {
+
+                    collection: function (server) {
+                        return server.getCollection.get({Categories: "Most Popular"})
+                    }
+                }
+
+
+            })
+            .state('tab.popular-collection', {
+                url: '/popular/collection/:collection',
+                views: {
+                    'tab-popular': {
                         templateUrl: 'templates/collection.html',
                         controller: 'CollectionCtrl'
                     }
@@ -263,9 +286,9 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 }
             })
             .state('tab.giveaways-giveaway-details', {
-                url: '/giveaways/giveaway/:media_id',
+                url: '/profile/giveaways/giveaway/:media_id',
                 views: {
-                    'tab-giveaways': {
+                    'tab-profile': {
                         templateUrl: 'templates/giveaway-detail.html',
                         controller: 'GiveAwayDetailCtrl'
                     }
@@ -278,7 +301,22 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
 
                 }
             })
+            .state('tab.popular-giveaway-details', {
+                url: '/popular/giveaway/:media_id',
+                views: {
+                    'tab-popular': {
+                        templateUrl: 'templates/giveaway-detail.html',
+                        controller: 'GiveAwayDetailCtrl'
+                    }
+                },
+                resolve: {
 
+                    post: function (instagram,$stateParams) {
+                        return instagram.media.get({action:$stateParams.media_id})
+                    }
+
+                }
+            })
 
             .state('tab.feed-user-giveaways', {
                 url: '/feed/user/:userid',
@@ -299,15 +337,23 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 }
             })
             .state('tab.giveaways-user-giveaways', {
-                url: '/giveaways/user/:userid',
+                url: '/profile/giveaways/user/:userid',
                 views: {
-                    'tab-giveaways': {
+                    'tab-profile': {
                         templateUrl: 'templates/user-feed.html',
                         controller: 'UserPostsCtrl'
                     }
                 }
             })
-
+            .state('tab.popular-user-giveaways', {
+                url: '/popular/user/:userid',
+                views: {
+                    'tab-popular': {
+                        templateUrl: 'templates/user-feed.html',
+                        controller: 'UserPostsCtrl'
+                    }
+                }
+            })
 
 
         // if none of the above states are matched, use this as the fallback

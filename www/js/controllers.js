@@ -2,7 +2,7 @@ angular.module('giveaways.controllers', [])
 
     .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, $location,$ionicModal,$cordovaOauth,$cordovaInstagram,$cordovaGoogleAnalytics,$state,registerNotifications,$cordovaDevice,$rootScope,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout,$ionicPopover ) {
         $scope.c={}
-        $scope.c.followersNeeded = 15
+        $scope.c.followersNeeded = 1
         $scope.c.refreshTimeStamp=-1
         $scope.c.refreshPeriod=30
         registerNotifications()
@@ -308,7 +308,7 @@ angular.module('giveaways.controllers', [])
                     caption+=" repost of @"+$scope.c.submit.author.username
                 }
                 $cordovaInstagram.share(
-                    {image:document.getElementById("giveaway_canvas").toDataURL("image/jpeg"),
+                    {image:$scope.c.submit.imagedata,
                     caption:caption}
                 ).then(function() {
                         $scope.shareClicked = true
@@ -369,6 +369,7 @@ angular.module('giveaways.controllers', [])
             $scope.c.submit.showModal = function()
             {
                 $scope.shareClicked = true
+                $scope.c.submit.days = 1
                 $ionicModal.fromTemplateUrl('templates/create-giveaway.html', {
                     scope: $scope,
                     animation: 'slide-in-up',
@@ -386,19 +387,11 @@ angular.module('giveaways.controllers', [])
                         $ionicSlideBoxDelegate.next();
                         if($scope.c.submit.active_slide==0)
                         {
-                            var canvas=document.getElementById("giveaway_canvas")
-                            var imgData=canvas.toDataURL("image/jpeg");
-                            previewStorage.setPreview($scope.c.submit.hashtag,imgData, function(fileURI)
+                            $scope.c.submit.imagedata = document.getElementById("giveaway_canvas").toDataURL("image/jpeg")
+                            if($scope.c.submit.type=="new")
                             {
-                                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-                                    $scope.c.submit.storedURI = fileSystem.root.nativeURL + fileURI
-                                })
-
-                            },function(error)
-                            {
-
-                            })
-                            $scope.shareClicked = false
+                                $scope.c.submit.hashtag = giveawayDecor.generateHashTag($scope.c.submit.days,profile.instagram_id())
+                            }
                         }
                         else if($scope.c.submit.active_slide==1)
                         {
@@ -412,7 +405,6 @@ angular.module('giveaways.controllers', [])
                                     if($scope.c.submit.media_id==undefined)
                                     {
                                         $scope.c.submit.media_id = data.data[0].id
-                                        $scope.c.submit.days = 1
                                         $scope.c.submit.done = true
                                     }
                                     else
@@ -461,7 +453,6 @@ angular.module('giveaways.controllers', [])
                             $scope.c.submit.showModal()
                         else
                             $scope.c.submit.fillCanvas()
-                        $scope.c.submit.hashtag = giveawayDecor.generateHashTag()
                         $scope.c.submit.type='new'
                     }, function(error) {
                         // error getting photos
@@ -938,6 +929,7 @@ angular.module('giveaways.controllers', [])
             {
                 $scope.c.hideLike()
                 $scope.post.user_has_liked = true
+                $scope.post.likes.count++
             })
         }
 

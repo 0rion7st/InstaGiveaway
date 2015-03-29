@@ -3,6 +3,10 @@
     <ion-content class="content-bg">
 
         <ion-list>
+            <div class="giveaway " style="font-style: italic;">
+                <button class="button button-block button-positive" ng-click="c.submit_giveaway()">Create Wanna Win</button>
+
+            </div>
             <div ng-hide="giveaways!=undefined" class="giveaway" style="opacity: 0.7;">
                 <div class="item item-text-wrap">
                     <i class="flaticon-birthday19"></i>
@@ -19,7 +23,7 @@
                       user-link="feed"
                       media-image-link="post.images.standard_resolution.url"
                       username="{{post.user.username || post.username}}"
-                      path="#/tab/giveaways" layout="{{layout}}">
+                      path="#/tab/profile/giveaways" layout="{{layout}}">
             </giveaway>
             <div class="giveaway owner">
                 <div class="item item-avatar">
