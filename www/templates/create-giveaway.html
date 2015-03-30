@@ -9,13 +9,13 @@
     <ion-content  class="has-header" has-bouncing="false">
         <ion-slide-box show-pager="false" active-slide="c.submit.active_slide">
             <ion-slide>
-                <div class="item dark item-borderless" style="text-align: center; border: 0" ng-if="c.submit.type=='new'">
+                <div style="text-align: center; border: 0" ng-if="c.submit.type=='new'">
 
                     <div class="list">
 
                         <label class="item item-input item-select item-icon-left" style="border:0;">
                             <div class="input-label positive">
-                                Wanna Win ends in
+                                <b>Wanna Win ends in</b>
                             </div>
                             <select ng-model="c.submit.days" style="font-weight:bold;">
                                 <option value="1">1 day</option>
@@ -27,15 +27,12 @@
                     </div>
 
                 </div>
-                <div class="item item-image item-borderless" style="border: 0">
+                <div class="item item-image item-borderless" style="border: 0; text-align: left;">
 
                     <canvas id="giveaway_canvas" class="loading-bg"></canvas>
                     <p ng-if="c.submit.type!='new'">Click next</p>
                     <br/>
-                    <button ng-if="c.submit.type=='new'" class="button button-clear button-positive icon-left ion-camera" ng-click="c.submit.selectImage()">Select different image</button>
-                </div>
-                <div class="item item-borderless" ng-if="c.submit.type=='new'" style="border: 0">
-                    <h2 class="positive">Select sticker</h2>
+                    <button ng-if="c.submit.type=='new'" class="button icon ion-camera cam-btn" ng-click="c.submit.selectImage()" ></button>
                 </div>
                 <ion-scroll direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;" ng-if="c.submit.type=='new'">
                     <img src="img/ribbons/ribbon_01.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(1)"/>
