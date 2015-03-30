@@ -364,8 +364,9 @@ angular.module('giveaways.controllers', [])
                e.preventDefault()
             }
 
-            function reDraw()
+            function reDraw(final)
             {
+                final = final || false
                 var canvas=document.getElementById("giveaway_canvas");
                 var ctx=canvas.getContext("2d");
                 var r = $scope.c.submit.selectedImage.width/$scope.c.submit.selectedImage.height
@@ -377,7 +378,7 @@ angular.module('giveaways.controllers', [])
                 {
                     ctx.drawImage($scope.c.submit.selectedImage,canvas.dist.x+canvas.offset.x,canvas.dist.y+canvas.offset.y, 640,640/r);
                 }
-                if($scope.c.submit.type=="new")
+                if($scope.c.submit.type=="new" && !final)
                 {
                     ctx.drawImage($scope.c.submit.cropFrame,0,0 ,$scope.c.submit.cropFrame.width, $scope.c.submit.cropFrame.height);
                 }
@@ -548,6 +549,7 @@ angular.module('giveaways.controllers', [])
                         $ionicSlideBoxDelegate.next();
                         if($scope.c.submit.active_slide==0)
                         {
+                            reDraw(true)
                             $scope.c.submit.imagedata = document.getElementById("giveaway_canvas").toDataURL("image/jpeg")
                             if($scope.c.submit.type=="new")
                             {
@@ -563,6 +565,7 @@ angular.module('giveaways.controllers', [])
                                 $scope.c.hideLoading()
                                 if(foundMatches>0)
                                 {
+
                                     if($scope.c.submit.media_id==undefined)
                                     {
                                         $scope.c.submit.media_id = data.data[0].id
@@ -1105,12 +1108,12 @@ angular.module('giveaways.controllers', [])
             })
 
         }
-
         $scope.$watch("c.userInfo.data",function(){
+
             if($scope.c.userInfo !=undefined && $scope.c.userInfo.data !=undefined)
             {
                 $timeout.cancel($scope.lazyTimeout)
-                $scope.lazyTimeout =  $timeout($scope.loadGiveaway,200)
+                $scope.lazyTimeout =  $timeout($scope.refreshGiveaway,200)
             }
         },true)
         $scope.loadGiveaway()
