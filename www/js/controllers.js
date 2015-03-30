@@ -302,37 +302,145 @@ angular.module('giveaways.controllers', [])
             }
             $scope.c.submit={}
             $scope.c.submit.ribbon=1
+             function touchStart(e){
+                 var canvas=document.getElementById("giveaway_canvas");
+                 var touchobj = e.changedTouches[0]
+                 canvas.start = {x: parseInt(touchobj.clientX),y: parseInt(touchobj.clientY)}
+
+                e.preventDefault()
+            }
+
+            function touchMove(e){
+                var canvas=document.getElementById("giveaway_canvas");
+                var touchobj = e.changedTouches[0] // reference first touch point for this event
+                var r = $scope.c.submit.selectedImage.width/$scope.c.submit.selectedImage.height
+                var width= 640
+                var height = 640
+                if(r>1)
+                {
+                    width = width*r
+                }
+                else
+                {
+                    height = height/r
+                }
+                canvas.dist = {x: parseInt(touchobj.clientX) - canvas.start.x,y: parseInt(touchobj.clientY) - canvas.start.y}
+                var finalX = canvas.offset.x + canvas.dist.x
+                var finalY = canvas.offset.y + canvas.dist.y
+                if(finalX>0)
+                {
+                    canvas.dist.x = 0
+                    canvas.offset.x = 0
+                }
+
+                if(finalY>0)
+                {
+                    canvas.dist.y = 0
+                    canvas.offset.y = 0
+                }
+
+                if(finalX+width<640)
+                {
+                    canvas.dist.x = 0
+                    canvas.offset.x =640 - width
+                }
+
+                if(finalY+height<640)
+                {
+                    canvas.dist.y = 0
+                    canvas.offset.y = 640 - height
+                }
+
+
+                reDraw()
+                e.preventDefault()
+            }
+
+           function touchEnd (e){
+               var canvas=document.getElementById("giveaway_canvas");
+               var touchobj = e.changedTouches[0] // reference first touch point for this event
+               canvas.offset = {x:  canvas.offset.x + canvas.dist.x ,y: canvas.offset.y + canvas.dist.y }
+               canvas.dist = {x: 0, y: 0}
+               e.preventDefault()
+            }
+
+            function reDraw()
+            {
+                var canvas=document.getElementById("giveaway_canvas");
+                var ctx=canvas.getContext("2d");
+                var r = $scope.c.submit.selectedImage.width/$scope.c.submit.selectedImage.height
+                if(r>1)
+                {
+                    ctx.drawImage($scope.c.submit.selectedImage,canvas.dist.x+canvas.offset.x,canvas.dist.y+canvas.offset.y, 640*r, 640);
+                }
+                else
+                {
+                    ctx.drawImage($scope.c.submit.selectedImage,canvas.dist.x+canvas.offset.x,canvas.dist.y+canvas.offset.y, 640,640/r);
+                }
+                if($scope.c.submit.type=="new")
+                {
+                    ctx.drawImage($scope.c.submit.cropFrame,0,0 ,$scope.c.submit.cropFrame.width, $scope.c.submit.cropFrame.height);
+                }
+
+
+                ctx.drawImage($scope.c.submit.selectedRibon,0,0 ,$scope.c.submit.selectedRibon.width, $scope.c.submit.selectedRibon.height);
+            }
             $scope.c.submit.fillCanvas = function()
             {
                 var canvas=document.getElementById("giveaway_canvas");
+                if(canvas.start==undefined) {
+                    canvas.start ={x:0,y:0}
+                    canvas.dist = {x: 0, y: 0}
+                    canvas.offset = {x:0,y:0}
+                }
                 if($scope.c.submit.type=="new")
+                {
+                    canvas.removeEventListener('touchstart',touchStart)
+                    canvas.removeEventListener('touchmove',touchMove)
+                    canvas.removeEventListener('touchend',touchEnd)
+                    canvas.addEventListener('touchstart',touchStart)
+                    canvas.addEventListener('touchmove',touchMove)
+                    canvas.addEventListener('touchend',touchEnd)
                     canvas.className = "animated fadeOut";
+
+                    if($scope.c.submit.cropFrame ==undefined)
+                    {
+                        var crop = new Image()
+                        crop.onload=function()
+                        {
+                            $scope.c.submit.cropFrame = crop
+                        }
+                        crop.src= "img/cropFrame.png"
+                    }
+                }
+
                 var ctx=canvas.getContext("2d");
+                ctx.imageSmoothingEnabled = true;
+
                 canvas.width=640
                 canvas.height=640
                 ctx.clearRect ( 0 , 0 , canvas.width, canvas.height );
                 var img = new Image()
                 img.onload=function()
                 {
-                    var r = img.width/img.height
-                    if(r>1)
-                    {
-                        ctx.drawImage(img,0,0 ,img.height,img.height,0,0,640,640);
-                    }
-                    else
-                    {
-                        ctx.drawImage(img,0,0 ,img.width,img.width,0,0,640,640);
-                    }
+
+                    $scope.c.submit.selectedImage = img
+
 
                     if($scope.c.submit.type=="new")
                     {
                         var ribbon = new Image()
                         ribbon.onload=function()
                         {
-                            ctx.drawImage(ribbon,0,0 ,ribbon.width, ribbon.height,0,0,ribbon.width, ribbon.height);
+                            $scope.c.submit.selectedRibon = ribbon
+                            reDraw()
                             canvas.className = "animated fadeIn";
                         }
                         ribbon.src="img/ribbons/ribbon_0"+$scope.c.submit.ribbon+".png"
+                    }
+                    else
+                    {
+                        reDraw()
                     }
                     canvas.className = "animated fadeIn";
                 }
