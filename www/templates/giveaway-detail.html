@@ -10,7 +10,7 @@
         </ion-refresher>
         <div class="animated" style="opacity:0;" ng-class="loadingFadeIn && 'fadeIn'">
             <div class="item item-avatar item-button-right">
-                <img src="{{post.user.profile_picture}}">
+                <img src="{{post.giveaway.owner_info.InstagramAvatar}}">
 
                 <h2><a instagram="user?username={{post.giveaway.owner_info.InstagramUsername}}" class="positive"><b>@{{post.giveaway.owner_info.InstagramUsername}}</b></a></h2>
                 <p ng-show="post.giveaway.status!='completed' && timeNow<post.giveaway.expiration_timestamp">

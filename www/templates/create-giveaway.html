@@ -100,7 +100,10 @@
                 </div>
 
                 <div class="item item-body" style="text-align: center; border:0;">
-                    <button class="button button-large button-balanced" ng-click="c.submit.create()" ng-disabled="c.submit.done!=true" ng-bind-html="{true:'CREATE',false:'JOIN'}[c.submit.type=='new']"></button></div>
+                    <button class="button button-large button-balanced" ng-click="c.submit.doneCreate()" ng-if="c.submit.type=='new'" ng-disabled="c.submit.done!=true" >DONE</button></div>
+                    <button class="button button-large button-balanced" ng-click="c.submit.join()" ng-if="c.submit.type!='new'" ng-disabled="c.submit.done!=true" >JOIN</button></div>
+
+
             </ion-slide>
         </ion-slide-box>
     </ion-content >

@@ -42,7 +42,8 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 layout:'@',
                 userId:'@',
                 userLink:'@',
-                giveaway:'='
+                giveaway:'=',
+                description: '@'
             },
             link: function($scope,elm,attrs) {
 

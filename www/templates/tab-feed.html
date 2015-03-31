@@ -8,7 +8,7 @@
         </label>
 
 </ion-header-bar>
-<ion-view view-title="Feed v0.0.0.6">
+<ion-view view-title="Feed v0.0.0.7">
 
     <ion-content class="content-bg">
         <ion-refresher pulling-text="Pull to refresh" class="light" on-refresh="doRefresh()">
@@ -22,6 +22,7 @@
 
             <giveaway ng-repeat="post in feed.data track by $index" profile-image="{{post.user.profile_picture || post.profile_picture}}"
                       media-id="{{post.id}}"
+                      description = "{{c.getDesc(post.caption.text)}}"
                       time-left="{{post.caption.created_time}}"
                       giveaway="post.giveaway"
                       giveaway-hashtag="{{post.giveawayHashtag}}"
