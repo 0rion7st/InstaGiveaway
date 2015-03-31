@@ -392,8 +392,9 @@ angular.module('giveaways.controllers', [])
                     ctx.drawImage($scope.c.submit.cropFrame,0,0 ,$scope.c.submit.cropFrame.width, $scope.c.submit.cropFrame.height);
                 }
 
-
-                ctx.drawImage($scope.c.submit.selectedRibon,0,0 ,$scope.c.submit.selectedRibon.width, $scope.c.submit.selectedRibon.height);
+                if($scope.c.submit.type=="new" ) {
+                    ctx.drawImage($scope.c.submit.selectedRibon, 0, 0, $scope.c.submit.selectedRibon.width, $scope.c.submit.selectedRibon.height)
+                }
             }
             $scope.c.submit.fillCanvas = function()
             {
@@ -1038,6 +1039,8 @@ angular.module('giveaways.controllers', [])
 
         $scope.refreshGiveaway = function()
         {
+            if($scope.post==undefined)
+                return
              server.getGiveaway.get({HashtagID:giveawayDecor.filterPosts($scope.post)}).$promise.then(
                 function(giveaway)
                 {
