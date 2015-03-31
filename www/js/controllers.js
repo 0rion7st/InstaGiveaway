@@ -23,6 +23,8 @@ angular.module('giveaways.controllers', [])
         };
         $scope.c.getDesc = function(text)
         {
+            if(text==undefined)
+                return ""
             if(text.split('Wanna win?').length>1)
                 return text.split('Wanna win?')[0]
 
@@ -949,11 +951,11 @@ angular.module('giveaways.controllers', [])
             }
             else
             {
-
+                var query = $scope.searchQuery
                 if($scope.searchQuery.indexOf("@")!=-1)
-                    $scope.searchQuery = $scope.searchQuery.split("@")[1]
+                    query = $scope.searchQuery.split("@")[1]
 
-                var results =  instagram.users.get({user:"search",q:$scope.searchQuery}).$promise;
+                var results =  instagram.users.get({user:"search",q:query}).$promise;
                 results.then(function(data)
                 {
 
