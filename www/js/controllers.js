@@ -1024,17 +1024,18 @@ angular.module('giveaways.controllers', [])
         $cordovaGoogleAnalytics.trackView('Details');
         $scope.c.showLoading()
         $scope.loadingFadeIn = true
-
+        $scope.refreshing = false
         $scope.refreshGiveaway = function()
         {
-            if($scope.post==undefined)
+            if($scope.post==undefined || $scope.refreshing)
                 return
-
+            $scope.refreshing = true
             instagram.media.get({action:$scope.post.giveaway.media_id},function(post)
             {
                 server.getGiveaway.get({HashtagID:$scope.post.giveaway.hashtag}).$promise.then(
                     function(giveaway)
                     {
+                        $scope.refreshing = false
                         $scope.post = post.data
                         $scope.post.caption.text = $scope.c.getDesc($scope.post.caption.text)
                         $scope.post.giveaway=giveaway.data[0]
