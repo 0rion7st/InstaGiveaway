@@ -32,14 +32,6 @@
                     <h3 class="positive" style="margin: 0;">{{post.giveaway.participants.totalCount}}</h3>
 
 
-                    <small ng-if="post.giveaway.owner_info.InstagramID!=post.user.id"> JOINED BY</small>
-                    <h4  ng-if="post.giveaway.owner_info.InstagramID!=post.user.id" style="margin: 0;" ><a instragram="user?username={{post.user.username}}" class="positive"><b>@{{post.user.username}}</b></a></h4>
-
-
-
-
-
-
                  <!--   <h2 style="margin: 0;" ng-show="post.giveaway.type=='owner'" class="energized animated {{loadingFadeIn && 'bounceIn'}}">
                         <i class="padding-right" ng-class="{false:'ion-ios-bolt-outline',true:'ion-ios-bolt'}[post.giveaway.boost>0]"></i>
                         <i class="padding-right" ng-class="{false:'ion-ios-bolt-outline',true:'ion-ios-bolt'}[post.giveaway.boost>1]"></i>
@@ -128,17 +120,19 @@
             <div class="item item-avatar item-input-inset" ng-if="post.giveaway.winner_info.InstagramUsername && post.giveaway.winner_info.InstagramID!='' && post.giveaway.owner_info.InstagramID==c.userInstagram.data.id">
                 <button class="button button-positive button-block"  instagram="user?username={{post.giveaway.winner_info.InstagramUsername}}">CONTACT WINNER</button>
             </div>
+
+            <div class="item item-avatar item-text-wrap" ng-repeat="comment in post.comments.data" >
+                <img src="{{comment.from.profile_picture}}">
+                <h4 style="margin: 0;"><a instagram="user?username?id={{comment.from.username}}" class="positive"><b>@{{comment.from.username}}</b></a></h4>
+                <p>
+                    {{comment.text}}
+                </p>
+            </div>
+            <div class="item item-avatar item-input-inset" ng-show="post.comments.data &&  post.comments.data.length!=0" >
+                <button class="button button-positive button-block" instagram="media?id={{post.id}}">OPEN COMMENTS</button>
+            </div>
         </div>
-        <div class="item item-avatar item-text-wrap" ng-repeat="comment in post.comments.data">
-            <img src="{{comment.from.profile_picture}}">
-            <h4 style="margin: 0;"><a instagram="user?username?id={{comment.from.username}}" class="positive"><b>@{{comment.from.username}}</b></a></h4>
-            <p>
-                {{comment.text}}
-            </p>
-        </div>
-        <div class="item item-avatar item-input-inset" ng-show="post.comments.data &&  post.comments.data.length!=0" >
-           <button class="button button-positive button-block" instagram="media?id={{post.id}}">OPEN COMMENTS</button>
-        </div>
+
 
 
 

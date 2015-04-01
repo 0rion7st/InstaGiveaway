@@ -237,7 +237,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
             })
 
             .state('tab.feed-giveaway-details', {
-                url: '/feed/giveaway/:media_id',
+                url: '/feed/giveaway/:hashTag',
                 views: {
                     'tab-feed': {
                         templateUrl: 'templates/giveaway-detail.html',
@@ -246,8 +246,25 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 },
                 resolve: {
 
-                    post: function (instagram,$stateParams) {
-                        return instagram.media.get({action:$stateParams.media_id})
+                    giveaway: function (instagram,giveawayDecor,$stateParams,server,$ionicLoading,errorBox) {
+
+                        var giveaway = giveawayDecor.getLocalGiveaway($stateParams.hashTag)
+                        if(giveaway==undefined)
+                        {
+                            var $promise =server.getGiveaway.get({HashtagID:$stateParams.hashTag}).$promise
+                            $promise.then(function(){},function(error)
+                            {
+                                errorBox(error.data.errorCode)
+                            })
+                            return $promise
+                        }
+                        else
+                        {
+                            var wrapper = {}
+                            wrapper.data = []
+                            wrapper.data[0] = giveaway
+                           return wrapper
+                        }
                     }
 
                 }
@@ -255,7 +272,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
 
 
             .state('tab.joined-giveaway-details', {
-                url: '/joined/giveaway/:media_id',
+                url: '/joined/giveaway/:hashTag',
                 views: {
                     'tab-joined': {
                         templateUrl: 'templates/giveaway-detail.html',
@@ -264,14 +281,31 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 },
                 resolve: {
 
-                    post: function (instagram,$stateParams) {
-                        return instagram.media.get({action:$stateParams.media_id})
+                    giveaway: function (instagram,giveawayDecor,$stateParams,server,$ionicLoading,errorBox) {
+
+                        var giveaway = giveawayDecor.getLocalGiveaway($stateParams.hashTag)
+                        if(giveaway==undefined)
+                        {
+                            var $promise =server.getGiveaway.get({HashtagID:$stateParams.hashTag}).$promise
+                            $promise.then(function(){},function(error)
+                            {
+                                errorBox(error.data.errorCode)
+                            })
+                            return $promise
+                        }
+                        else
+                        {
+                            var wrapper = {}
+                            wrapper.data = []
+                            wrapper.data[0] = giveaway
+                            return wrapper
+                        }
                     }
 
                 }
             })
             .state('tab.giveaways-giveaway-details', {
-                url: '/giveaways/giveaway/:media_id',
+                url: '/giveaways/giveaway/:hashTag',
                 views: {
                     'tab-giveaways': {
                         templateUrl: 'templates/giveaway-detail.html',
@@ -280,14 +314,31 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 },
                 resolve: {
 
-                    post: function (instagram,$stateParams) {
-                        return instagram.media.get({action:$stateParams.media_id})
+                    giveaway: function (instagram,giveawayDecor,$stateParams,server,$ionicLoading,errorBox) {
+
+                        var giveaway = giveawayDecor.getLocalGiveaway($stateParams.hashTag)
+                        if(giveaway==undefined)
+                        {
+                            var $promise =server.getGiveaway.get({HashtagID:$stateParams.hashTag}).$promise
+                            $promise.then(function(){},function(error)
+                            {
+                                errorBox(error.data.errorCode)
+                            })
+                            return $promise
+                        }
+                        else
+                        {
+                            var wrapper = {}
+                            wrapper.data = []
+                            wrapper.data[0] = giveaway
+                            return wrapper
+                        }
                     }
 
                 }
             })
             .state('tab.popular-giveaway-details', {
-                url: '/popular/giveaway/:media_id',
+                url: '/popular/giveaway/:hashTag',
                 views: {
                     'tab-popular': {
                         templateUrl: 'templates/giveaway-detail.html',
@@ -296,8 +347,25 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 },
                 resolve: {
 
-                    post: function (instagram,$stateParams) {
-                        return instagram.media.get({action:$stateParams.media_id})
+                    giveaway: function (instagram,giveawayDecor,$stateParams,server,$ionicLoading,errorBox) {
+
+                        var giveaway = giveawayDecor.getLocalGiveaway($stateParams.hashTag)
+                        if(giveaway==undefined)
+                        {
+                            var $promise =server.getGiveaway.get({HashtagID:$stateParams.hashTag}).$promise
+                            $promise.then(function(){},function(error)
+                            {
+                                errorBox(error.data.errorCode)
+                            })
+                            return $promise
+                        }
+                        else
+                        {
+                            var wrapper = {}
+                            wrapper.data = []
+                            wrapper.data[0] = giveaway
+                            return wrapper
+                        }
                     }
 
                 }

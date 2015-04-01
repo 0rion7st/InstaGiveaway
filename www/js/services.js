@@ -68,7 +68,42 @@ angular.module('giveaways.services', ['ngResource'])
         }
 
     }])
+    .factory('errorBox', function($cordovaGoogleAnalytics,$ionicLoading) {
+        return function(code)
+        {
 
+
+        $cordovaGoogleAnalytics.trackEvent('Error', 'UIError', 'code', code);
+        var message = "Damn!!11"
+        switch(code*1)
+        {
+            case -1:
+                message = "You should have at least "+$scope.c.followersNeeded+" followers."
+                break;
+            case -2:
+                message = "No instagram app found."
+                break;
+            case -3:
+                message = "Share post in Instagram first."
+                break;
+            case 10:
+                message = "WW not exists. Sorry :("
+                break;
+            case 11:
+                message = "Wanna Win already exists."
+                break;
+            case 400:
+                message = "Now such media in instagram."
+                break;
+        }
+        message = "<h2><i class='positive ion-sad'></i></h2><br><small>"+message+"</small>"
+        $ionicLoading.show({
+            template:'<span style="color:white;">'+message+"</span>",
+            noBackdrop:false,
+            duration:1000
+        });
+        }
+    })
 .factory('localNotificationInterceptor', ['$cordovaLocalNotification',function($cordovaLocalNotification) {
     var localNotificationInterceptor = {
         request: function(config) {
@@ -459,6 +494,32 @@ angular.module('giveaways.services', ['ngResource'])
             }
         }
         return {
+            setMyGiveaways: function(myGiveaways,participatingGiveaways)
+            {
+                __myGiveaways = myGiveaways
+                __myGiveawaysHashtags = getHashtags(myGiveaways)
+
+                __participatingGiveaways = participatingGiveaways
+                __participatingHashtags = getHashtags(participatingGiveaways)
+            },
+            getLocalGiveaway: function(hashTag)
+            {
+                var giveaway = undefined
+                var inMyGiveawaysHashtags = intersectionHashes([hashTag], __myGiveawaysHashtags)
+                if(inMyGiveawaysHashtags.length>0)
+                {
+                    giveaway =__myGiveaways.filter(getGiveawayByHashTag(inMyGiveawaysHashtags[0]))[0]
+                    giveaway.type = "owner"
+                }
+
+                var inParticipatingGiveawaysHashtags = intersectionHashes([hashTag], __participatingHashtags)
+                if(inParticipatingGiveawaysHashtags.length>0)
+                {
+                    giveaway =__participatingGiveaways.filter(getGiveawayByHashTag(inParticipatingGiveawaysHashtags[0]))[0]
+                    giveaway.type = "participating"
+                }
+                return giveaway
+            },
             generateHashTag : function(days,userId)
             {
                 var expire = (new Date()).getTime()+days*1000*60*60*24;
@@ -466,22 +527,9 @@ angular.module('giveaways.services', ['ngResource'])
 
                 return "ww"+concat.toString(36)
             },
-            getType: function(post, myGiveaways,participatingGiveaways)
+            getType: function(post)
             {
-                /*
-                 * On demand calculation
-                 * */
-                //if(myGiveaways.length != __myGiveaways.length)
-                //{
-                __myGiveaways = myGiveaways
-                __myGiveawaysHashtags = getHashtags(myGiveaways)
-                //}
 
-                //if(participatingGiveaways.length != __participatingGiveaways.length)
-                //{
-                __participatingGiveaways = participatingGiveaways
-                __participatingHashtags = getHashtags(participatingGiveaways)
-                //}
                 var inMyGiveawaysHashtags = intersectionHashes(post.tags.sort(), __myGiveawaysHashtags)
                 if(inMyGiveawaysHashtags.length>0)
                 {
@@ -495,22 +543,7 @@ angular.module('giveaways.services', ['ngResource'])
                 }
                 return "unjoined";
             },
-            decoratePost: function (post, myGiveaways,participatingGiveaways) {
-
-                /*
-                * On demand calculation
-                * */
-                //if(myGiveaways.length != __myGiveaways.length)
-                //{
-                    __myGiveaways = myGiveaways
-                    __myGiveawaysHashtags = getHashtags(myGiveaways)
-                //}
-
-                //if(participatingGiveaways.length != __participatingGiveaways.length)
-                //{
-                    __participatingGiveaways = participatingGiveaways
-                    __participatingHashtags = getHashtags(participatingGiveaways)
-                //}
+            decoratePost: function (post) {
 
                 var inMyGiveawaysHashtags = intersectionHashes(post.tags.sort(), __myGiveawaysHashtags)
                 if(inMyGiveawaysHashtags.length>0)

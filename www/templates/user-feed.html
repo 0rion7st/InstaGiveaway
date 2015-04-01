@@ -14,6 +14,7 @@
                       media-id="{{post.id}}"
                       time-left="{{post.caption.created_time}}"
                       giveaway-hashtag="{{post.giveawayHashtag}}"
+                      description = "{{c.getDesc(post.caption.text)}}"
                       user-id="{{post.user.id || post.id}}"
                       user-link="instagram"
                       media-image-link="post.images.standard_resolution.url"

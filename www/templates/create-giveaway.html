@@ -27,12 +27,11 @@
                     </div>
 
                 </div>
-                <div class="item item-image item-borderless" style="border: 0; text-align: left;">
+                <div class="item item-image item-body item-borderless" style="border: 0; text-align: left;">
 
                     <canvas id="giveaway_canvas" class="loading-bg"></canvas>
-                    <p ng-if="c.submit.type!='new'">Click next</p>
-                    <br/>
                     <button ng-if="c.submit.type=='new'" class="button icon ion-camera cam-btn" ng-click="c.submit.selectImage()" ></button>
+                    <p ng-if="c.submit.type!='new'" ng-bind-html="c.getDesc(c.submit.post.data.caption.text)"></p>
                 </div>
                 <ion-scroll direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;" ng-if="c.submit.type=='new'">
                     <img src="img/ribbons/ribbon_01.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(1)"/>
