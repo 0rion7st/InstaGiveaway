@@ -32,8 +32,6 @@ angular.module('giveaways.services', ['ngResource'])
                 }
             });
 
-
-
             document.addEventListener("deviceready", function () {
                 if(profile.deviceToken())
                     return

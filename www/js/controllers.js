@@ -615,6 +615,14 @@ angular.module('giveaways.controllers', [])
             }
             $scope.c.submit.selectImage = function()
             {
+                var canvas=document.getElementById("giveaway_canvas");
+                if(canvas!=null)
+                {
+                    canvas.start ={x:0,y:0}
+                    canvas.dist = {x: 0, y: 0}
+                    canvas.offset = {x:0,y:0}
+                }
+
                 $cordovaImagePicker.getPictures({
                     maximumImagesCount: 1,
                     width: 640,
@@ -1256,6 +1264,5 @@ angular.module('giveaways.controllers', [])
                 $ionicHistory.goBack()
             })
         },false)
-
     })
 
