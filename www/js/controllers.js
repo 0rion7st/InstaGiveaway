@@ -450,10 +450,7 @@ angular.module('giveaways.controllers', [])
                 var img = new Image()
                 img.onload=function()
                 {
-
                     $scope.c.submit.selectedImage = img
-
-
                     if($scope.c.submit.type=="new")
                     {
                         var ribbon = new Image()
@@ -489,11 +486,27 @@ angular.module('giveaways.controllers', [])
                 var desc = ""
                 if($scope.c.submit.type=="join")
                 {
+                    $scope.c.submit.imagedata = document.getElementById("giveaway_canvas").toDataURL("image/jpeg")
                     desc+="Repost of @"+$scope.c.submit.author.username +"\n"
 
                     if(!profile.joiningWW())
                     {
-                        $scope.c.submit.join()
+                        instagram.media.save({action:$scope.c.submit.media_id,type:'likes'},{},function()
+                        {
+                            $scope.c.submit.liked=true
+                            instagram.follow.save({userId:$scope.c.submit.author.id},{action:"follow"},function()
+                            {
+                                $scope.c.submit.join()
+                            },function(error)
+                            {
+                                $scope.c.hideLoading()
+                                $scope.c.notifyErr(error.data.code || error.data.meta.code )
+                            })
+                        },function(error)
+                        {
+                            $scope.c.hideLoading()
+                            $scope.c.notifyErr(error.data.code || error.data.meta.code )
+                        })
                         profile.joiningWW({hash:$scope.c.submit.hashtag,expire:$scope.c.submit.expire,media:$scope.c.submit.media_id})
                     }
                 }
@@ -604,7 +617,7 @@ angular.module('giveaways.controllers', [])
 
             }
 
-            $scope.c.submit.showModal = function()
+            $scope.c.submit.showModal = function(callback)
             {
                 $scope.shareClicked = true
                 $scope.c.submit.days = 7
@@ -628,15 +641,11 @@ angular.module('giveaways.controllers', [])
                         {
                             reDraw(true)
                             $scope.c.submit.imagedata = document.getElementById("giveaway_canvas").toDataURL("image/jpeg")
-                            if($scope.c.submit.type=="new")
-                            {
-                                $scope.c.submit.hashtag = giveawayDecor.generateHashTag($scope.c.submit.days,profile.instagram_id())
+                            $scope.c.submit.hashtag = giveawayDecor.generateHashTag($scope.c.submit.days,profile.instagram_id())
 
-                            }
                         }
-                        else if(($scope.c.submit.active_slide==1 && $scope.c.submit.type=="join") || ($scope.c.submit.active_slide==2 && $scope.c.submit.type=="new"))
+                        else if(($scope.c.submit.active_slide==0 && $scope.c.submit.type=="join") || ($scope.c.submit.active_slide==2 && $scope.c.submit.type=="new"))
                         {
-
                             $scope.c.showLoading()
                             instagram.users.get({user:"self",action:"media",type:"recent"}, function(data)
                             {
@@ -644,44 +653,21 @@ angular.module('giveaways.controllers', [])
                                 $scope.c.hideLoading()
                                 if(foundMatches>0)
                                 {
-
+                                    $scope.c.submit.done = true
                                     if($scope.c.submit.media_id==undefined)
                                     {
                                         $scope.c.submit.media_id = data.data[0].id
-                                        $scope.c.submit.done = true
                                     }
-                                    else
-                                    {
-                                        instagram.media.save({action:$scope.c.submit.media_id,type:'likes'},{},function()
-                                        {
-                                            $scope.c.submit.liked=true
-                                            instagram.follow.save({userId:$scope.c.submit.author.id},{action:"follow"},function()
-                                            {
-                                                $scope.c.submit.followed=true
-                                                $scope.c.submit.done = true
-                                            },function(error)
-                                            {
-                                                $scope.c.hideLoading()
-                                                $scope.c.notifyErr(error.data.code || error.data.meta.code )
-                                            })
-                                        },function(error)
-                                        {
-                                            $scope.c.hideLoading()
-                                            $scope.c.notifyErr(error.data.code || error.data.meta.code )
-                                        })
-                                    }
+                                    $scope.c.submit.doneClose()
                                 }
                                 else
                                 {
-                                    $ionicSlideBoxDelegate.previous()
+                                    //$ionicSlideBoxDelegate.previous()
                                     $scope.c.notifyErr(-3)
                                 }
                             })
                         }
-
                         console.log($ionicSlideBoxDelegate.currentIndex())
-
-
                     }
                     $scope.c.submit.modal.show()
                     $scope.c.submit.fillCanvas()
@@ -709,11 +695,12 @@ angular.module('giveaways.controllers', [])
                             return
                         $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:ImageSelect');
                         $scope.c.submit.imageUrl =  results[0]
+                        $scope.c.submit.type='new'
                         if($scope.c.submit.modal == undefined)
                             $scope.c.submit.showModal()
                         else
                             $scope.c.submit.fillCanvas()
-                        $scope.c.submit.type='new'
+
                     }, function(error) {
                         // error getting photos
                     });
