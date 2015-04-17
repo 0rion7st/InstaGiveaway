@@ -1,34 +1,15 @@
 <ion-modal-view>
     <ion-header-bar class="bar bar-header positive-bg ">
 
-        <button class="button button-icon icon ion-ios-close-empty light" ng-click="c.submit.close()"></button>
+        <button class="button button-icon icon ion-ios-close-empty light" ng-click="c.submit.close()" ng-if="!(c.submit.active_slide==2 && c.submit.type=='join') && !(c.submit.active_slide==3 && c.submit.type=='new')"></button>
         <div class="h1 title light" ng-bind="{true:'JOIN WW', false:'CREATE WW'}[c.submit.post!=undefined]"></div>
-        <button class="button icon-right ion-chevron-right button-clear button-energized" ng-disabled="stepDisabled" ng-show="c.submit.active_slide!=2" ng-click="c.submit.nextStep()">NEXT</button>
+        <button class="button icon-right ion-chevron-right button-clear button-energized" ng-disabled="stepDisabled" ng-show="!(c.submit.active_slide==2 && c.submit.type=='join') && !(c.submit.active_slide==3 && c.submit.type=='new')" ng-click="c.submit.nextStep()">NEXT</button>
 
     </ion-header-bar >
     <ion-content  class="has-header" has-bouncing="false">
         <ion-slide-box show-pager="false" active-slide="c.submit.active_slide">
             <ion-slide>
-                <div style="text-align: center; border: 0" ng-if="c.submit.type=='new'">
-
-                    <div class="list">
-
-                        <label class="item item-input item-select item-icon-left" style="border:0;">
-                            <div class="input-label positive">
-                                <b>Wanna Win ends in</b>
-                            </div>
-                            <select ng-model="c.submit.days" style="font-weight:bold;">
-                                <option value="1">1 day</option>
-                                <option value="3">3 days</option>
-                                <option value="7">7 days</option>
-                                <option value="14">14 days</option>
-                            </select>
-                        </label>
-                    </div>
-
-                </div>
                 <div class="item item-image item-body item-borderless" style="border: 0; text-align: left;">
-
                     <canvas id="giveaway_canvas" class="loading-bg"></canvas>
                     <button ng-if="c.submit.type=='new'" class="button icon ion-camera cam-btn" ng-click="c.submit.selectImage()" ></button>
                     <p ng-if="c.submit.type!='new'" ng-bind-html="c.getDesc(c.submit.post.data.caption.text)"></p>
@@ -43,20 +24,30 @@
                     <img src="img/ribbons/ribbon_07.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(7)" />
                     <img src="img/ribbons/ribbon_08.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(8)"/>
                 </ion-scroll>
-
-
             </ion-slide>
-
+            <ion-slide ng-if="c.submit.type=='new'" style="text-align: center;">
+                <h3 class="positive padding">Select Wanna Win duration</h3>
+                <img src="img/image_04.png" alt="" style="max-width: 50%;"/>
+                <div class="list">
+                    <div class="item item-borderless ">
+                        <button ng-click="c.submit.days=1"  class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==1]">1 day</button>
+                        <button ng-click="c.submit.days=3"  class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==3]">3 days</button>
+                        <button ng-click="c.submit.days=7"  class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==7]">7 days</button>
+                        <button ng-click="c.submit.days=14" class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==14]">14 days</button>
+                    </div>
+                </div>
+            </ion-slide>
             <ion-slide>
                 <div class="item dark item-borderless item-text-wrap " style="text-align: center; border: 0">
                     <h2>Share and come back!</h2>
                     <img src="img/image_03.png" alt="" style="max-width: 100%;"/>
-                    <p>Hashtag of this wanna win: <b>#{{c.submit.hashtag}}</b> do not delete it!</p>
+                    <p>Hashtag of this Wanna Win: <b>#{{c.submit.hashtag}}</b> do not delete it!</p>
                     <button class="button button-block button-positive" ng-click="c.submit.share()">SHARE ON INSTAGRAM</button>
                     <small>And then click next</small>
                 </div>
                 <br/><br/><br/><br/>
             </ion-slide>
+
             <ion-slide>
                 <div class="item item-text-wrap" ng-if="c.submit.type=='join'"> <h2>
                     Wanna win recipe:
@@ -84,7 +75,6 @@
                 </div>
 
                 <div class="item item-text-wrap item-borderless item-icon-left assertive item-borderless" ng-if="c.submit.type=='join'">
-
                     <i class="icon ion-alert-circled"></i>
                     <small> Please do not delete <b>repost</b>, <b>unfollow</b> nor <b>unlike</b> the author of the WW until WW ends.
                         Otherwise you will be excluded from participation.</small>
@@ -94,13 +84,12 @@
                     <div class="item item-image" style="border:0;">
                         <h2>You wanna win almost ready!</h2>
                         <img src="img/image_04.png" alt="" style="max-width: 50%;"/>
-
                     </div>
                 </div>
 
                 <div class="item item-body" style="text-align: center; border:0;">
-                    <button class="button button-large button-balanced" ng-click="c.submit.doneCreate()" ng-if="c.submit.type=='new'" ng-disabled="c.submit.done!=true" >DONE</button>
-                    <button class="button button-large button-balanced" ng-click="c.submit.join()" ng-if="c.submit.type!='new'" ng-disabled="c.submit.done!=true" >JOIN</button></div>
+                    <button class="button button-large button-balanced" ng-click="c.submit.doneClose()" ng-if="c.submit.type=='new'" ng-disabled="c.submit.done!=true" >DONE</button>
+                    <button class="button button-large button-balanced" ng-click="c.submit.doneClose()" ng-if="c.submit.type!='new'" ng-disabled="c.submit.done!=true" >JOIN</button></div>
 
 
             </ion-slide>

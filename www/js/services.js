@@ -66,7 +66,7 @@ angular.module('giveaways.services', ['ngResource'])
         }
 
     }])
-    .factory('errorBox', function($cordovaGoogleAnalytics,$ionicLoading) {
+    .factory('errorBox', function($cordovaGoogleAnalytics,$ionicLoading,profile) {
         return function(code)
         {
 
@@ -76,7 +76,7 @@ angular.module('giveaways.services', ['ngResource'])
         switch(code*1)
         {
             case -1:
-                message = "You should have at least "+$scope.c.followersNeeded+" followers."
+                message = "You should have at least "+profile.followersNeeded+" followers."
                 break;
             case -2:
                 message = "No instagram app found."
@@ -98,7 +98,7 @@ angular.module('giveaways.services', ['ngResource'])
         $ionicLoading.show({
             template:'<span style="color:white;">'+message+"</span>",
             noBackdrop:false,
-            duration:1000
+            duration:2000
         });
         }
     })
@@ -265,6 +265,21 @@ angular.module('giveaways.services', ['ngResource'])
 //<editor-fold  desc="profile">
     .factory('profile', function () {
         return {
+            joiningWW:function (value) {
+
+                if (value != undefined) {
+                    console.log("joiningWW: SET")
+                    window.localStorage.setItem("joiningWW", JSON.stringify(value))
+                }
+                else
+                {
+                    console.log("joiningWW: GET")
+                    return JSON.parse(window.localStorage.getItem("joiningWW")) || false
+                }
+
+            },
+
+            followersNeeded : 1,
             eula:function (value) {
 
                 if (value != undefined) {

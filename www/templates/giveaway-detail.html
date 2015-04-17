@@ -24,7 +24,9 @@
 
             <div class="row light-bg">
                 <div class=" col col-50 ">
-                    <img class="full-image" src="{{post.images.standard_resolution.url}}">
+                    <h1 class="loupe"> <i class="icon ion-search" ></i></h1>
+                    <img class="full-image" src="{{post.images.standard_resolution.url}}" ng-click="showImg(post.images.standard_resolution.url)">
+
                 </div>
                 <div class="col col-50 dark" ng-show="post.giveaway">
 
@@ -80,7 +82,7 @@
                 <small>Recently joined:</small>
             </div>
             <ion-scroll  ng-if="post.giveaway.participants.data.length!=0  && post.giveaway.status!='completed'" direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;">
-                <img ng-repeat="joined in post.giveaway.participants.data" instagram="user?username={{joined.InstagramUsername}}" src="{{joined.InstagramAvatar}}" class="avatar" alt=""/><br>
+                <img ng-repeat="joined in post.giveaway.participants.data | orderBy:'$index':true" instagram="user?username={{joined.InstagramUsername}}" src="{{joined.InstagramAvatar}}" class="avatar" alt=""/><br>
             </ion-scroll >
 
             <div class="item item-text-wrap row"  ng-show="post.giveaway.status!='failed' && post.giveaway.status!='completed' && timeNow>post.giveaway.expiration_timestamp">
@@ -110,6 +112,18 @@
             </div>
             <div class="item item-text-wrap" ng-show="post.giveaway.winner_info.InstagramUsername && post.giveaway.winner_info.InstagramID!='' && post.giveaway.owner_info.InstagramID==c.userInstagram.data.id">
                 <small>Please contact winner to deliver him wanna win!</small>
+                <div class="item item-borderless tabs tabs-secondary tabs-icon-left">
+                    <a class="tab-item" ng-click="c.chooseOtherWinner(post.images.standard_resolution.url,post.giveaway.hashtag,post.id,post.giveaway.owner_info.InstagramUsername)" >
+                        <i class="icon ion-ios-compose-outline"></i>
+                        Appeal winner
+                    </a>
+                    <a class="tab-item">
+
+                    </a>
+                    <a class="tab-item" >
+
+                    </a>
+                </div>
             </div>
             <div class="item item-text-wrap" ng-show="post.giveaway.winner_info.InstagramUsername && post.giveaway.winner_info.InstagramID!='' && post.giveaway.winner_info.InstagramID==c.userInstagram.data.id">
                 <h2 class="positive">You won!!! Contact the author!</h2>

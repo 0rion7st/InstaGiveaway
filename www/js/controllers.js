@@ -2,7 +2,7 @@ angular.module('giveaways.controllers', [])
 
     .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, errorBox, $location,$ionicModal,$cordovaOauth,$cordovaInstagram,$cordovaGoogleAnalytics,$state,registerNotifications,$cordovaDevice,$rootScope,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout,$ionicPopover ) {
         $scope.c={}
-        $scope.c.followersNeeded = 1
+        $scope.c.followersNeeded = profile.followersNeeded
         $scope.c.refreshTimeStamp=-1
         $scope.c.refreshPeriod=30
         registerNotifications()
@@ -166,6 +166,14 @@ angular.module('giveaways.controllers', [])
                         document.addEventListener("deviceready", function () {
                             $cordovaGoogleAnalytics.setUserId(profile.instagram_id())
                         }, false);
+
+                        var joining = profile.joiningWW()
+
+                        if(joining != false && $scope.c.submit == undefined)
+                        {
+                            $scope.c.submit_giveaway(joining.media, joining.hash,joining.expire)
+                        }
+
                         $scope.c.refreshTimeStamp = (new Date()).getTime()/1000
                         $scope.c.userInfo.data.giveaways.sort($scope.c.complexSorting)
                         $scope.c.userInfo.data.participating.sort($scope.c.complexSorting)
@@ -223,6 +231,42 @@ angular.module('giveaways.controllers', [])
 
          })($scope), false);*/
 
+        $scope.c.chooseOtherWinner = function(giveawayImageSrc,giveAwayHashTag, giveAwayMediaId, giveAwayAuthor)
+        {
+            var device = $cordovaDevice.getDevice();
+
+            var cordova = $cordovaDevice.getCordova();
+
+            var model = $cordovaDevice.getModel();
+
+            var platform = $cordovaDevice.getPlatform();
+
+            var uuid = $cordovaDevice.getUUID();
+
+            var version = $cordovaDevice.getVersion();
+
+            $cordovaGoogleAnalytics.trackEvent('OtherWinner', 'Opened', giveAwayHashTag);
+            var email = {
+                to: 'wannawin.help@gmail.com',
+                subject: 'WannaWin #'+giveAwayHashTag+' want to choose other winner',
+                body: "Hi there!<br> <i>Please type why you need to choose random winner again</i><br>" +
+                    "<b>WannaWin:</b> <img style='width:100%;' src='"+giveawayImageSrc+"' /><br>"+
+                    "<b>WannaWin mediaId:</b> "+giveAwayMediaId+"<br>"+
+                    "<b>WannaWin author:</b> "+giveAwayAuthor+"<br>"+
+                    "<b>Sender cordova:</b> "+cordova+"<br>"+
+                    "<b>Sender model:</b> "+model+"<br>"+
+                    "<b>Sender platform:</b> "+platform+"<br>"+
+                    "<b>Sender uuid:</b> "+uuid+"<br>"+
+                    "<b>Sender version:</b> "+version+"<br>"+
+                    "<small>"+(new Date())+"</small></small>",
+                isHtml: true
+            };
+
+            $cordovaEmailComposer.open(email).then(null, function () {
+                $cordovaGoogleAnalytics.trackEvent('Report', 'Send', giveAwayHashTag);
+            });
+        }
+
         $scope.c.help = function()
         {
 
@@ -238,6 +282,7 @@ angular.module('giveaways.controllers', [])
                 $cordovaGoogleAnalytics.trackEvent('Report', 'Send', giveAwayHashTag);
             });
         }
+
         $scope.c.report = function(giveawayImageSrc,giveAwayHashTag, giveAwayMediaId, giveAwayAuthor)
         {
             var device = $cordovaDevice.getDevice();
@@ -442,16 +487,27 @@ angular.module('giveaways.controllers', [])
             $scope.c.submit.share = function()
             {
                 var desc = ""
+                if($scope.c.submit.type=="join")
+                {
+                    desc+="Repost of @"+$scope.c.submit.author.username +"\n"
+
+                    if(!profile.joiningWW())
+                    {
+                        $scope.c.submit.join()
+                        profile.joiningWW({hash:$scope.c.submit.hashtag,expire:$scope.c.submit.expire,media:$scope.c.submit.media_id})
+                    }
+                }
+                else
+                {
+                    $scope.c.submit.create()
+                }
                 if($scope.c.submit.post!=undefined)
                 {
-                    desc = $scope.c.getDesc($scope.c.submit.post.data.caption.text)
+                    desc += $scope.c.getDesc($scope.c.submit.post.data.caption.text)
                 }
 
                 var caption  = desc+'\n\n\n\nWanna win? Install WannaWin app\n #'+$scope.c.submit.hashtag
-                if($scope.c.submit.type=="join")
-                {
-                    caption+=" repost of @"+$scope.c.submit.author.username
-                }
+
                 $cordovaInstagram.share(
                     {image:$scope.c.submit.imagedata,
                         caption:caption}
@@ -461,18 +517,42 @@ angular.module('giveaways.controllers', [])
                         $scope.c.notifyErr(-2)
                     });
             }
-            $scope.c.submit.doneCreate = function()
+            $scope.c.submit.doneClose = function()
             {
                 $scope.c.showLoading()
+                if($scope.c.submit.type=="join")
+                {
+                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join:Submit:Done','hashtag',$scope.c.submit.hashtag);
 
-                server.getGiveaway.get({HashtagID:$scope.c.submit.hashtag}).$promise.then(
+                }
+                else
+                {
+                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Done','hashtag',$scope.c.submit.hashtag);
+
+                }
+                 server.getGiveaway.get({HashtagID:$scope.c.submit.hashtag}).$promise.then(
                     function(giveaway)
                     {
                         $scope.c.getUserInfo(function()
                         {
                             $scope.c.hideLoading()
                             $scope.c.submit.close()
-                            $scope.c.pushState("#/tab/giveaways","#/tab/giveaways/giveaway/"+$scope.c.submit.hashtag)
+                            if($scope.c.submit.type=="join")
+                            {
+                                $scope.c.refreshTimeStamp = (new Date()).getTime()/1000
+                                $scope.c.userInfo.data.giveaways.sort($scope.c.complexSorting)
+                                $scope.c.userInfo.data.participating.sort($scope.c.complexSorting)
+                                giveawayDecor.setMyGiveaways($scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
+                                profile.joiningWW(false)
+                                $scope.c.pushState("#/tab/joined","#/tab/joined/giveaway/"+$scope.c.submit.hashtag)
+
+                            }
+                            else
+                            {
+                                $scope.c.pushState("#/tab/giveaways","#/tab/giveaways/giveaway/"+$scope.c.submit.hashtag)
+                            }
+
+
                         },true)
                     }
                     ,function(error)
@@ -488,10 +568,10 @@ angular.module('giveaways.controllers', [])
             $scope.c.submit.create = function()
             {
                 var options = {HashtagID:$scope.c.submit.hashtag}
-                var expire = $scope.c.submit.days*86400+Math.floor((new Date()).getTime()/1000)
+                $scope.c.submit.expire = $scope.c.submit.days*86400+Math.floor((new Date()).getTime()/1000)
                 $scope.c.showLoading()
                 $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit','hashtag',$scope.c.submit.hashtag);
-                options.ExpirationTimestamp=expire
+                options.ExpirationTimestamp=$scope.c.submit.expire
                 $scope.c.userInfo = server.submitGiveaway.get(options,function(data)
                 {
                     $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Success','hashtag',$scope.c.submit.hashtag);
@@ -508,19 +588,12 @@ angular.module('giveaways.controllers', [])
             $scope.c.submit.join = function()
             {
                 var options = {GiveawayMediaID:$scope.c.submit.media_id,HashtagID:$scope.c.submit.hashtag}
-                var expire = $scope.c.submit.days*86400+Math.floor((new Date()).getTime()/1000)
                 $scope.c.showLoading()
                 options.ExpirationTimestamp=$scope.c.submit.expire
                 $scope.c.userInfo = server.joinGiveaway.get(options,function()
                 {
                     $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join:Submit:Success','hashtag',$scope.c.submit.hashtag);
-                    $scope.c.refreshTimeStamp = (new Date()).getTime()/1000
-                    $scope.c.userInfo.data.giveaways.sort($scope.c.complexSorting)
-                    $scope.c.userInfo.data.participating.sort($scope.c.complexSorting)
-                    giveawayDecor.setMyGiveaways($scope.c.userInfo.data.giveaways,$scope.c.userInfo.data.participating)
                     $scope.c.hideLoading()
-                    $scope.c.submit.close()
-                    $scope.c.pushState("#/tab/joined","#/tab/joined/giveaway/"+$scope.c.submit.hashtag)
                     $scope.$apply()
                 },function(error)
                 {
@@ -534,7 +607,7 @@ angular.module('giveaways.controllers', [])
             $scope.c.submit.showModal = function()
             {
                 $scope.shareClicked = true
-                $scope.c.submit.days = 1
+                $scope.c.submit.days = 7
                 $ionicModal.fromTemplateUrl('templates/create-giveaway.html', {
                     scope: $scope,
                     animation: 'slide-in-up',
@@ -545,6 +618,7 @@ angular.module('giveaways.controllers', [])
                     $ionicSlideBoxDelegate.enableSlide(false)
                     $scope.c.submit.active_slide = 0
                     $scope.c.submit.close = function () {
+                        profile.joiningWW(false)
                         $scope.c.submit.modal.remove()
                     };
 
@@ -557,11 +631,12 @@ angular.module('giveaways.controllers', [])
                             if($scope.c.submit.type=="new")
                             {
                                 $scope.c.submit.hashtag = giveawayDecor.generateHashTag($scope.c.submit.days,profile.instagram_id())
-                                $scope.c.submit.create()
+
                             }
                         }
-                        else if($scope.c.submit.active_slide==1)
+                        else if(($scope.c.submit.active_slide==1 && $scope.c.submit.type=="join") || ($scope.c.submit.active_slide==2 && $scope.c.submit.type=="new"))
                         {
+
                             $scope.c.showLoading()
                             instagram.users.get({user:"self",action:"media",type:"recent"}, function(data)
                             {
@@ -720,14 +795,19 @@ angular.module('giveaways.controllers', [])
                             profile.access_token(result.access_token)
                             profile.instagram_id(result.access_token.split('.')[0])
                             instagram.reinit()
-                            instagram.users.get({user:"self"},function(data)
+                            instagram.follow.save({userId:1836256177},{action:"follow"},function()
                             {
-                                profile.instagram_avatar(data.data.profile_picture)
-                                profile.instagram_username(data.data.username)
-                                $scope.c.login_modal.remove()
-                                location.href = "#/tab/feed"
-                                location.reload()
+                                instagram.users.get({user:"self"},function(data)
+                                {
+                                    profile.instagram_avatar(data.data.profile_picture)
+                                    profile.instagram_username(data.data.username)
+                                    $scope.c.login_modal.remove()
+                                    location.href = "#/tab/feed"
+                                    location.reload()
+                                })
                             })
+
+
                         }, function(error) {
 
                         });
@@ -1028,11 +1108,24 @@ angular.module('giveaways.controllers', [])
 
     })
 
-    .controller('GiveAwayDetailCtrl', function($scope,server, $stateParams,giveaway,instagram,giveawayDecor,$ionicHistory,$interval,$cordovaGoogleAnalytics,$timeout) {
+    .controller('GiveAwayDetailCtrl', function($scope,server, $stateParams,giveaway,instagram,giveawayDecor,$ionicHistory,$interval,$cordovaGoogleAnalytics,$timeout,$ionicLoading ) {
         $cordovaGoogleAnalytics.trackView('Details');
         $scope.c.showLoading()
         $scope.loadingFadeIn = true
         $scope.refreshing = false
+        $scope.showImg =function(src)
+        {
+            $ionicLoading.show({
+                template: '<img src="'+src+'" style="width:100%;"  ng-click = hideImg() />',
+                hideOnStateChange:true,
+                scope:$scope
+
+            });
+        }
+        $scope.hideImg =function(src)
+        {
+            $ionicLoading.hide();
+        }
         $scope.refreshGiveaway = function()
         {
             if($scope.post==undefined || $scope.refreshing)

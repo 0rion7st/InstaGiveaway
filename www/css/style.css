@@ -18,6 +18,14 @@ ion-infinite-scroll i:before
 {
     color:#fff;
 }
+.loupe
+{
+    position: absolute;
+    padding:10px;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+    opacity: 0.6;
+}
 .cam-btn
 {
     margin-top:-60px;
