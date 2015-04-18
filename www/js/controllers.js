@@ -694,7 +694,6 @@ angular.module('giveaways.controllers', [])
                     canvas.dist = {x: 0, y: 0}
                     canvas.offset = {x:0,y:0}
                 }
-
                 $cordovaImagePicker.getPictures({
                     maximumImagesCount: 1,
                     width: 640,
