@@ -82,7 +82,7 @@ angular.module('giveaways.services', ['ngResource'])
                 message = "No instagram app found."
                 break;
             case -3:
-                message = "Share post in Instagram first."
+                message = "Share post on Instagram first."
                 break;
             case 10:
                 message = "WW not exists. Sorry :("
