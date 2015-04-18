@@ -484,6 +484,7 @@ angular.module('giveaways.controllers', [])
             $scope.c.submit.share = function()
             {
                 var desc = ""
+                document.addEventListener("resume", $scope.c.submit.checkPost, false);
                 if($scope.c.submit.type=="join")
                 {
                     $scope.c.submit.imagedata = document.getElementById("giveaway_canvas").toDataURL("image/jpeg")
@@ -617,6 +618,35 @@ angular.module('giveaways.controllers', [])
 
             }
 
+
+
+            $scope.c.submit.checkPost =  (function($scope){
+
+                    return function()
+                    {
+                        $scope.c.showLoading()
+                        document.removeEventListener("resume", $scope.c.submit.checkPost, false);
+                        instagram.users.get({user:"self",action:"media",type:"recent"}, function(data)
+                        {
+                            var foundMatches = data.data.filter(function(post) {return post.caption!=undefined && post.caption.from.id==profile.instagram_id()}).filter(function(post){return post.tags.indexOf($scope.c.submit.hashtag.toLocaleLowerCase())!=-1}).length
+                            $scope.c.hideLoading()
+                            if(foundMatches>0)
+                            {
+                                $scope.c.submit.done = true
+                                if($scope.c.submit.media_id==undefined)
+                                {
+                                    $scope.c.submit.media_id = data.data[0].id
+                                }
+                                $scope.c.submit.doneClose()
+                            }
+                            else
+                            {
+                                $scope.c.notifyErr(-3)
+                            }
+                        })
+                    }
+                })($scope)
+
             $scope.c.submit.showModal = function(callback)
             {
                 $scope.shareClicked = true
@@ -644,28 +674,9 @@ angular.module('giveaways.controllers', [])
                             $scope.c.submit.hashtag = giveawayDecor.generateHashTag($scope.c.submit.days,profile.instagram_id())
 
                         }
-                        else if(($scope.c.submit.active_slide==0 && $scope.c.submit.type=="join") || ($scope.c.submit.active_slide==2 && $scope.c.submit.type=="new"))
+                        else if($scope.c.submit.active_slide==2)
                         {
-                            $scope.c.showLoading()
-                            instagram.users.get({user:"self",action:"media",type:"recent"}, function(data)
-                            {
-                                var foundMatches = data.data.filter(function(post) {return post.caption!=undefined && post.caption.from.id==profile.instagram_id()}).filter(function(post){return post.tags.indexOf($scope.c.submit.hashtag.toLocaleLowerCase())!=-1}).length
-                                $scope.c.hideLoading()
-                                if(foundMatches>0)
-                                {
-                                    $scope.c.submit.done = true
-                                    if($scope.c.submit.media_id==undefined)
-                                    {
-                                        $scope.c.submit.media_id = data.data[0].id
-                                    }
-                                    $scope.c.submit.doneClose()
-                                }
-                                else
-                                {
-                                    //$ionicSlideBoxDelegate.previous()
-                                    $scope.c.notifyErr(-3)
-                                }
-                            })
+                            $scope.c.submit.checkPost()
                         }
                         console.log($ionicSlideBoxDelegate.currentIndex())
                     }
