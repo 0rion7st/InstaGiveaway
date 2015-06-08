@@ -5,12 +5,19 @@ angular.module('giveaways.controllers', [])
         $scope.c.followersNeeded = profile.followersNeeded
         $scope.c.refreshTimeStamp=-1
         $scope.c.refreshPeriod=30
+        $scope.c.localize = document.localize
+        $scope.c.lang = document.getLanguage()
         registerNotifications()
 
         document.addEventListener("deviceready", function () {
             $cordovaGoogleAnalytics.startTrackerWithId('UA-61254051-1');
         }, false);
 
+
+        $scope.c.changeLanguage = function()
+        {
+            document.selectLanguage($scope.c.lang)
+        }
         $scope.c.toggleRight = function() {
             $ionicSideMenuDelegate.toggleRight();
         };

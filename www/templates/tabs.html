@@ -1,6 +1,6 @@
 <ion-tabs class="tabs-icon-top">
 
-  <ion-tab title="Feed" class="light-bg" icon-off="ion-ios-paper-outline" icon-on="ion-ios-paper" badge="c.userInfo.data.newsFeed" badge-style="badge-assertive" href="#/tab/feed">
+  <ion-tab title="{{c.localize.strings['feed']}}" class="light-bg" icon-off="ion-ios-paper-outline" icon-on="ion-ios-paper" badge="c.userInfo.data.newsFeed" badge-style="badge-assertive" href="#/tab/feed">
     <ion-nav-view name="tab-feed" ></ion-nav-view>
   </ion-tab>
 
@@ -11,7 +11,7 @@
   </ion-tab>
 
 
-  <ion-tab title="Popular" class="light-bg"   icon-off="ion-ios-star-outline" icon-on="ion-ios-star" href="#/tab/popular">
+  <ion-tab title="{{c.localize.strings['popular']}}" class="light-bg"   icon-off="ion-ios-star-outline" icon-on="ion-ios-star" href="#/tab/popular">
     <ion-nav-view name="tab-popular"></ion-nav-view>
   </ion-tab>
     <ion-tab title="My WW" class="light-bg"  icon-off="ion-ios-briefcase-outline" badge="c.userInfo.data.newsMy" badge-style="badge-assertive" icon-on="ion-ios-briefcase" href="#/tab/giveaways">
