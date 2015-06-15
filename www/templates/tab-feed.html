@@ -8,15 +8,13 @@
         </label>
 
 </ion-header-bar>
-<ion-view view-title="Feed">
-
+<ion-view view-title={{c.localize.strings['feed']}}>
     <ion-content class="content-bg">
-        <ion-refresher pulling-text="Pull to refresh" class="light" on-refresh="doRefresh()">
+        <ion-refresher pulling-text={{c.localize.strings['pullToRefresh']}} class="light" on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-
             <div class="giveaway " style="font-style: italic;">
-                <button class="button button-block button-positive" ng-click="c.submit_giveaway()">Create Wanna Win</button>
+                <button class="button button-block button-positive" ng-click="c.submit_giveaway()">{{c.localize.strings['createWannaWin']}}</button>
 
             </div>
 

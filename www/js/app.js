@@ -46,6 +46,8 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 description: '@'
             },
             link: function($scope,elm,attrs) {
+                $scope.c = {}
+                $scope.c.localize =  document.localize
 
                 $scope.$watch("mediaImageLink",function()
                 {
@@ -90,8 +92,10 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 var timerCounting
                 function renderTime()
                 {
-                    if(($scope.time-(new Date()).getTime()/1000)<0 || ($scope.time-(new Date()).getTime()/1000)>60*60*24)
-                        el[0].innerHTML =  moment.unix($scope.time ).fromNow()
+                    if (($scope.time - (new Date()).getTime() / 1000) < 0 || ($scope.time - (new Date()).getTime() / 1000) > 60 * 60 * 24)
+                    {
+                        el[0].innerHTML = moment.unix($scope.time).fromNow()
+                    }
                     else
                     {
                         var secs = $scope.time-Math.floor((new Date()).getTime()/1000)
@@ -229,7 +233,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 resolve: {
 
                     collection: function (server) {
-                        return server.getCollection.get({Categories: "Most Popular"})
+                        return server.getCollection.get({Categories: "Popular"})
                     }
                 }
 

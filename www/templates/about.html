@@ -1,6 +1,6 @@
 <ion-modal-view >
     <ion-header-bar class="positive-bg text-center">
-        <div class="h1 title light">About Wanna Win</div>
+        <div class="h1 title light">{{c.localize.strings['helpCenter']}}</div>
 
 
 
@@ -12,41 +12,33 @@
     <div class="list">
         <div class="item item-text-wrap padding item-icon-right">
 
-            <h2 class="positive">What is <b>WannaWin</b>?</h2>
+            <h2 class="positive">{{c.localize.strings['whatIs']}}<b> Wanna Win</b>?</h2>
             <ul class="padding">
-                <li>A powerful tool to create and participate in <b>Instagram Giveaways</b>.</li>
-                <li>It likes and reposts Giveaway, and follows author in one click. <i>It has never been this simple!</i></li>
-                <li>Automatically chooses <b>random</b> winner from participants. <i>It has never been this fair!</i></li>
+                <li>{{c.localize.strings['aPowerfulTools']}}<b>{{c.localize.strings['instagramGiveaways']}}</b>.</li>
+                <li>{{c.localize.strings['itLikesAndReposts']}}<i>{{c.localize.strings['itHasNeverBeenSimple']}}</i></li>
+                <li>{{c.localize.strings['automaticallyChooses']}}<b>{{c.localize.strings['random']}}</b>{{c.localize.strings['winnerFrom']}}<i>{{c.localize.strings['itHasNeverFair']}}</i></li>
             </ul>
         </div>
         <div class="item item-text-wrap padding">
-        <h2 class="positive">How to <b>participate</b> in an existing WannaWin?</h2>
-
+            <h2 class="positive">{{c.localize.strings['howTo']}}<b>{{c.localize.strings['participate']}}</b>{{c.localize.strings['inAnExistingWW']}}</h2>
             <ul class="padding" style="list-style:decimal; margin:15px;">
-                <li> Click on WannaWin in the feed or find it by #hashtag and then click <b>"Wanna Win!"</b> button.
-                    <br/></li>
-                <li>It will forward you to the Instagram app for reposting the WannaWin. <br/></li>
-                <li>Come back to the WannaWin app, one more click and you are in.</li>
+                <li>{{c.localize.strings['clixkOnWW']}}<b>"Wanna Win!"</b>{{c.localize.strings['button']}}<br/></li>
+                <li>{{c.localize.strings['itWillForward']}}<br/></li>
+                <li>{{c.localize.strings['caomeBack']}}</li>
             </ul>
-
-
-
-
         </div>
         <div class="item item-text-wrap padding">
-            <h2 class="positive">How to <b>create</b> a new WannaWin?</h2>
+            <h2 class="positive">{{c.localize.strings['howTo']}}<b>{{c.localize.strings['create']}}</b>{{c.localize.strings['aNewWW']}}</h2>
             <ul class="padding" style="list-style:decimal; margin:15px;">
-                <li>Click on "Create WannaWin" button in profile. Upload a photo, and choose a sticker.</li>
-                <li>Then you will be forwarded to the Instagram app to finalize your post. Never remove automatic hashtag.</li>
-                <li>Only people who made a repost and started following you will participate in the lottery. We check that all.</li>
+                <li>{{c.localize.strings['clickOnCreateWW']}}</li>
+                <li>{{c.localize.strings['thenYouWillBe']}}</li>
+                <li>{{c.localize.strings['onlyPeopleWhoRepost']}}</li>
             </ul>
         </div>
-
         <div class="item item-text-wrap item-button-right padding">
-            <h2 class="positive">Seeking for help?</h2>
-            <p>Contact our team!</p>
-            <button ng-click="c.help()" class="button button-outline button-positive icon-left ion-ios-compose-outline">Contact</button>
-
+            <h2 class="positive">{{c.localize.strings['seekingForHelp']}}</h2>
+            <p style="width:50%">{{c.localize.strings['contactOurTeam']}}</p>
+            <button ng-click="c.help()" class="button button-outline button-positive icon-left ion-ios-compose-outline">{{c.localize.strings['contact']}}</button>
         </div>
         <small class="padding" style="text-align: center;">Version 0.1</small>
     </div>

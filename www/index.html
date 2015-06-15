@@ -25,7 +25,7 @@
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
-    <script src="lib/moment.min.js"></script>
+    <script src="lib/moment-with-locales.min.js"></script>
     <script src="js/lang.js"></script>
 </head>
 <body ng-app="giveaways" ng-cloak ng-controller="RootCtrl">
@@ -55,52 +55,39 @@
             <div class="item item-avatar item-icon-right positive">
                <img src="{{c.userInstagram.data.profile_picture}}">
                 <h2>{{c.userInstagram.data.username}}</h2>
-                <p>My profile</p>
+                <p>{{c.localize.strings['myProfile']}}</p>
 
 
             </div>
             <div class="item item-text-wrap light-bg  dark" style="font-style: italic;" menu-close>
-                <button class="button button-block button-positive icon-left flaticon-box84" ng-click="c.submit_giveaway()">Create Wanna Win</button>
-
+                <button class="button button-block button-positive icon-left flaticon-box84" ng-click="c.submit_giveaway()">{{c.localize.strings['createWannaWin']}}</button>
             </div>
             <div class="item" style="color:#a3a3a3">
-                Created Wanna Wins
+                {{c.localize.strings['createdWW']}}
                 <span class="item-note">{{c.userInfo.data.giveaways.length}}</span>
             </div>
 
             <div class="item" style="color:#a3a3a3">
-                Joined Wanna Wins
+                {{c.localize.strings['joinedWannaWins']}}
                 <span class="item-note">{{c.userInfo.data.participating.length}}</span>
             </div>
 
             <div class="item" style="color:#a3a3a3">
-                Total reposts
+                {{c.localize.strings['totalReposts']}}
                 <span class="item-note">{{reposts}}</span>
             </div>
 
             <div class="item" style="color:#a3a3a3">
-                Winned Wanna Wins
+                {{c.localize.strings['wannaWinsWon']}}
                 <span class="item-note">{{wins}}</span>
             </div>
 
-            <label class="item item-input item-select">
-                <div class="input-label">
-                    {{c.localize.strings.language}}
-                </div>
-                <select ng-change="c.changeLanguage()" ng-model="c.lang">
-                    <option value="eng" selected>English</option>
-                    <option value="ru" >Русски</option>
-                </select>
-            </label>
-
-
-           
             <a ng-click="c.openAbout()" class="item light-bg positive" menu-close>
-                About Wanna Win
+                {{c.localize.strings['helpCenter']}}
             </a>
         </div>
         <ion-footer-bar padding="false">
-            <button class="button button-block" ng-click="c.logout()" style="margin-top:0;">Logout</button>
+            <button class="button button-block" ng-click="c.logout()" style="margin-top:0;">{{c.localize.strings['logout']}}</button>
         </ion-footer-bar>
     </ion-side-menu>
 </ion-side-menus>
@@ -117,7 +104,7 @@
             <img src="{{profileImage}}">
             <h2 ng-show="userLink == 'feed'"><a href="{{path}}/user/{{userId}}" class="positive"><b>@{{username}}</b></a></h2>
             <h2 ng-show="userLink == 'instagram'"><a instagram="media?id={{mediaId}}" class="positive"><b>@{{username}}</b></a></h2>
-            <p ng-show="layout=='posts'">Shared <span ng-show="layout=='posts'" time="timeLeft"></span></p>
+            <p ng-show="layout=='posts'">{{c.localize.strings['shared']}} <span ng-show="layout=='posts'" time="timeLeft"></span></p>
         </div>
         <div class="item item-image" ng-show="layout=='posts'">
             <a href="{{path}}/giveaway/{{giveawayHashtag}}"> <img class="full-image animated loading-bg" src="{{loadedImg || 'img/px.png'}}" ng-class="loadedImg && 'fadeIn'"></a>
@@ -127,8 +114,8 @@
         </div>
         <div class="item item-button-right"  ng-show="layout=='posts'">
             <p ><div ng-show="expire!=-1" class="balanced" style="text-transform: uppercase;">Ends <span time="expire" counting></span></div></p>
-            <p ng-show="expire==-1">Finished</p>
-            <a href="{{path}}/giveaway/{{giveawayHashtag}}" class="button  icon-left flaticon-gift68 button-clear button-positive">DETAILS</a>
+            <p ng-show="expire==-1">{{c.localize.strings['finished']}}</p>
+            <a href="{{path}}/giveaway/{{giveawayHashtag}}" class="button  icon-left flaticon-gift68 button-clear button-positive">{{c.localize.strings['detailsCap']}}</a>
         </div>
     </div>
 </script>
@@ -136,7 +123,7 @@
 <script id="instagram_login" type="text/ng-template">
     <ion-modal-view>
         <ion-header-bar class="bar bar-header bar-secondary positive-bg">
-            <h1 class="title light">Login</h1>
+            <h1 class="title light">{{c.localize.strings['login']}}</h1>
         </ion-header-bar>
         <ion-content has-bouncing="false">
             <ion-slide-box show-pager="true">
@@ -145,24 +132,24 @@
 
                         <img src="img/image_00.png" alt="" style="width:100%;"/>
                         <br/>
-                        <b class="shining">SWIPE</b>
+                        <b class="shining">{{c.localize.strings['swipeCap']}}</b>
                     </div>
                 </ion-slide>
                 <ion-slide>
                     <div class="item dark item-borderless" style="text-align: center; border:0px;">
-                        <h2 class="positive">Join trendy Wanna Wins</h2>
+                        <h2 class="positive">{{c.localize.strings['joinTrendyWW']}}</h2>
                         <img src="img/image_02.png" alt="" style="width:100%;"/>
-                        <h2 class="positive">Best place to find freebies</h2><br/>
-                        <b class="shining">SWIPE</b>
+                        <h2 class="positive">{{c.localize.strings['bestPlaceFindFreebies']}}</h2><br/>
+                        <b class="shining">{{c.localize.strings['swipeCap']}}</b>
                     </div>
                     <br/><br/><br/><br/>
                 </ion-slide>
                 <ion-slide>
                     <div class="item dark item-borderless" style="text-align: center; border:0px;">
-                        <h2 class="positive">Share things with others</h2>
+                        <h2 class="positive">{{c.localize.strings['shareWithOthers']}}</h2>
                         <img src="img/image_01.png" alt="" style="width:100%;"/>
-                        <h2 class="positive">Native way to find new followers</h2><br/>
-                        <button class="button button-large button-positive" ng-click="c.login_modal.login()">LOGIN WITH INSTAGRAM</button>
+                        <h2 class="positive" style="word-break:break-word; white-space:normal;">{{c.localize.strings['nativeWatFindNewFollowers']}}</h2><br/>
+                        <button class="button button-large button-positive" ng-click="c.login_modal.login()">{{c.localize.strings['loginWithInstagramCap']}}</button>
                     </div>
                 </ion-slide>
             </ion-slide-box>

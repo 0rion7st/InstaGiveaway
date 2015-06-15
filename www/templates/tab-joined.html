@@ -1,12 +1,12 @@
-<ion-view view-title="Joined WW">
+<ion-view view-title="{{c.localize.strings['joinedWW']}}">
 
     <ion-content class="content-bg" has-bouncing="true">
 
         <ion-list>
             <div ng-hide="participating" class="giveaway">
                 <div class="item item-text-wrap">
-                    <small>You haven't joined any Wanna Wins. <br/> How about create your own?</small>
-                    <button class="button button-block button-positive icon-left flaticon-box84" ng-click="c.submit_giveaway()">Create Wanna Win</button>
+                    <small>{{c.localize.strings['haventJoinedWW']}} <br/> {{c.localize.strings['createOneWW']}}</small>
+                    <button class="button button-block button-positive icon-left flaticon-box84" ng-click="c.submit_giveaway()">{{c.localize.strings['createWannaWin']}}</button>
                 </div>
             </div>
             <giveaway ng-repeat="post in participating  track by $index" profile-image="{{post.user.profile_picture || post.profile_picture}}"

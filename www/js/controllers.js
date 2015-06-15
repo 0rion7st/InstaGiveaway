@@ -1,23 +1,29 @@
 angular.module('giveaways.controllers', [])
 
-    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, errorBox, $location,$ionicModal,$cordovaOauth,$cordovaInstagram,$cordovaGoogleAnalytics,$state,registerNotifications,$cordovaDevice,$rootScope,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout,$ionicPopover ) {
+    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, errorBox, $location,$ionicModal,$cordovaOauth,$cordovaInstagram,$cordovaGoogleAnalytics,$state,registerNotifications,$cordovaDevice,$rootScope,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout,$ionicPopover,$cordovaGlobalization ) {
         $scope.c={}
         $scope.c.followersNeeded = profile.followersNeeded
         $scope.c.refreshTimeStamp=-1
         $scope.c.refreshPeriod=30
         $scope.c.localize = document.localize
-        $scope.c.lang = document.getLanguage()
         registerNotifications()
+
+        // get the language and change it if needed
+        document.addEventListener("deviceready", function () {
+
+            $cordovaGlobalization.getPreferredLanguage().then(
+                function(result) {
+                    document.selectLanguage(result.value)
+                },
+                function(error) {
+                });
+
+        }, false);
 
         document.addEventListener("deviceready", function () {
             $cordovaGoogleAnalytics.startTrackerWithId('UA-61254051-1');
         }, false);
 
-
-        $scope.c.changeLanguage = function()
-        {
-            document.selectLanguage($scope.c.lang)
-        }
         $scope.c.toggleRight = function() {
             $ionicSideMenuDelegate.toggleRight();
         };
@@ -728,10 +734,10 @@ angular.module('giveaways.controllers', [])
                 // Show the action sheet
                 $cordovaActionSheet.show({
                     buttonLabels: [
-                        'Choose existing photo'
+                        $scope.c.localize.strings['chooseExistinPhoto']
                     ],
-                    title: 'Select WW square image',
-                    addCancelButtonWithLabel: 'Cancel',
+                    title: $scope.c.localize.strings['selectWWSquareImage'],
+                    addCancelButtonWithLabel: $scope.c.localize.strings['cancel'],
                     androidEnableCancelButton : true,
                     winphoneEnableCancelButton : true
                 }).then(function(btnIndex) {
@@ -832,20 +838,21 @@ angular.module('giveaways.controllers', [])
             $cordovaGoogleAnalytics.trackView('Feed');
         }, false);
 
-        document.addEventListener("resume", (function($scope){
-
-            return function()
-            {
-                setTimeout(function()
-                {
-                    $scope.c.getUserInfo(function()
-                    {
-                        $scope.fillFeed()
-                    },true)
-                },0)
-            }
-
-        })($scope), false);
+        // Disable for now, because it causes infinite loading
+//        document.addEventListener("resume", (function($scope){
+//
+//            return function()
+//            {
+//                setTimeout(function()
+//                {
+//                    $scope.c.getUserInfo(function()
+//                    {
+//                        $scope.fillFeed()
+//                    },true)
+//                },0)
+//            }
+//
+//        })($scope), false);
 
         $scope.loadMoreTimes=0
         $scope.clearSearch = function()
@@ -877,7 +884,7 @@ angular.module('giveaways.controllers', [])
                 var results = instagram.users.get({user:"self",action:"feed",max_id:$scope.next_max_id}).$promise;
                 results.then(function(data)
                 {
-                    if(data.data.length<0)
+                    if (data.data.length < 0)
                     {
                         $scope.loadMoreTimes = 100
                     }
@@ -886,15 +893,15 @@ angular.module('giveaways.controllers', [])
                         $scope.loadMoreTimes++
                     }
                     $scope.next_max_id = data.pagination.next_max_id
-                    data.data=data.data.filter(giveawayDecor.filterPosts)
+                    data.data = data.data.filter(giveawayDecor.filterPosts)
                     console.log("124")
-                    data.data.map(function(post)
+                    data.data.map(function (post)
                     {
-                        var fileredPost =  giveawayDecor.decoratePost(post)
+                        var fileredPost = giveawayDecor.decoratePost(post)
                         post.giveawayHashtag = giveawayDecor.filterPosts(fileredPost)
                         post.giveaway = post.giveaway || {}
                         post.giveaway.new = post.new
-                        $scope.c.userInfo.data.newsFeed +=(post.new || 0)*1
+                        $scope.c.userInfo.data.newsFeed += (post.new || 0) * 1
                     })
                     $scope.feed.data = $scope.feed.data.concat(data.data.filter($scope.uniqueHashtags));
 
@@ -1324,6 +1331,7 @@ angular.module('giveaways.controllers', [])
         $scope.c.showLoading()
         $scope.loadingFadeIn=false
         $scope.layout="posts"
+        $scope.giveaways = []
         $scope.c.getUserInfo(function()
         {
             collection.$promise.then(function()

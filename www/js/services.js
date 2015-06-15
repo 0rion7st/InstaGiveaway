@@ -82,13 +82,13 @@ angular.module('giveaways.services', ['ngResource'])
                 message = "No instagram app found."
                 break;
             case -3:
-                message = "Share post on Instagram first."
+                message = document.localize.strings['shaarePostInInstaFirst']
                 break;
             case 10:
                 message = "WW not exists. Sorry :("
                 break;
             case 11:
-                message = "Wanna Win already exists."
+                message =  document.localize.strings['wwAlreadyExists']
                 break;
             case 400:
                 message = "Now such media in instagram."

@@ -1,16 +1,16 @@
-<ion-view view-title="My WW">
+<ion-view view-title="{{c.localize.strings['myWW']}}">
 
     <ion-content class="content-bg">
 
         <ion-list>
             <div class="giveaway " style="font-style: italic;"  ng-show="giveaways!=undefined">
-                <button class="button button-block button-positive icon-left flaticon-box84" ng-click="c.submit_giveaway()">Create Wanna Win</button>
+                <button class="button button-block button-positive icon-left flaticon-box84" ng-click="c.submit_giveaway()">{{c.localize.strings['createWannaWin']}}</button>
 
             </div>
             <div ng-hide="giveaways!=undefined" class="giveaway" style="opacity: 0.7;">
                 <div class="item item-text-wrap">
                     <i class="flaticon-birthday19"></i>
-                    <small>You haven't created any Wanna Wins</small>
+                    <small>{{c.localize.strings['haventCreatedWW']}}</small>
                 </div>
             </div>
 
@@ -31,7 +31,7 @@
                     <img class="full-image animated loading-bg" src="img/create.png" ng-click="c.submit_giveaway()">
                 </div>
                 <div class="item">
-                    <button class="button button-positive button-block" ng-click="c.submit_giveaway()">Create Wanna Win</button>
+                    <button class="button button-positive button-block" ng-click="c.submit_giveaway()">{{c.localize.strings['createWannaWin']}}</button>
                 </div>
             </div>
 

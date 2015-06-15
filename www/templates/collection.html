@@ -1,4 +1,4 @@
-<ion-view view-title="{{collectionName}}">
+<ion-view view-title={{c.localize.strings['popular']}}>
 
     <ion-content>
 
@@ -6,7 +6,7 @@
             <div ng-show="giveaways.length==0" class="giveaway" style="opacity: 0.7;">
                 <div class="item item-text-wrap">
                     <i class="flaticon-birthday19"></i>
-                    <small>No Wanna Wins in {{collectionName}}</small>
+                    <small>{{c.localize.strings['noWWIn']}}{{c.localize.strings['popular_1']}}</small>
                 </div>
             </div>
 

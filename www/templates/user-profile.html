@@ -4,7 +4,7 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view view-title="My profile">
+<ion-view view-title={{c.localize.strings['myProfile']}}>
     <ion-content class="light-bg has-footer">
 
         <div class="animated" style="opacity:0;" ng-class="loadingFadeIn && 'fadeIn'">
@@ -18,29 +18,29 @@
             <div class="row light-bg">
                 <div class="col col-50 dark" ng-click="c.pushState('#/tab/profile','#/tab/profile/giveaways')">
                     <h3 class="positive" style="margin: 0;">{{c.userInfo.data.giveaways.length}}</h3>
-                    <p>Created Wanna Wins</p>
+                    <p>{{c.localize.strings['createdWW']}}</p>
                 </div>
 
                 <div class="col col-50 dark">
                     <h3 class="positive" style="margin: 0;">{{c.userInfo.data.participating.length}}</h3>
-                    <p>Joined Wanna Wins</p>
+                    <p>{{c.localize.strings['joinedWannaWins']}}</p>
                 </div>
 
             </div>
             <div class="row light-bg">
                 <div class="col col-50 dark">
                     <h3 class="positive" style="margin: 0;">{{reposts}}</h3>
-                    <p>Total reposts</p>
+                    <p>{{c.localize.strings['totalReposts']}}</p>
                 </div>
 
                 <div class="col col-50 dark">
                     <h3 class="positive" style="margin: 0;">{{wins}}</h3>
-                    <p>Winned Wanna Wins</p>
+                    <p>{{c.localize.strings['wannaWinsWon']}}</p>
                 </div>
 
             </div>
             <div class="item item-text-wrap light-bg  dark" style="font-style: italic;">
-                <button class="button button-block button-positive" ng-click="c.submit_giveaway()">Create Wanna Win</button>
+                <button class="button button-block button-positive" ng-click="c.submit_giveaway()">{{c.localize.strings['createWannaWin']}}</button>
 
             </div>
 
@@ -50,6 +50,6 @@
 
     </ion-content>
     <ion-footer-bar padding="false">
-        <button class="button button-block" ng-click="c.logout()" style="margin-top:0;">Logout</button>
+        <button class="button button-block" ng-click="c.logout()" style="margin-top:0;">{{c.localize.strings['logout']}}</button>
     </ion-footer-bar>
 </ion-view>
