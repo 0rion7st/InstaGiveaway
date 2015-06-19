@@ -501,7 +501,7 @@ angular.module('giveaways.controllers', [])
                 if($scope.c.submit.type=="join")
                 {
                     $scope.c.submit.imagedata = document.getElementById("giveaway_canvas").toDataURL("image/jpeg")
-                    desc+="Repost of @"+$scope.c.submit.author.username +"\n"
+                    desc+=$scope.c.localize.strings['repostOf']+$scope.c.submit.author.username +"\n"
 
                     if(!profile.joiningWW())
                     {
@@ -533,7 +533,7 @@ angular.module('giveaways.controllers', [])
                     desc += $scope.c.getDesc($scope.c.submit.post.data.caption.text)
                 }
 
-                var caption  = desc+'\n\n\n\nWanna win? Install WannaWin app\n #'+$scope.c.submit.hashtag
+                var caption  = desc+'\n\n\n\n'+$scope.c.localize.strings['wannaWinInstall']+'\n #'+$scope.c.submit.hashtag
 
                 $cordovaInstagram.share(
                     {image:$scope.c.submit.imagedata,
@@ -882,21 +882,17 @@ angular.module('giveaways.controllers', [])
                 }
 
                 var results = instagram.users.get({user:"self",action:"feed",max_id:$scope.next_max_id}).$promise;
-                results.then(function(data)
-                {
-                    if (data.data.length < 0)
-                    {
+                results.then(function(data) {
+                    if (data.data.length < 0) {
                         $scope.loadMoreTimes = 100
                     }
-                    else
-                    {
+                    else {
                         $scope.loadMoreTimes++
                     }
                     $scope.next_max_id = data.pagination.next_max_id
                     data.data = data.data.filter(giveawayDecor.filterPosts)
                     console.log("124")
-                    data.data.map(function (post)
-                    {
+                    data.data.map(function (post) {
                         var fileredPost = giveawayDecor.decoratePost(post)
                         post.giveawayHashtag = giveawayDecor.filterPosts(fileredPost)
                         post.giveaway = post.giveaway || {}

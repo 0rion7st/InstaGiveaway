@@ -59,32 +59,34 @@
 
 
             </div>
+
             <div class="item item-text-wrap light-bg  dark" style="font-style: italic;" menu-close>
                 <button class="button button-block button-positive icon-left flaticon-box84" ng-click="c.submit_giveaway()">{{c.localize.strings['createWannaWin']}}</button>
             </div>
-            <div class="item" style="color:#a3a3a3">
+            <div class="item" style="color:#a3a3a3;">
                 {{c.localize.strings['createdWW']}}
                 <span class="item-note">{{c.userInfo.data.giveaways.length}}</span>
             </div>
 
-            <div class="item" style="color:#a3a3a3">
+            <div class="item" style="color:#a3a3a3; border-style: none;">
                 {{c.localize.strings['joinedWannaWins']}}
                 <span class="item-note">{{c.userInfo.data.participating.length}}</span>
             </div>
 
-            <div class="item" style="color:#a3a3a3">
+            <div class="item" style="color:#a3a3a3; border-style: none;">
                 {{c.localize.strings['totalReposts']}}
                 <span class="item-note">{{reposts}}</span>
             </div>
 
-            <div class="item" style="color:#a3a3a3">
+            <div class="item" style="color:#a3a3a3; border-style: none;">
                 {{c.localize.strings['wannaWinsWon']}}
                 <span class="item-note">{{wins}}</span>
             </div>
 
-            <a ng-click="c.openAbout()" class="item light-bg positive" menu-close>
-                {{c.localize.strings['helpCenter']}}
-            </a>
+            <div class="item item-text-wrap light-bg  dark" style="font-style: italic;" menu-close>
+                <button class="button button-block button-positive icon-left" ng-click="c.openAbout()">{{c.localize.strings['helpCenter']}}</button>
+            </div>
+
         </div>
         <ion-footer-bar padding="false">
             <button class="button button-block" ng-click="c.logout()" style="margin-top:0;">{{c.localize.strings['logout']}}</button>
@@ -113,7 +115,7 @@
             {{description}}
         </div>
         <div class="item item-button-right"  ng-show="layout=='posts'">
-            <p ><div ng-show="expire!=-1" class="balanced" style="text-transform: uppercase;">Ends <span time="expire" counting></span></div></p>
+            <p><div ng-show="expire!=-1" class="balanced item-text-wrap" style="width:75%">{{c.localize.strings['ends']}} <span time="expire" counting></span></div></p>
             <p ng-show="expire==-1">{{c.localize.strings['finished']}}</p>
             <a href="{{path}}/giveaway/{{giveawayHashtag}}" class="button  icon-left flaticon-gift68 button-clear button-positive">{{c.localize.strings['detailsCap']}}</a>
         </div>

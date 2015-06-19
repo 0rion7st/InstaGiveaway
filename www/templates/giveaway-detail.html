@@ -14,7 +14,7 @@
 
                 <h2><a instagram="user?username={{post.giveaway.owner_info.InstagramUsername}}" class="positive"><b>@{{post.giveaway.owner_info.InstagramUsername}}</b></a></h2>
                 <p >
-                <div ng-show="post.giveaway.status!='completed' && timeNow<post.giveaway.expiration_timestamp" class="balanced"><span>Ends <span time="post.giveaway.expiration_timestamp" counting></span></span></div>
+                <div ng-show="post.giveaway.status!='completed' && timeNow<post.giveaway.expiration_timestamp" class="balanced"><span>{{c.localize.strings['ends']}} <span time="post.giveaway.expiration_timestamp" counting></span></span></div>
                 </p>
                 <p >
                         <b ng-show="post.giveaway.status!='active' && post.giveaway.owner_info.InstagramID!=c.userInstagram.data.id">{{c.localize.strings['wannaWinFinished']}}</b>
@@ -66,7 +66,7 @@
                 </a>
                 <a class="tab-item" instagram="media?id={{post.id}}" style="text-overflow: clip;">
                     <i class="icon ion-social-instagram"></i>
-                    {{c.localize.strings['openInInstagram']}}
+                    Instagram
                 </a>
                 <a class="tab-item" ng-click="c.report(post.images.standard_resolution.url,post.giveaway.hashtag,post.id,post.giveaway.owner_info.InstagramUsername)">
                     <i class="icon ion-alert-circled"></i>

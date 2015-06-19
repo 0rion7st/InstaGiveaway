@@ -90,8 +90,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
             },
             link: function($scope,el,attrs) {
                 var timerCounting
-                function renderTime()
-                {
+                function renderTime() {
                     if (($scope.time - (new Date()).getTime() / 1000) < 0 || ($scope.time - (new Date()).getTime() / 1000) > 60 * 60 * 24)
                     {
                         el[0].innerHTML = moment.unix($scope.time).fromNow()

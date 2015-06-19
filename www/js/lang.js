@@ -11,7 +11,7 @@
         "myWW": "Мои WW",
         "shareOnInstagram": "ПОДЕЛИТЬСЯ В INSTAGRAM",
         "done": "СДЕЛАНО",
-        "joinedWW": "Участие в WW",
+        "joinedWW": "Где участвую",
         "createdWW": "Создано Wanna Wins",
         "joinedWannaWins": "Участие в Wanna Wins",
         "totalReposts": "Всего репостов",
@@ -25,7 +25,6 @@
         "createOneWW":"Хотите создать сами?",
         "wannaWinFinished": "Wanna Win окончен",
         "participants": "УЧАСТНИКИ",
-        "openInInstagram": "Открыть в Instagram",
         "report": "Пожаловаться",
         "winnerCap": "ПОБЕДИТЕЛЬ",
         "finishedCap": "ОКОНЧЕНО",
@@ -38,6 +37,7 @@
         "hashtagOfThisWannaWin": "Хэштег этого Wanna Win:",
         "doNotDeleteIt": "Не стирай его!",
         "sharePostOnInstagramFirst": "Сначала поделись записью в Instagram.",
+        "createWWCap": "СОЗДАТЬ WW",
         "next": "ДАЛЕЕ",
         "1Day": "1 день",
         "3Days": "3 дня",
@@ -82,15 +82,17 @@
         "joinedCap": "УЧАСТВУЮ",
         "shaarePostInInstaFirst": "Сначала поделись записью в Instagram",
         "wwAlreadyExists": "Такой Wanna Win уже существует",
-        "createWWCap": "СОЗДАТЬ WW",
-        "joinCap": "УЧАСТВОВАТЬ",
+        "joinCap": "УЧАСТИЕ",
         "login": "Регистрация",
         "swipeCap": "ПРОВЕДИТЕ",
         "loginWithInstagramCap": "ВОЙТИ С INSTAGRAM",
         "joinTrendyWW": "Участвуй и выигрывай",
         "bestPlaceFindFreebies": "Все розыгрыши в одном месте",
         "shareWithOthers": "Делись лучшим с друзьями",
-        "nativeWatFindNewFollowers": "Лучший способ находить новых подписчиков"
+        "nativeWatFindNewFollowers": "Лучший способ находить новых подписчиков",
+        "ends": "Заканчивается",
+        "wannaWinInstall": "Участвуй через приложение Wanna Win. Установи на @ww_iphone или @ww_android",
+        "repostOf": "Репост от @"
     }
 
     var eng = {
@@ -116,7 +118,6 @@
         "createOneWW":"How about creating your own?",
         "wannaWinFinished": "Wanna Win was finished",
         "participants": "PARTICIPANTS",
-        "openInInstagram": "Open in Instagram",
         "report": "Report",
         "winnerCap": "WINNER",
         "finishedCap": "FINISHED",
@@ -181,7 +182,10 @@
         "joinTrendyWW": "Join trendy Wanna Wins",
         "bestPlaceFindFreebies": "Best place to find freebies",
         "shareWithOthers": "Share things with others",
-        "nativeWatFindNewFollowers": "Native way to find new followers"
+        "nativeWatFindNewFollowers": "Native way to find new followers",
+        "ends": "Ends",
+        "wannaWinInstall": "Wanna win? Install WannaWin app on @ww_iphone or @ww_android",
+        "repostOf": "Repost of @"
     }
 
     document.selectLanguage = function(lang)
