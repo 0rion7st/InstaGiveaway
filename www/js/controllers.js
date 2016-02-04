@@ -340,6 +340,10 @@ angular.module('giveaways.controllers', [])
             }
             $scope.c.submit={}
             $scope.c.submit.ribbon=1
+            $scope.c.submit.isLangEn=true
+            $scope.c.submit.lang="en"
+            $scope.c.submit.ruCaption = "Участвуй через приложение Wanna Win. Установи на @ww_iphone или @ww_android";
+            $scope.c.submit.enCaption = "Wanna win? Install WannaWin app on @ww_iphone or @ww_android";
             function touchStart(e){
                 var canvas=document.getElementById("giveaway_canvas");
                 var touchobj = e.changedTouches[0]
@@ -473,7 +477,7 @@ angular.module('giveaways.controllers', [])
                             reDraw()
                             canvas.className = "animated fadeIn";
                         }
-                        ribbon.src="img/ribbons/ribbon_0"+$scope.c.submit.ribbon+".png"
+                        ribbon.src="img/ribbons/ribbon_0"+$scope.c.submit.ribbon+"_"+$scope.c.submit.lang+".png"
                     }
                     else
                     {
@@ -494,6 +498,13 @@ angular.module('giveaways.controllers', [])
                     $scope.c.submit.fillCanvas()
                 }
             }
+
+            $scope.c.submit.changeLang = function()
+            {
+                $scope.c.submit.lang=($scope.c.submit.isLangEn)?"en":"ru";
+                $scope.c.submit.fillCanvas()
+            }
+
             $scope.c.submit.share = function()
             {
                 var desc = ""
@@ -533,7 +544,8 @@ angular.module('giveaways.controllers', [])
                     desc += $scope.c.getDesc($scope.c.submit.post.data.caption.text)
                 }
 
-                var caption  = desc+'\n\n\n\n'+$scope.c.localize.strings['wannaWinInstall']+'\n #'+$scope.c.submit.hashtag
+                var langCaption = ($scope.c.submit.isLangEn)?$scope.c.submit.enCaption:$scope.c.submit.ruCaption
+                var caption  = desc+'\n\n\n\n'+langCaption+'\n #'+$scope.c.submit.hashtag
 
                 $cordovaInstagram.share(
                     {image:$scope.c.submit.imagedata,
@@ -707,45 +719,72 @@ angular.module('giveaways.controllers', [])
                     canvas.dist = {x: 0, y: 0}
                     canvas.offset = {x:0,y:0}
                 }
-                $cordovaImagePicker.getPictures({
-                    maximumImagesCount: 1,
-                    width: 640,
-                    quality: 100
-                })
-                    .then(function (results) {
-                        //No image selected
-                        if(results.length==0)
-                            return
-                        $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:ImageSelect');
-                        $scope.c.submit.imageUrl =  results[0]
-                        $scope.c.submit.type='new'
-                        if($scope.c.submit.modal == undefined)
-                            $scope.c.submit.showModal()
-                        else
-                            $scope.c.submit.fillCanvas()
 
-                    }, function(error) {
-                        // error getting photos
-                    });
+                // FOR DEBUG START
+
+                //$cordovaImagePicker.getPictures({
+                //    maximumImagesCount: 1,
+                //    width: 640,
+                //    quality: 100
+                //}).then(function (results) {
+                //        //No image selected
+                //        if(results.length==0)
+                //            return
+                //        $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:ImageSelect');
+                //        $scope.c.submit.imageUrl =  results[0]
+                //        $scope.c.submit.type='new'
+                //        if($scope.c.submit.modal == undefined)
+                //            $scope.c.submit.showModal()
+                //        else
+                //            $scope.c.submit.fillCanvas()
+                //
+                //    }, function(error) {
+                //        // error getting photos
+                //});
+
+                // FOR DEBUG END
+                // Uncomment above code and comment this code:
+                //$scope.c.submit.imageUrl = "img/image_02.png"
+                //$scope.c.submit.type='new'
+                //if($scope.c.submit.modal == undefined)
+                //    $scope.c.submit.showModal()
+                //else
+                //    $scope.c.submit.fillCanvas()
+
+                $scope.c.submit.imageUrl = "img/image_02.png"
+                $scope.c.submit.type='new'
+                if($scope.c.submit.modal == undefined)
+                    $scope.c.submit.showModal()
+                else
+                    $scope.c.submit.fillCanvas()
             }
             if(media_id==undefined)
             {
                 $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create');
+
+                // FOR DEBUG START
+
                 // Show the action sheet
-                $cordovaActionSheet.show({
-                    buttonLabels: [
-                        $scope.c.localize.strings['chooseExistinPhoto']
-                    ],
-                    title: $scope.c.localize.strings['selectWWSquareImage'],
-                    addCancelButtonWithLabel: $scope.c.localize.strings['cancel'],
-                    androidEnableCancelButton : true,
-                    winphoneEnableCancelButton : true
-                }).then(function(btnIndex) {
-                    if(btnIndex!=2)
-                    {
-                        $scope.c.submit.selectImage()
-                    }
-                });
+                //$cordovaActionSheet.show({
+                //    buttonLabels: [
+                //        $scope.c.localize.strings['chooseExistinPhoto']
+                //    ],
+                //    title: $scope.c.localize.strings['selectWWSquareImage'],
+                //    addCancelButtonWithLabel: $scope.c.localize.strings['cancel'],
+                //    androidEnableCancelButton : true,
+                //    winphoneEnableCancelButton : true
+                //}).then(function(btnIndex) {
+                //    if(btnIndex!=2)
+                //    {
+                //        $scope.c.submit.selectImage()
+                //    }
+                //});
+
+                // FOR DEBUG END
+                // Uncomment above code and comment this code:
+                //$scope.c.submit.selectImage()
+                $scope.c.submit.selectImage()
+
             }else
             {
                 $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join','hashtag',hashtag);

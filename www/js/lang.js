@@ -31,7 +31,9 @@
         "openInstagramCap": "ОТКРЫТЬ INSTAGRAM",
         "selectWWSquareImage": "Выберите квадратную картинку для WW",
         "cancel": "Отменить",
-        "chooseSticker": "Выберите наклейку:",
+        "chooseSticker": "Выберите наклейку",
+        "russian": "Русский",
+        "english": "Английский",
         "selectWannaWinDuration":"Выберите продолжительность WW",
         "shareAndComeBack": "Поделись и приходи обратно!",
         "hashtagOfThisWannaWin": "Хэштег этого Wanna Win:",
@@ -91,7 +93,6 @@
         "shareWithOthers": "Делись лучшим с друзьями",
         "nativeWatFindNewFollowers": "Лучший способ находить новых подписчиков",
         "ends": "Заканчивается",
-        "wannaWinInstall": "Участвуй через приложение Wanna Win. Установи на @ww_iphone или @ww_android",
         "repostOf": "Репост от @"
     }
 
@@ -124,7 +125,9 @@
         "openInstagramCap": "OPEN INSTAGRAM",
         "selectWWSquareImage": "Select WW square image",
         "cancel": "Cancel",
-        "chooseSticker": "Choose sticker:",
+        "chooseSticker": "Choose sticker",
+        "russian": "Russian",
+        "english": "English",
         "selectWannaWinDuration": "Select Wanna Win duration",
         "shareAndComeBack": "Share and come back!",
         "hashtagOfThisWannaWin": "Hashtag of this Wanna Win:",
@@ -184,7 +187,6 @@
         "shareWithOthers": "Share things with others",
         "nativeWatFindNewFollowers": "Native way to find new followers",
         "ends": "Ends",
-        "wannaWinInstall": "Wanna win? Install WannaWin app on @ww_iphone or @ww_android",
         "repostOf": "Repost of @"
     }
 

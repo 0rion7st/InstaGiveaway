@@ -9,20 +9,39 @@
     <ion-content  class="has-header" has-bouncing="false">
         <ion-slide-box show-pager="false" active-slide="c.submit.active_slide">
             <ion-slide ng-show="c.submit.type=='new'">
-                <div class="item item-image item-body item-borderless" style="border: 0; text-align: left;">
+                <div class="item item-image item-body item-borderless" style="border: 0; text-align: left; padding-bottom: 0px;">
                     <canvas id="giveaway_canvas" class="loading-bg"></canvas>
                     <button class="button icon ion-camera cam-btn" ng-click="c.submit.selectImage()" ></button>
                 </div>
-                <h4 style="margin:0px; padding-left: 20px;" class="positive">{{c.localize.strings['chooseSticker']}}</h4>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:49%">
+                            <span style="float:right; padding-right: 15px; padding-bottom: 5px; font-size:18px; font-family: 'Droid Sans', sans-serif;">{{c.localize.strings['russian']}}</span>
+                        </td>
+                        <td style="width:2%">
+                            <label class="toggle toggle-instagivaway">
+                            <input type="checkbox" ng-checked="c.submit.isLangEn" ng-model="c.submit.isLangEn" ng-click="c.submit.changeLang()">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                            </label>
+                        </td>
+                        <td style="width:49%;" valign="bottom">
+                            <span style="float:left; padding-left: 15px; padding-bottom: 5px; font-size:18px; font-family: 'Droid Sans', sans-serif;">{{c.localize.strings['english']}}</span>
+                        </td>
+                    </tr>
+                </table>
+
+                <h4 style="margin:0px; padding-left: 15px; margin-top: 10px; text-align: center;" class="positive">{{c.localize.strings['chooseSticker']}}</h4>
                 <ion-scroll direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;" ng-if="c.submit.type=='new'">
-                    <img src="img/ribbons/ribbon_01.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(1)"/>
-                    <img src="img/ribbons/ribbon_02.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(2)"/>
-                    <img src="img/ribbons/ribbon_03.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(3)"/>
-                    <img src="img/ribbons/ribbon_04.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(4)"/>
-                    <img src="img/ribbons/ribbon_05.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(5)" />
-                    <img src="img/ribbons/ribbon_06.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(6)"/>
-                    <img src="img/ribbons/ribbon_07.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(7)" />
-                    <img src="img/ribbons/ribbon_08.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(8)"/>
+                    <img ng-src="img/ribbons/ribbon_01_{{c.submit.lang}}.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(1)"/>
+                    <img ng-src="img/ribbons/ribbon_02_{{c.submit.lang}}.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(2)"/>
+                    <img ng-src="img/ribbons/ribbon_03_{{c.submit.lang}}.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(3)"/>
+                    <img ng-src="img/ribbons/ribbon_04_{{c.submit.lang}}.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(4)"/>
+                    <img ng-src="img/ribbons/ribbon_05_{{c.submit.lang}}.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(5)" />
+                    <img ng-src="img/ribbons/ribbon_06_{{c.submit.lang}}.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(6)"/>
+                    <img ng-src="img/ribbons/ribbon_07_{{c.submit.lang}}.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(7)" />
+                    <img ng-src="img/ribbons/ribbon_08_{{c.submit.lang}}.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(8)"/>
                 </ion-scroll>
             </ion-slide>
             <ion-slide ng-if="c.submit.type=='new'" style="text-align: center;">

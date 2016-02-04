@@ -9,6 +9,10 @@
 
 }
 
+.toggle.toggle-instagivaway input:checked + .track {
+    border-color: #ddd;
+    background-color: #fff; }
+
 #giveaway_canvas
 {
     width:100%;

@@ -58,33 +58,6 @@
                 </div>
 
             </div>
-            <div class="item tabs tabs-secondary tabs-icon-left">
-
-                <a class="tab-item"  ng-click="likePost()">
-                    <i class="icon " ng-class="{true:'ion-ios-heart',false:'ion-ios-heart-outline'}[post.user_has_liked==true]"></i>
-                    {{post.likes.count}}
-                </a>
-                <a class="tab-item" instagram="media?id={{post.id}}" style="text-overflow: clip;">
-                    <i class="icon ion-social-instagram"></i>
-                    Instagram
-                </a>
-                <a class="tab-item" ng-click="c.report(post.images.standard_resolution.url,post.giveaway.hashtag,post.id,post.giveaway.owner_info.InstagramUsername)">
-                    <i class="icon ion-alert-circled"></i>
-                    {{c.localize.strings['report']}}
-                </a>
-            </div>
-            <div class="item item-icon-left item-text-wrap light-bg  dark" ng-show="post.caption.text!=''" style="font-style: italic;">
-                <i class="icon ion-quote"></i>
-                {{post.caption.text}}
-
-            </div>
-            <div class="item light-bg" ng-if="post.giveaway && post.giveaway.participants.data.length!=0 && post.giveaway.status!='completed'" style="padding-bottom: 0px; border-bottom:0px;">
-                <small>{{c.localize.strings['recentlyJoined']}}:</small>
-            </div>
-            <ion-scroll  ng-if="post.giveaway.participants.data.length!=0  && post.giveaway.status!='completed'" direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;">
-                <img ng-repeat="joined in post.giveaway.participants.data | orderBy:'$index':true" instagram="user?username={{joined.InstagramUsername}}" src="{{joined.InstagramAvatar}}" class="avatar" alt=""/><br>
-            </ion-scroll >
-
             <div class="item item-text-wrap row"  ng-show="post.giveaway.status!='failed' && post.giveaway.status!='completed' && timeNow>post.giveaway.expiration_timestamp">
                 <ion-spinner icon="lines" class="col col-25 spinner-positive" style="text-align: center;   padding-top: 10px;"></ion-spinner>
                 <small class="col col-75">
@@ -98,8 +71,6 @@
                 <small>{{c.localize.strings['noWinner0Participants']}}</small>
             </div>
 
-
-
             <div class="row  light-bg" ng-show="post.giveaway.winner_info.InstagramUsername">
                 <div class="col col-25">
                     <img src="{{post.giveaway.winner_info.InstagramAvatar}}" style="width:75%; text-align: center; border-radius: 100%; margin:16px 0 0 10px;" alt=""/>
@@ -108,7 +79,6 @@
                     <h4><a instagram="user?username={{post.giveaway.winner_info.InstagramUsername}}" class="positive"><b>@{{post.giveaway.winner_info.InstagramUsername}}</b></a></h4>
                     <p>{{c.localize.strings['winnerCap']}}</p>
                 </div>
-
             </div>
             <div class="item item-text-wrap" ng-show="post.giveaway.winner_info.InstagramUsername && post.giveaway.winner_info.InstagramID!='' && post.giveaway.owner_info.InstagramID==c.userInstagram.data.id">
                 <small>{{c.localize.strings['contactWinnerToDeliver']}}</small>
@@ -134,6 +104,33 @@
             <div class="item item-avatar item-input-inset" ng-if="post.giveaway.winner_info.InstagramUsername && post.giveaway.winner_info.InstagramID!='' && post.giveaway.owner_info.InstagramID==c.userInstagram.data.id">
                 <button class="button button-positive button-block"  instagram="user?username={{post.giveaway.winner_info.InstagramUsername}}">{{c.localize.strings['contactWinnerCap']}}</button>
             </div>
+            <div class="item tabs tabs-secondary tabs-icon-left">
+
+                <a class="tab-item"  ng-click="likePost()">
+                    <i class="icon " ng-class="{true:'ion-ios-heart',false:'ion-ios-heart-outline'}[post.user_has_liked==true]"></i>
+                    {{post.likes.count}}
+                </a>
+                <a class="tab-item" instagram="media?id={{post.id}}" style="text-overflow: clip;">
+                    <i class="icon ion-social-instagram"></i>
+                    Instagram
+                </a>
+                <a class="tab-item" ng-click="c.report(post.images.standard_resolution.url,post.giveaway.hashtag,post.id,post.giveaway.owner_info.InstagramUsername)">
+                    <i class="icon ion-alert-circled"></i>
+                    {{c.localize.strings['report']}}
+                </a>
+            </div>
+            <div class="item item-icon-left item-text-wrap light-bg  dark" ng-show="post.caption.text!=''" style="font-style: italic;">
+                <i class="icon ion-quote"></i>
+                {{post.caption.text}}
+
+            </div>
+            <div class="item light-bg" ng-if="post.giveaway && post.giveaway.participants.data.length!=0 && post.giveaway.status!='completed'" style="padding-bottom: 0px; border-bottom:0px;">
+                <small>{{c.localize.strings['recentlyJoined']}}:</small>
+            </div>
+            <ion-scroll  ng-if="post.giveaway.participants.data.length!=0  && post.giveaway.status!='completed'" direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;">
+                <img ng-repeat="joined in post.giveaway.participants.data | orderBy:'$index':true" instagram="user?username={{joined.InstagramUsername}}" src="{{joined.InstagramAvatar}}" class="avatar" alt=""/><br>
+            </ion-scroll>
+
 
             <div class="item item-avatar item-text-wrap" ng-repeat="comment in post.comments.data" >
                 <img src="{{comment.from.profile_picture}}">
