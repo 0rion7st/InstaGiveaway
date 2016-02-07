@@ -10,7 +10,6 @@ angular.module('giveaways.controllers', [])
 
         // get the language and change it if needed
         document.addEventListener("deviceready", function () {
-
             $cordovaGlobalization.getPreferredLanguage().then(
                 function(result) {
                     document.selectLanguage(result.value)
@@ -23,6 +22,12 @@ angular.module('giveaways.controllers', [])
         document.addEventListener("deviceready", function () {
             $cordovaGoogleAnalytics.startTrackerWithId('UA-61254051-1');
         }, false);
+
+        angular.element(document).find('head').append('<style type="text/css">.giveaway.finished:before{content: "' + $scope.c.localize.strings["labelFinished"] +'" !important;}</style>');
+        angular.element(document).find('head').append('<style type="text/css">.giveaway.owner:before{content: "' + $scope.c.localize.strings["labelMyWW"] +'" !important;}</style>');
+        angular.element(document).find('head').append('<style type="text/css">.giveaway.new:before{content: "' + $scope.c.localize.strings["labelNew"] +'" !important;}</style>');
+        angular.element(document).find('head').append('<style type="text/css">.giveaway.no-winner:before{content: "' + $scope.c.localize.strings["labelNoWinner"] +'" !important;}</style>');
+        angular.element(document).find('head').append('<style type="text/css">.giveaway.participating:before{content: "' + $scope.c.localize.strings["labelJoined"] +'" !important;}</style>');
 
         $scope.c.toggleRight = function() {
             $ionicSideMenuDelegate.toggleRight();
@@ -676,6 +681,7 @@ angular.module('giveaways.controllers', [])
             {
                 $scope.shareClicked = true
                 $scope.c.submit.days = 7
+                $scope.c.submit.comment = ""
                 $ionicModal.fromTemplateUrl('templates/create-giveaway.html', {
                     scope: $scope,
                     animation: 'slide-in-up',

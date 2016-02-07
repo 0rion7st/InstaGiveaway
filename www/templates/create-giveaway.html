@@ -44,16 +44,21 @@
                     <img ng-src="img/ribbons/ribbon_08_{{c.submit.lang}}.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(8)"/>
                 </ion-scroll>
             </ion-slide>
-            <ion-slide ng-if="c.submit.type=='new'" style="text-align: center;">
+            <ion-slide ng-if="c.submit.type=='new'">
                 <h3 class="positive padding">{{c.localize.strings['selectWannaWinDuration']}}</h3>
-                <img src="img/image_04.png" alt="" style="max-width: 50%;"/>
                 <div class="list">
                     <div class="item item-borderless ">
-                        <button ng-click="c.submit.days=1"  class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==1]">{{c.localize.strings['1Day']}}</button>
                         <button ng-click="c.submit.days=3"  class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==3]">{{c.localize.strings['3Days']}}</button>
                         <button ng-click="c.submit.days=7"  class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==7]">{{c.localize.strings['7Days']}}</button>
                         <button ng-click="c.submit.days=14" class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==14]">{{c.localize.strings['14Days']}}</button>
+                        <button ng-click="c.submit.days=30" class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==30]">{{c.localize.strings['30Days']}}</button>
                     </div>
+                </div>
+                <div class="list">
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">{{c.localize.strings['caption']}}</span>
+                        <textarea placeholder="{{c.localize.strings['comments']}}" ng-model="$scope.c.submit.comment"></textarea>
+                    </label>
                 </div>
             </ion-slide>
             <ion-slide>
