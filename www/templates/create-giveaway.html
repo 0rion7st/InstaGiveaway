@@ -60,6 +60,26 @@
                         <textarea placeholder="{{c.localize.strings['comments']}}" ng-model="$scope.c.submit.comment"></textarea>
                     </label>
                 </div>
+                <ion-list>
+                    <ion-checkbox ng-change="c.submit.changeGeotype('world')" ng-model="c.submit.geotypeWorld">
+                        <span ng-style="{ 'opacity' : (c.submit.geotypeWorld == true) ? '1' : '0.3' }">
+                            World
+                        </span>
+                    </ion-checkbox>
+                    <ion-checkbox ng-change="c.submit.changeGeotype('country')" ng-model="c.submit.geotypeCountry">
+                        <span ng-style="{ 'opacity' : (c.submit.geotypeCountry == true) ? '1' : '0.3' }">
+                            country
+                        </span>
+                    </ion-checkbox>
+                    <ion-checkbox ng-change="c.submit.changeGeotype('place')" ng-model="c.submit.geotypePlace">
+                        <span ng-style="{ 'opacity' : (c.submit.geotypePlace == true) ? '1' : '0.3' }">
+                            place
+                        </span>
+                    </ion-checkbox>
+                </ion-list>
+ <!--               <div class="item-input-inset input-settings-address">
+                    <google-autocomplete></google-autocomplete>
+                </div>-->
             </ion-slide>
             <ion-slide>
                 <div class="item dark item-borderless item-text-wrap " style="text-align: center; border: 0">

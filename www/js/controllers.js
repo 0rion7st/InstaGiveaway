@@ -347,6 +347,9 @@ angular.module('giveaways.controllers', [])
             $scope.c.submit.ribbon=1
             $scope.c.submit.isLangEn=true
             $scope.c.submit.lang="en"
+            $scope.c.submit.geotypeWorld = true
+            $scope.c.submit.geotypeCountry = false
+            $scope.c.submit.geotypePlace = false
             $scope.c.submit.ruCaption = "Участвуй через приложение Wanna Win. Установи на @ww_iphone или @ww_android";
             $scope.c.submit.enCaption = "Wanna win? Install WannaWin app on @ww_iphone or @ww_android";
             function touchStart(e){
@@ -432,6 +435,27 @@ angular.module('giveaways.controllers', [])
 
                 if($scope.c.submit.type=="new" ) {
                     ctx.drawImage($scope.c.submit.selectedRibon, 0, 0, $scope.c.submit.selectedRibon.width, $scope.c.submit.selectedRibon.height)
+                }
+            }
+            $scope.c.submit.changeGeotype = function(type)
+            {
+                if (type == "world")
+                {
+                    $scope.c.submit.geotypeWorld = true
+                    $scope.c.submit.geotypeCountry = false
+                    $scope.c.submit.geotypePlace = false
+                }
+                if (type == "country")
+                {
+                    $scope.c.submit.geotypeWorld = false
+                    $scope.c.submit.geotypeCountry = true
+                    $scope.c.submit.geotypePlace = false
+                }
+                if (type == "place")
+                {
+                    $scope.c.submit.geotypeWorld = false
+                    $scope.c.submit.geotypeCountry = false
+                    $scope.c.submit.geotypePlace = true
                 }
             }
             $scope.c.submit.fillCanvas = function()
