@@ -226,7 +226,7 @@ angular.module('giveaways.services', ['ngResource'])
 //<editor-fold  desc="server">
     .factory('server', function ($resource, profile) {
        //var server_endpoint = "mock/"
-       var server_endpoint = "http://107.20.138.124/GiveAway/main_commander.php"
+       var server_endpoint = "http://107.20.138.124/GiveAway_dev/main_commander.php"
         return {
             getGiveaway: $resource(server_endpoint/*+"GET_GIVEAWAY"*/,{command:'GET_GIVEAWAY',InstagramID:profile.instagram_id(),AccessToken:profile.access_token()}),
             getUserInfo: $resource(server_endpoint/*+"GET_USER_INFO"*/,{command:'GET_USER_INFO',InstagramID:profile.instagram_id(),AccessToken:profile.access_token(),InstagramUsername:profile.instagram_username(),InstagramAvatar:profile.instagram_avatar()}),
