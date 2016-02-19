@@ -29,6 +29,17 @@ angular.module('giveaways.controllers', [])
         angular.element(document).find('head').append('<style type="text/css">.giveaway.no-winner:before{content: "' + $scope.c.localize.strings["labelNoWinner"] +'" !important;}</style>');
         angular.element(document).find('head').append('<style type="text/css">.giveaway.participating:before{content: "' + $scope.c.localize.strings["labelJoined"] +'" !important;}</style>');
 
+        // wa for ionic and google autocomplete service
+        $scope.DisableTap = function(){
+            var container = document.getElementsByClassName('pac-container');
+            // disable ionic data tab
+            angular.element(container).attr('data-tap-disabled', 'true');
+            // leave input field if google-address-entry is selected
+            angular.element(container).on("click", function(){
+                document.getElementById('searchBar').blur();
+            });
+        };
+
         $scope.c.toggleRight = function() {
             $ionicSideMenuDelegate.toggleRight();
         };
