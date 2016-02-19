@@ -640,6 +640,25 @@ angular.module('giveaways.controllers', [])
                 $scope.c.showLoading()
                 $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit','hashtag',$scope.c.submit.hashtag);
                 options.ExpirationTimestamp=$scope.c.submit.expire
+                if ($scope.c.submit.geotypeWorld)
+                {
+                    options.geotype = "World"
+                }
+                else
+                {
+                    if ($scope.c.submit.geotypeCountry)
+                    {
+                        options.geotype = "Country"
+                    }
+                    else
+                    {
+                        if ($scope.c.submit.geotypePlace)
+                        {
+                            options.geotype = "Place"
+                        }
+                    }
+                }
+
                 $scope.c.userInfo = server.submitGiveaway.get(options,function(data)
                 {
                     $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Success','hashtag',$scope.c.submit.hashtag);

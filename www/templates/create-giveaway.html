@@ -73,13 +73,11 @@
                     </ion-checkbox>
                     <ion-checkbox ng-change="c.submit.changeGeotype('place')" ng-model="c.submit.geotypePlace">
                         <span ng-style="{ 'opacity' : (c.submit.geotypePlace == true) ? '1' : '0.3' }">
-                            place
+                            place<!--<google-autocomplete-cities></google-autocomplete-cities>-->
                         </span>
                     </ion-checkbox>
                 </ion-list>
- <!--               <div class="item-input-inset input-settings-address">
-                    <google-autocomplete></google-autocomplete>
-                </div>-->
+                <google-autocomplete-countries></google-autocomplete-countries>
             </ion-slide>
             <ion-slide>
                 <div class="item dark item-borderless item-text-wrap " style="text-align: center; border: 0">

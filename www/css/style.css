@@ -9,6 +9,11 @@
 
 }
 
+.pac-icon {
+    width: 0;
+    background-image: none;
+}
+
 .toggle.toggle-instagivaway input:checked + .track {
     border-color: #ddd;
     background-color: #fff; }

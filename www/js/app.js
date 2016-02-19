@@ -189,6 +189,73 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                     var full_address = place.formatted_address;
                     alert(full_address);
                 });
+                document.addEventListener('DOMNodeInserted', function(event) {
+                    console.log(event);
+                    //target = event.target;
+                    //if (target.hasClass('pac-item')) {
+                    //    //target.html(target.html().replace(/ United Kingdom<\/span>$/, "</span>"))
+                    //    console.log(target);
+                    //}
+                });
+            }
+        }
+    }])
+
+    .directive('googleAutocompleteCities', ['$rootScope', function($rootScope) {
+        return {
+            restrict: 'E',
+            replace: 'false',
+            templateUrl: 'templates/google_autocomplete.html',
+            link: function($scope, elm, attrs) {
+                var input = elm.children()[1];
+                var options = {
+                    types: ['(cities)']
+                };
+                var autocomplete = new google.maps.places.Autocomplete(input, options);
+                google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                    var place = autocomplete.getPlace();
+                    // clear address field
+                    document.getElementById('searchBar').value = '';
+
+                    // TODO_DIMA: make this popup
+                    if (!place.geometry) {
+                        alert("Wrong address");
+                        return;
+                    }
+
+                    var full_address = place.formatted_address;
+                    alert(full_address);
+                });
+            }
+        }
+    }])
+
+    .directive('googleAutocompleteCountries', ['$rootScope', function($rootScope) {
+        return {
+            restrict: 'E',
+            replace: 'false',
+            templateUrl: 'templates/google_autocomplete.html',
+            link: function($scope, elm, attrs) {
+                var input = elm.children()[1];
+                var options = {
+                    types: ['(regions)']
+                };
+                var autocomplete = new google.maps.places.Autocomplete(input, options);
+                google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                    var place = autocomplete.getPlace();
+                    // clear address field
+                    document.getElementById('searchBar').value = '';
+
+                    // TODO_DIMA: make this popup
+                    if (!place.geometry) {
+                        alert("Wrong address");
+                        return;
+                    }
+                    console.log(place);
+
+                    var full_address = place.formatted_address;
+                    alert(full_address);
+                });
             }
         }
     }])
