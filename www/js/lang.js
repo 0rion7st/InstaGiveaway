@@ -100,6 +100,7 @@
         "shareWithOthers": "Делись лучшим с друзьями",
         "nativeWatFindNewFollowers": "Лучший способ находить новых подписчиков",
         "ends": "Заканчивается",
+        "enterCountryName": "Введите корректное название страны",
         "repostOf": "Репост от @"
     }
 
@@ -201,6 +202,7 @@
         "shareWithOthers": "Share things with others",
         "nativeWatFindNewFollowers": "Native way to find new followers",
         "ends": "Ends",
+        "enterCountryName": "Please enter correct country name",
         "repostOf": "Repost of @"
     }
 

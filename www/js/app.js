@@ -189,14 +189,6 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                     var full_address = place.formatted_address;
                     alert(full_address);
                 });
-                document.addEventListener('DOMNodeInserted', function(event) {
-                    console.log(event);
-                    //target = event.target;
-                    //if (target.hasClass('pac-item')) {
-                    //    //target.html(target.html().replace(/ United Kingdom<\/span>$/, "</span>"))
-                    //    console.log(target);
-                    //}
-                });
             }
         }
     }])
@@ -214,8 +206,8 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 var autocomplete = new google.maps.places.Autocomplete(input, options);
                 google.maps.event.addListener(autocomplete, 'place_changed', function () {
                     var place = autocomplete.getPlace();
-                    // clear address field
-                    document.getElementById('searchBar').value = '';
+                    //// clear address field
+                    //document.getElementById('searchBar').value = '';
 
                     // TODO_DIMA: make this popup
                     if (!place.geometry) {
@@ -223,8 +215,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                         return;
                     }
 
-                    var full_address = place.formatted_address;
-                    alert(full_address);
+                    $scope.c.submit.geotypePlaceName = place.name
                 });
             }
         }
@@ -243,18 +234,28 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 var autocomplete = new google.maps.places.Autocomplete(input, options);
                 google.maps.event.addListener(autocomplete, 'place_changed', function () {
                     var place = autocomplete.getPlace();
-                    // clear address field
-                    document.getElementById('searchBar').value = '';
+                    var isCountry = false;
 
                     // TODO_DIMA: make this popup
                     if (!place.geometry) {
                         alert("Wrong address");
                         return;
                     }
-                    console.log(place);
 
-                    var full_address = place.formatted_address;
-                    alert(full_address);
+                    for(var i = 0; i < place.types.length; i += 1) {
+                        if (place.types[i] === 'country') {
+                            isCountry = true;
+                        }
+                    }
+
+                    // TODO_DIMA: make this popup
+                    if (!isCountry) {
+                        alert($scope.c.localize.strings['enterCountryName']);
+                        return;
+                    }
+
+                    $scope.c.submit.geotypeCountryNameLocalized = place.address_components[0].long_name;
+                    $scope.c.submit.geotypeCountryName = place.address_components[0].short_name;
                 });
             }
         }

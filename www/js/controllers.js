@@ -361,6 +361,9 @@ angular.module('giveaways.controllers', [])
             $scope.c.submit.geotypeWorld = true
             $scope.c.submit.geotypeCountry = false
             $scope.c.submit.geotypePlace = false
+            $scope.c.submit.geotypeCountryName = ""
+            $scope.c.submit.geotypeCountryNameLocalized = ""
+            $scope.c.submit.geotypePlaceName = ""
             $scope.c.submit.ruCaption = "Участвуй через приложение Wanna Win. Установи на @ww_iphone или @ww_android";
             $scope.c.submit.enCaption = "Wanna win? Install WannaWin app on @ww_iphone or @ww_android";
             function touchStart(e){
@@ -653,19 +656,21 @@ angular.module('giveaways.controllers', [])
                 options.ExpirationTimestamp=$scope.c.submit.expire
                 if ($scope.c.submit.geotypeWorld)
                 {
-                    options.geotype = "World"
+                    options.Geotype = "World"
                 }
                 else
                 {
                     if ($scope.c.submit.geotypeCountry)
                     {
-                        options.geotype = "Country"
+                        options.Geotype = "Country"
+                        options.CountryName = $scope.c.submit.geotypeCountryName
                     }
                     else
                     {
                         if ($scope.c.submit.geotypePlace)
                         {
-                            options.geotype = "Place"
+                            options.Geotype = "Place"
+                            options.PlaceName = $scope.c.submit.geotypePlaceName
                         }
                     }
                 }

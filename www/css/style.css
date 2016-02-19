@@ -14,6 +14,10 @@
     background-image: none;
 }
 
+.hdpi.pac-logo:after {
+    display: none;
+}
+
 .toggle.toggle-instagivaway input:checked + .track {
     border-color: #ddd;
     background-color: #fff; }
