@@ -185,9 +185,10 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                         alert("Wrong address");
                         return;
                     }
+                    //console.log(place)
 
-                    var full_address = place.formatted_address;
-                    alert(full_address);
+                    //var full_address = place.formatted_address;
+                    //alert(full_address);
                 });
             }
         }

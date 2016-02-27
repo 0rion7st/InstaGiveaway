@@ -29,6 +29,16 @@ angular.module('giveaways.controllers', [])
         angular.element(document).find('head').append('<style type="text/css">.giveaway.no-winner:before{content: "' + $scope.c.localize.strings["labelNoWinner"] +'" !important;}</style>');
         angular.element(document).find('head').append('<style type="text/css">.giveaway.participating:before{content: "' + $scope.c.localize.strings["labelJoined"] +'" !important;}</style>');
 
+        // reload google maps with correct language. In case it's english we already loaded it in index.html
+        var short_lang = (document.getLanguage() == 'ru') ? 'ru' : 'en';
+        if (short_lang != 'en')
+        {
+            var googleApiJSLink = "https://maps.googleapis.com/maps/api/js?libraries=places&language=" + short_lang;
+            var script = document.createElement('script');
+            script.setAttribute('src', googleApiJSLink);
+            angular.element(document).find('head').append(script);
+        }
+
         // wa for ionic and google autocomplete service
         $scope.DisableTap = function(){
             var container = document.getElementsByClassName('pac-container');
