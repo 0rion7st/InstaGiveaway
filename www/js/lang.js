@@ -100,6 +100,9 @@
         "shareWithOthers": "Делись лучшим с друзьями",
         "nativeWatFindNewFollowers": "Лучший способ находить новых подписчиков",
         "ends": "Заканчивается",
+        "enterCountryName": "Введите корректное название страны",
+        "geotypeCountryComment": "Страна розыгрыша: ",
+        "geotypePlaceComment": "Место розыгрыша: ",
         "repostOf": "Репост от @"
     }
 
@@ -201,6 +204,9 @@
         "shareWithOthers": "Share things with others",
         "nativeWatFindNewFollowers": "Native way to find new followers",
         "ends": "Ends",
+        "enterCountryName": "Please enter correct country name",
+        "geotypeCountryComment": "WannaWin country: ",
+        "geotypePlaceComment": "WannaWin place: ",
         "repostOf": "Repost of @"
     }
 

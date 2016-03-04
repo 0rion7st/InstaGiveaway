@@ -9,6 +9,19 @@
 
 }
 
+.pac-icon {
+    width: 0;
+    background-image: none;
+}
+
+.hdpi.pac-logo:after {
+    display: none;
+}
+
+.item-content.disable-pointer-events{
+    pointer-events: initial !important
+}
+
 .toggle.toggle-instagivaway input:checked + .track {
     border-color: #ddd;
     background-color: #fff; }

@@ -29,6 +29,16 @@ angular.module('giveaways.controllers', [])
         angular.element(document).find('head').append('<style type="text/css">.giveaway.no-winner:before{content: "' + $scope.c.localize.strings["labelNoWinner"] +'" !important;}</style>');
         angular.element(document).find('head').append('<style type="text/css">.giveaway.participating:before{content: "' + $scope.c.localize.strings["labelJoined"] +'" !important;}</style>');
 
+        // reload google maps with correct language. In case it's english we already loaded it in index.html
+        var short_lang = (document.getLanguage() == 'ru') ? 'ru' : 'en';
+        if (short_lang != 'en')
+        {
+            var googleApiJSLink = "https://maps.googleapis.com/maps/api/js?libraries=places&language=" + short_lang;
+            var script = document.createElement('script');
+            script.setAttribute('src', googleApiJSLink);
+            angular.element(document).find('head').append(script);
+        }
+
         // wa for ionic and google autocomplete service
         $scope.DisableTap = function(){
             var container = document.getElementsByClassName('pac-container');
@@ -361,6 +371,9 @@ angular.module('giveaways.controllers', [])
             $scope.c.submit.geotypeWorld = true
             $scope.c.submit.geotypeCountry = false
             $scope.c.submit.geotypePlace = false
+            $scope.c.submit.geotypeCountryName = ""
+            $scope.c.submit.geotypeCountryNameLocalized = ""
+            $scope.c.submit.geotypePlaceName = ""
             $scope.c.submit.ruCaption = "Участвуй через приложение Wanna Win. Установи на @ww_iphone или @ww_android";
             $scope.c.submit.enCaption = "Wanna win? Install WannaWin app on @ww_iphone or @ww_android";
             function touchStart(e){
@@ -577,15 +590,39 @@ angular.module('giveaways.controllers', [])
                 }
                 else
                 {
-                    $scope.c.submit.create()
+                    $scope.c.submit.create();
+                    // add location tag of WW
+                    var locationText = "";
+                    if ($scope.c.submit.geotypeWorld)
+                    {
+                        locationText = ""; // in case of worldwide just don't mention it
+                    }
+                    else
+                    {
+                        if ($scope.c.submit.geotypeCountry)
+                        {
+                            locationText = $scope.c.localize.strings['geotypeCountryComment'] + $scope.c.submit.geotypeCountryNameLocalized + '\n';
+                        }
+                        else
+                        {
+                            if ($scope.c.submit.geotypePlace)
+                            {
+                                locationText = $scope.c.localize.strings['geotypePlaceComment'] + $scope.c.submit.geotypePlaceName + '\n';
+                            }
+                        }
+                    }
+                    desc += $scope.c.submit.comment + '\n\n' + locationText;
                 }
+
                 if($scope.c.submit.post!=undefined)
                 {
-                    desc += $scope.c.getDesc($scope.c.submit.post.data.caption.text)
+                    desc += $scope.c.getDesc($scope.c.submit.post.data.caption.text) + '\n\n';
                 }
 
                 var langCaption = ($scope.c.submit.isLangEn)?$scope.c.submit.enCaption:$scope.c.submit.ruCaption
-                var caption  = desc+'\n\n\n\n'+langCaption+'\n #'+$scope.c.submit.hashtag
+                var caption  = desc + langCaption + '\n #' + $scope.c.submit.hashtag
+
+                console.log(caption)
 
                 $cordovaInstagram.share(
                     {image:$scope.c.submit.imagedata,
@@ -651,6 +688,27 @@ angular.module('giveaways.controllers', [])
                 $scope.c.showLoading()
                 $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit','hashtag',$scope.c.submit.hashtag);
                 options.ExpirationTimestamp=$scope.c.submit.expire
+                if ($scope.c.submit.geotypeWorld)
+                {
+                    options.Geotype = "World"
+                }
+                else
+                {
+                    if ($scope.c.submit.geotypeCountry)
+                    {
+                        options.Geotype = "Country"
+                        options.CountryName = $scope.c.submit.geotypeCountryName
+                    }
+                    else
+                    {
+                        if ($scope.c.submit.geotypePlace)
+                        {
+                            options.Geotype = "Place"
+                            options.PlaceName = $scope.c.submit.geotypePlaceName
+                        }
+                    }
+                }
+
                 $scope.c.userInfo = server.submitGiveaway.get(options,function(data)
                 {
                     $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Success','hashtag',$scope.c.submit.hashtag);

@@ -185,9 +185,78 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                         alert("Wrong address");
                         return;
                     }
+                    console.log(place)
 
-                    var full_address = place.formatted_address;
-                    alert(full_address);
+                    //var full_address = place.formatted_address;
+                    //alert(full_address);
+                });
+            }
+        }
+    }])
+
+    .directive('googleAutocompleteCities', ['$rootScope', function($rootScope) {
+        return {
+            restrict: 'E',
+            replace: 'false',
+            templateUrl: 'templates/google_autocomplete.html',
+            link: function($scope, elm, attrs) {
+                var input = elm.children()[1];
+                var options = {
+                    types: ['(cities)']
+                };
+                var autocomplete = new google.maps.places.Autocomplete(input, options);
+                google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                    var place = autocomplete.getPlace();
+                    //// clear address field
+                    //document.getElementById('searchBar').value = '';
+
+                    // TODO_DIMA: make this popup
+                    if (!place.geometry) {
+                        alert("Wrong address");
+                        return;
+                    }
+
+                    $scope.c.submit.geotypePlaceName = place.name
+                });
+            }
+        }
+    }])
+
+    .directive('googleAutocompleteCountries', ['$rootScope', function($rootScope) {
+        return {
+            restrict: 'E',
+            replace: 'false',
+            templateUrl: 'templates/google_autocomplete.html',
+            link: function($scope, elm, attrs) {
+                var input = elm.children()[1];
+                var options = {
+                    types: ['(regions)']
+                };
+                var autocomplete = new google.maps.places.Autocomplete(input, options);
+                google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                    var place = autocomplete.getPlace();
+                    var isCountry = false;
+
+                    // TODO_DIMA: make this popup
+                    if (!place.geometry) {
+                        alert("Wrong address");
+                        return;
+                    }
+
+                    for(var i = 0; i < place.types.length; i += 1) {
+                        if (place.types[i] === 'country') {
+                            isCountry = true;
+                        }
+                    }
+
+                    // TODO_DIMA: make this popup
+                    if (!isCountry) {
+                        alert($scope.c.localize.strings['enterCountryName']);
+                        return;
+                    }
+
+                    $scope.c.submit.geotypeCountryNameLocalized = place.address_components[0].long_name;
+                    $scope.c.submit.geotypeCountryName = place.address_components[0].short_name;
                 });
             }
         }
