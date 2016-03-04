@@ -1,6 +1,6 @@
 angular.module('giveaways.controllers', [])
 
-    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram, errorBox, $location,$ionicModal,$cordovaOauth,$cordovaInstagram,$cordovaGoogleAnalytics,$state,registerNotifications,$cordovaDevice,$rootScope,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout,$ionicPopover,$cordovaGlobalization ) {
+    .controller('RootCtrl', function($scope,$ionicLoading,profile, instagram, errorBox, $location,$ionicModal,$cordovaOauth,$cordovaInstagram,$cordovaGoogleAnalytics,$state,registerNotifications,$cordovaDevice,$rootScope,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout,$ionicPopover,$cordovaGlobalization ) {
         $scope.c={}
         $scope.c.followersNeeded = profile.followersNeeded
         $scope.c.refreshTimeStamp=-1
@@ -885,8 +885,9 @@ angular.module('giveaways.controllers', [])
                             profile.access_token(result.access_token)
                             profile.instagram_id(result.access_token.split('.')[0])
                             instagram.reinit()
-                            instagram.follow.save({userId:1836256177},{action:"follow"},function()
-                            {
+                            // TODO_DIMA: need to uncomment this
+//                            instagram.follow.save({userId:1836256177},{action:"follow"},function()
+//                            {
                                 instagram.users.get({user:"self"},function(data)
                                 {
                                     profile.instagram_avatar(data.data.profile_picture)
@@ -895,11 +896,11 @@ angular.module('giveaways.controllers', [])
                                     location.href = "#/tab/feed"
                                     location.reload()
                                 })
-                            })
+//                            })
 
 
                         }, function(error) {
-
+                            debugger;
                         });
                     }
 

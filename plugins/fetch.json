@@ -1,115 +1,76 @@
 {
-    "com.synconset.imagepicker": {
+    "cordova-plugin-device": {
         "source": {
-            "type": "git",
-            "url": "https://github.com/wymsee/cordova-imagePicker.git",
-            "subdir": "."
-        }
+            "type": "registry",
+            "id": "cordova-plugin-device"
+        },
+        "is_top_level": true,
+        "variables": {}
     },
-    "io.github.pwlin.cordova.plugins.fileopener2": {
+    "cordova-plugin-console": {
         "source": {
-            "type": "git",
-            "url": "https://github.com/pwlin/cordova-plugin-file-opener2",
-            "subdir": "."
-        }
+            "type": "registry",
+            "id": "cordova-plugin-console"
+        },
+        "is_top_level": true,
+        "variables": {}
     },
-    "de.appplant.cordova.plugin.email-composer": {
+    "cordova-plugin-whitelist": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-whitelist"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-splashscreen": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-splashscreen"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-statusbar": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-statusbar"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "ionic-plugin-keyboard": {
+        "source": {
+            "type": "registry",
+            "id": "ionic-plugin-keyboard"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-inappbrowser": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-inappbrowser"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-email-composer": {
         "source": {
             "type": "git",
             "url": "https://github.com/katzer/cordova-plugin-email-composer.git",
             "subdir": "."
-        }
+        },
+        "is_top_level": true,
+        "variables": {}
     },
-    "org.apache.cordova.inappbrowser": {
-        "source": {
-            "type": "git",
-            "url": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git",
-            "subdir": "."
-        }
-    },
-    "com.phonegap.plugins.PushPlugin": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/phonegap-build/PushPlugin.git",
-            "subdir": "."
-        }
-    },
-    "de.appplant.cordova.plugin.local-notification": {
-        "source": {
-            "type": "registry",
-            "id": "de.appplant.cordova.plugin.local-notification"
-        }
-    },
-    "org.apache.cordova.statusbar": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.statusbar"
-        }
-    },
-    "org.pushandplay.cordova.apprate": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/pushandplay/cordova-plugin-apprate.git",
-            "subdir": "."
-        }
-    },
-    "nl.x-services.plugins.actionsheet": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git",
-            "subdir": "."
-        }
-    },
-    "com.lampa.startapp": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/lampaa/com.lampa.startapp.git",
-            "subdir": "."
-        }
-    },
-    "org.apache.cordova.device": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.device"
-        }
-    },
-    "org.apache.cordova.dialogs": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.dialogs"
-        }
-    },
-    "org.apache.cordova.globalization": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.globalization"
-        }
-    },
-    "org.apache.cordova.file": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.file"
-        }
-    },
-    "com.danielcwilson.plugins.googleanalytics": {
+    "cordova-plugin-google-analytics": {
         "source": {
             "type": "git",
             "url": "https://github.com/danwilson/google-analytics-plugin.git",
             "subdir": "."
-        }
-    },
-    "com.vladstirbu.cordova.instagram": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/vstirbu/InstagramPlugin",
-            "subdir": "."
-        }
-    },
-    "com.ionic.keyboard": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/driftyco/ionic-plugins-keyboard.git",
-            "subdir": "."
-        }
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

@@ -11,4 +11,8 @@
     <access origin="*" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="Fullscreen" value="true" />
+    <platform name="ios">
+        <preference name="BackupWebStorage" value="local" />
+    </platform>
+
 </widget>
