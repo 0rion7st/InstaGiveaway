@@ -213,6 +213,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                     // TODO_DIMA: make this popup
                     if (!place.geometry) {
                         alert("Wrong address");
+                        document.getElementById('searchBarPlace').value = '';
                         return;
                     }
 
@@ -240,6 +241,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                     // TODO_DIMA: make this popup
                     if (!place.geometry) {
                         alert("Wrong address");
+                        document.getElementById('searchBarCountry').value = '';
                         return;
                     }
 
@@ -252,6 +254,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                     // TODO_DIMA: make this popup
                     if (!isCountry) {
                         alert($scope.c.localize.strings['enterCountryName']);
+                        document.getElementById('searchBarCountry').value = '';
                         return;
                     }
 
