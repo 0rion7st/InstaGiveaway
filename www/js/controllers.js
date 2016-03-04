@@ -714,24 +714,26 @@ angular.module('giveaways.controllers', [])
                 {
                     $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit', 'hashtag', $scope.c.submit.hashtag);
                 }
-                options.ExpirationTimestamp=$scope.c.submit.expire
+                options.ExpirationTimestamp=$scope.c.submit.expire;
+
+                options.Name = '""';
                 if ($scope.c.submit.geotypeWorld)
                 {
-                    options.Geotype = "World"
+                    options.Geotype = "World";
                 }
                 else
                 {
                     if ($scope.c.submit.geotypeCountry)
                     {
-                        options.Geotype = "Country"
-                        options.CountryName = $scope.c.submit.geotypeCountryName
+                        options.Geotype = "Country";
+                        options.Name = $scope.c.submit.geotypeCountryName;
                     }
                     else
                     {
                         if ($scope.c.submit.geotypePlace)
                         {
-                            options.Geotype = "Place"
-                            options.PlaceName = $scope.c.submit.geotypePlaceName
+                            options.Geotype = "Place";
+                            options.Name = $scope.c.submit.geotypePlaceName;
                         }
                     }
                 }
@@ -1082,7 +1084,6 @@ angular.module('giveaways.controllers', [])
                     }
                     $scope.next_max_id = data.pagination.next_max_id
                     data.data = data.data.filter(giveawayDecor.filterPosts)
-                    console.log("124")
                     data.data.map(function (post) {
                         var fileredPost = giveawayDecor.decoratePost(post)
                         post.giveawayHashtag = giveawayDecor.filterPosts(fileredPost)
