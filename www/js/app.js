@@ -198,7 +198,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
         return {
             restrict: 'E',
             replace: 'false',
-            templateUrl: 'templates/google_autocomplete.html',
+            templateUrl: 'templates/google_autocomplete_place.html',
             link: function($scope, elm, attrs) {
                 var input = elm.children()[1];
                 var options = {
@@ -226,7 +226,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
         return {
             restrict: 'E',
             replace: 'false',
-            templateUrl: 'templates/google_autocomplete.html',
+            templateUrl: 'templates/google_autocomplete_country.html',
             link: function($scope, elm, attrs) {
                 var input = elm.children()[1];
                 var options = {

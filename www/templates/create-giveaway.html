@@ -70,16 +70,14 @@
 
                     <ion-checkbox ng-change="c.submit.changeGeotype('country')" ng-model="c.submit.geotypeCountry">
                         <span ng-style="{ 'opacity' : (c.submit.geotypeCountry == true) ? '1' : '0.3' }" style="float:left;">
-                            Country
+                            <google-autocomplete-countries></google-autocomplete-countries>
                         </span>
-                        <google-autocomplete-countries></google-autocomplete-countries>
                     </ion-checkbox>
 
                     <ion-checkbox ng-change="c.submit.changeGeotype('place')" ng-model="c.submit.geotypePlace">
                         <span ng-style="{ 'opacity' : (c.submit.geotypePlace == true) ? '1' : '0.3' }"  style="float:left;">
-                            Place
+                            <google-autocomplete-cities></google-autocomplete-cities>
                         </span>
-                        <google-autocomplete-cities></google-autocomplete-cities>
                     </ion-checkbox>
 
                 </ion-list>

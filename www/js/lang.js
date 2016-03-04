@@ -103,6 +103,9 @@
         "enterCountryName": "Введите корректное название страны",
         "geotypeCountryComment": "Страна розыгрыша: ",
         "geotypePlaceComment": "Место розыгрыша: ",
+        "worldwide": "Весь мир",
+        "country": "Страна",
+        "place": "Город",
         "repostOf": "Репост от @"
     }
 
@@ -207,6 +210,9 @@
         "enterCountryName": "Please enter correct country name",
         "geotypeCountryComment": "WannaWin country: ",
         "geotypePlaceComment": "WannaWin place: ",
+        "worldwide": "Worldwide",
+        "country": "Country",
+        "place": "City",
         "repostOf": "Repost of @"
     }
 
