@@ -70,8 +70,10 @@ angular.module('giveaways.services', ['ngResource'])
         return function(code)
         {
 
-
-        $cordovaGoogleAnalytics.trackEvent('Error', 'UIError', 'code', code);
+            if (typeof($cordovaGoogleAnalytics) != "undefined")
+            {
+                $cordovaGoogleAnalytics.trackEvent('Error', 'UIError', 'code', code);
+            }
         var message = "Damn!!11"
         switch(code*1)
         {

@@ -145,8 +145,11 @@ angular.module('giveaways.controllers', [])
         };
         $scope.c.logout = function()
         {
-            $scope.c.showLoading()
-            $cordovaGoogleAnalytics.trackEvent('Logout', 'Logout');
+            $scope.c.showLoading();
+            if (typeof($cordovaGoogleAnalytics) != "undefined")
+            {
+                $cordovaGoogleAnalytics.trackEvent('Logout', 'Logout');
+            }
             instagram.logout.get({},function()
             {
                 $scope.c.hideLoading()
@@ -284,7 +287,10 @@ angular.module('giveaways.controllers', [])
 
             var version = $cordovaDevice.getVersion();
 
-            $cordovaGoogleAnalytics.trackEvent('OtherWinner', 'Opened', giveAwayHashTag);
+            if (typeof($cordovaGoogleAnalytics) != "undefined")
+            {
+                $cordovaGoogleAnalytics.trackEvent('OtherWinner', 'Opened', giveAwayHashTag);
+            }
             var email = {
                 to: 'wannawin.help@gmail.com',
                 subject: 'WannaWin #'+giveAwayHashTag+' want to choose other winner',
@@ -302,14 +308,19 @@ angular.module('giveaways.controllers', [])
             };
 
             $cordovaEmailComposer.open(email).then(null, function () {
-                $cordovaGoogleAnalytics.trackEvent('Report', 'Send', giveAwayHashTag);
+                if (typeof($cordovaGoogleAnalytics) != "undefined")
+                {
+                    $cordovaGoogleAnalytics.trackEvent('Report', 'Send', giveAwayHashTag);
+                }
             });
         }
 
         $scope.c.help = function()
         {
-
-            $cordovaGoogleAnalytics.trackEvent('Help', 'Opened');
+            if (typeof($cordovaGoogleAnalytics) != "undefined")
+            {
+                $cordovaGoogleAnalytics.trackEvent('Help', 'Opened');
+            }
             var email = {
                 to: 'wannawin.help@gmail.com',
                 subject: 'Help request from '+$scope.c.userInstagram.data.username,
@@ -318,7 +329,10 @@ angular.module('giveaways.controllers', [])
             };
 
             $cordovaEmailComposer.open(email).then(null, function () {
-                $cordovaGoogleAnalytics.trackEvent('Report', 'Send', giveAwayHashTag);
+                if (typeof($cordovaGoogleAnalytics) != "undefined")
+                {
+                    $cordovaGoogleAnalytics.trackEvent('Report', 'Send', giveAwayHashTag);
+                }
             });
         }
 
@@ -336,7 +350,10 @@ angular.module('giveaways.controllers', [])
 
             var version = $cordovaDevice.getVersion();
 
-            $cordovaGoogleAnalytics.trackEvent('Report', 'Opened', giveAwayHashTag);
+            if (typeof($cordovaGoogleAnalytics) != "undefined")
+            {
+                $cordovaGoogleAnalytics.trackEvent('Report', 'Opened', giveAwayHashTag);
+            }
             var email = {
                 to: 'wannawin.help@gmail.com',
                 subject: 'WannaWin #'+giveAwayHashTag+' issue',
@@ -354,7 +371,10 @@ angular.module('giveaways.controllers', [])
             };
 
             $cordovaEmailComposer.open(email).then(null, function () {
-                $cordovaGoogleAnalytics.trackEvent('Report', 'Send', giveAwayHashTag);
+                if (typeof($cordovaGoogleAnalytics) != "undefined")
+                {
+                    $cordovaGoogleAnalytics.trackEvent('Report', 'Send', giveAwayHashTag);
+                }
             });
         }
         $scope.c.submit_giveaway = function(media_id, hashtag,joinExpire)
@@ -638,13 +658,17 @@ angular.module('giveaways.controllers', [])
                 $scope.c.showLoading()
                 if($scope.c.submit.type=="join")
                 {
-                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join:Submit:Done','hashtag',$scope.c.submit.hashtag);
-
+                    if (typeof($cordovaGoogleAnalytics) != "undefined")
+                    {
+                        $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join:Submit:Done', 'hashtag', $scope.c.submit.hashtag);
+                    }
                 }
                 else
                 {
-                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Done','hashtag',$scope.c.submit.hashtag);
-
+                    if (typeof($cordovaGoogleAnalytics) != "undefined")
+                    {
+                        $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Done', 'hashtag', $scope.c.submit.hashtag);
+                    }
                 }
                  server.getGiveaway.get({HashtagID:$scope.c.submit.hashtag}).$promise.then(
                     function(giveaway)
@@ -686,7 +710,10 @@ angular.module('giveaways.controllers', [])
                 var options = {HashtagID:$scope.c.submit.hashtag}
                 $scope.c.submit.expire = $scope.c.submit.days*86400+Math.floor((new Date()).getTime()/1000)
                 $scope.c.showLoading()
-                $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit','hashtag',$scope.c.submit.hashtag);
+                if (typeof($cordovaGoogleAnalytics) != "undefined")
+                {
+                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit', 'hashtag', $scope.c.submit.hashtag);
+                }
                 options.ExpirationTimestamp=$scope.c.submit.expire
                 if ($scope.c.submit.geotypeWorld)
                 {
@@ -711,12 +738,18 @@ angular.module('giveaways.controllers', [])
 
                 $scope.c.userInfo = server.submitGiveaway.get(options,function(data)
                 {
-                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Success','hashtag',$scope.c.submit.hashtag);
+                    if (typeof($cordovaGoogleAnalytics) != "undefined")
+                    {
+                        $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Success', 'hashtag', $scope.c.submit.hashtag);
+                    }
                     $scope.c.hideLoading()
                     $scope.$apply()
                 },function(error)
                 {
-                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Error','error',error.data.errorCode);
+                    if (typeof($cordovaGoogleAnalytics) != "undefined")
+                    {
+                        $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Error', 'error', error.data.errorCode);
+                    }
                     $scope.c.hideLoading()
                     $scope.c.notifyErr(error.data.errorCode)
                 })
@@ -729,12 +762,18 @@ angular.module('giveaways.controllers', [])
                 options.ExpirationTimestamp=$scope.c.submit.expire
                 $scope.c.userInfo = server.joinGiveaway.get(options,function()
                 {
-                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join:Submit:Success','hashtag',$scope.c.submit.hashtag);
+                    if (typeof($cordovaGoogleAnalytics) != "undefined")
+                    {
+                        $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join:Submit:Success', 'hashtag', $scope.c.submit.hashtag);
+                    }
                     $scope.c.hideLoading()
                     $scope.$apply()
                 },function(error)
                 {
-                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join:Submit:Error','error',error.data.errorCode);
+                    if (typeof($cordovaGoogleAnalytics) != "undefined")
+                    {
+                        $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join:Submit:Error', 'error', error.data.errorCode);
+                    }
                     $scope.c.hideLoading()
                     $scope.c.notifyErr(error.data.errorCode)
                 })
@@ -821,25 +860,30 @@ angular.module('giveaways.controllers', [])
 
                 // FOR DEBUG START
 
-                //$cordovaImagePicker.getPictures({
-                //    maximumImagesCount: 1,
-                //    width: 640,
-                //    quality: 100
-                //}).then(function (results) {
-                //        //No image selected
-                //        if(results.length==0)
-                //            return
-                //        $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:ImageSelect');
-                //        $scope.c.submit.imageUrl =  results[0]
-                //        $scope.c.submit.type='new'
-                //        if($scope.c.submit.modal == undefined)
-                //            $scope.c.submit.showModal()
-                //        else
-                //            $scope.c.submit.fillCanvas()
-                //
-                //    }, function(error) {
-                //        // error getting photos
-                //});
+                $cordovaImagePicker.getPictures({
+                    maximumImagesCount: 1,
+                    width: 640,
+                    quality: 100
+                }).then(function (results) {
+                        //No image selected
+                        if(results.length==0)
+                        {
+                            return;
+                        }
+                        if (typeof($cordovaGoogleAnalytics) != "undefined")
+                        {
+                            $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:ImageSelect');
+                        }
+                        $scope.c.submit.imageUrl =  results[0]
+                        $scope.c.submit.type='new'
+                        if($scope.c.submit.modal == undefined)
+                            $scope.c.submit.showModal()
+                        else
+                            $scope.c.submit.fillCanvas()
+
+                    }, function(error) {
+                        // error getting photos
+                });
 
                 // FOR DEBUG END
                 // Uncomment above code and comment this code:
@@ -850,43 +894,48 @@ angular.module('giveaways.controllers', [])
                 //else
                 //    $scope.c.submit.fillCanvas()
 
-                $scope.c.submit.imageUrl = "img/image_02.png"
-                $scope.c.submit.type='new'
-                if($scope.c.submit.modal == undefined)
-                    $scope.c.submit.showModal()
-                else
-                    $scope.c.submit.fillCanvas()
+//                $scope.c.submit.imageUrl = "img/image_02.png"
+//                $scope.c.submit.type='new'
+//                if($scope.c.submit.modal == undefined)
+//                    $scope.c.submit.showModal()
+//                else
+//                    $scope.c.submit.fillCanvas()
             }
             if(media_id==undefined)
             {
-                $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create');
-
+                if (typeof($cordovaGoogleAnalytics) != "undefined")
+                {
+                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create');
+                }
                 // FOR DEBUG START
 
                 // Show the action sheet
-                //$cordovaActionSheet.show({
-                //    buttonLabels: [
-                //        $scope.c.localize.strings['chooseExistinPhoto']
-                //    ],
-                //    title: $scope.c.localize.strings['selectWWSquareImage'],
-                //    addCancelButtonWithLabel: $scope.c.localize.strings['cancel'],
-                //    androidEnableCancelButton : true,
-                //    winphoneEnableCancelButton : true
-                //}).then(function(btnIndex) {
-                //    if(btnIndex!=2)
-                //    {
-                //        $scope.c.submit.selectImage()
-                //    }
-                //});
+                $cordovaActionSheet.show({
+                    buttonLabels: [
+                        $scope.c.localize.strings['chooseExistinPhoto']
+                    ],
+                    title: $scope.c.localize.strings['selectWWSquareImage'],
+                    addCancelButtonWithLabel: $scope.c.localize.strings['cancel'],
+                    androidEnableCancelButton : true,
+                    winphoneEnableCancelButton : true
+                }).then(function(btnIndex) {
+                    if(btnIndex!=2)
+                    {
+                        $scope.c.submit.selectImage()
+                    }
+                });
 
                 // FOR DEBUG END
                 // Uncomment above code and comment this code:
                 //$scope.c.submit.selectImage()
-                $scope.c.submit.selectImage()
+//                $scope.c.submit.selectImage()
 
             }else
             {
-                $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join','hashtag',hashtag);
+                if (typeof($cordovaGoogleAnalytics) != "undefined")
+                {
+                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join', 'hashtag', hashtag);
+                }
                 $scope.c.showLoading()
                 $scope.c.submit.media_id = media_id
                 $scope.c.submit.hashtag = hashtag
@@ -1007,7 +1056,10 @@ angular.module('giveaways.controllers', [])
         }
         $scope.loadMore = function()
         {
-            $cordovaGoogleAnalytics.trackView('Feed','LoadMore','times',$scope.loadMoreTimes);
+            if (typeof($cordovaGoogleAnalytics) != "undefined")
+            {
+                $cordovaGoogleAnalytics.trackView('Feed', 'LoadMore', 'times', $scope.loadMoreTimes);
+            }
             if($scope.feed==undefined || $scope.feed.data==undefined || $scope.next_max_id==undefined || $scope.layout!="posts")
             {
                 $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -1216,7 +1268,10 @@ angular.module('giveaways.controllers', [])
     })
 
     .controller('JoinedCtrl', function($scope,$stateParams,instagram,giveawayDecor,$timeout,$cordovaGoogleAnalytics ) {
-        $cordovaGoogleAnalytics.trackView('Joined');
+        if (typeof($cordovaGoogleAnalytics) != "undefined")
+        {
+            $cordovaGoogleAnalytics.trackView('Joined');
+        }
         $scope.layout = "posts"
         $scope.lazyTimout = 0
         $scope.c.showLoading()
@@ -1255,7 +1310,10 @@ angular.module('giveaways.controllers', [])
     })
 
     .controller('GiveAwayDetailCtrl', function($scope,server, $stateParams,giveaway,instagram,giveawayDecor,$ionicHistory,$interval,$cordovaGoogleAnalytics,$timeout,$ionicLoading ) {
-        $cordovaGoogleAnalytics.trackView('Details');
+        if (typeof($cordovaGoogleAnalytics) != "undefined")
+        {
+            $cordovaGoogleAnalytics.trackView('Details');
+        }
         $scope.c.showLoading()
         $scope.loadingFadeIn = true
         $scope.refreshing = false
@@ -1385,8 +1443,10 @@ angular.module('giveaways.controllers', [])
 
     .controller('MyGiveawaysCtrl', function($scope,instagram,giveawayDecor,$timeout,$cordovaGoogleAnalytics) {
 
-
-        $cordovaGoogleAnalytics.trackView('Created');
+        if (typeof($cordovaGoogleAnalytics) != "undefined")
+        {
+            $cordovaGoogleAnalytics.trackView('Created');
+        }
         $scope.layout = "posts"
         $scope.lazyTimeout = 0
         $scope.c.showLoading()
@@ -1423,7 +1483,10 @@ angular.module('giveaways.controllers', [])
     })
     .controller('UserPostsCtrl', function($scope,$stateParams,instagram, $ionicScrollDelegate,$location,giveawayDecor,$cordovaGoogleAnalytics) {
 
-        $cordovaGoogleAnalytics.trackView('UserFeed');
+        if (typeof($cordovaGoogleAnalytics) != "undefined")
+        {
+            $cordovaGoogleAnalytics.trackView('UserFeed');
+        }
         $scope.layout="posts"
         $scope.c.showLoading()
         $scope.tab=$location.$$url.split("/")[2]
@@ -1462,7 +1525,10 @@ angular.module('giveaways.controllers', [])
     })
     .controller('CollectionCtrl', function($scope,collection,instagram,$ionicHistory ,giveawayDecor,$cordovaGoogleAnalytics ) {
 
-        $cordovaGoogleAnalytics.trackView('Collection');
+        if (typeof($cordovaGoogleAnalytics) != "undefined")
+        {
+            $cordovaGoogleAnalytics.trackView('Collection');
+        }
         $scope.c.showLoading()
         $scope.loadingFadeIn=false
         $scope.layout="posts"
