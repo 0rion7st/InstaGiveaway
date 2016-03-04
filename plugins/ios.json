@@ -55,6 +55,18 @@
                         {
                             "xml": "<feature name=\"ActionSheet\"><param name=\"ios-package\" value=\"ActionSheet\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Clipboard\"><param name=\"ios-package\" value=\"CDVClipboard\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Instagram\"><param name=\"ios-package\" value=\"CDVInstagramPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"startApp\"><param name=\"ios-package\" value=\"startApp\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -111,6 +123,16 @@
                         {
                             "xml": "<array><string>mailto</string></array>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<array><string>instagram</string></array>",
+                            "count": 1
+                        }
+                    ],
+                    "NSAppTransportSecurity": [
+                        {
+                            "xml": "<dict><key>NSAllowsArbitraryLoads</key><true /></dict>",
+                            "count": 1
                         }
                     ]
                 }
@@ -150,7 +172,20 @@
         },
         "cordova-plugin-actionsheet": {
             "PACKAGE_NAME": "co.ekza.giveaway"
+        },
+        "cordova-instagram-plugin": {
+            "PACKAGE_NAME": "co.ekza.giveaway"
+        },
+        "cordova-plugin-transport-security": {
+            "PACKAGE_NAME": "co.ekza.giveaway"
+        },
+        "com.lampa.startapp": {
+            "PACKAGE_NAME": "co.ekza.giveaway"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "com.verso.cordova.clipboard": {
+            "PACKAGE_NAME": "co.ekza.giveaway"
+        }
+    }
 }
