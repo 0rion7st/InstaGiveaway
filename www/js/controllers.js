@@ -590,15 +590,39 @@ angular.module('giveaways.controllers', [])
                 }
                 else
                 {
-                    $scope.c.submit.create()
+                    $scope.c.submit.create();
+                    // add location tag of WW
+                    var locationText = "";
+                    if ($scope.c.submit.geotypeWorld)
+                    {
+                        locationText = ""; // in case of worldwide just don't mention it
+                    }
+                    else
+                    {
+                        if ($scope.c.submit.geotypeCountry)
+                        {
+                            locationText = $scope.c.localize.strings['geotypeCountryComment'] + $scope.c.submit.geotypeCountryNameLocalized + '\n';
+                        }
+                        else
+                        {
+                            if ($scope.c.submit.geotypePlace)
+                            {
+                                locationText = $scope.c.localize.strings['geotypePlaceComment'] + $scope.c.submit.geotypePlaceName + '\n';
+                            }
+                        }
+                    }
+                    desc += $scope.c.submit.comment + '\n\n' + locationText;
                 }
+
                 if($scope.c.submit.post!=undefined)
                 {
-                    desc += $scope.c.getDesc($scope.c.submit.post.data.caption.text)
+                    desc += $scope.c.getDesc($scope.c.submit.post.data.caption.text) + '\n\n';
                 }
 
                 var langCaption = ($scope.c.submit.isLangEn)?$scope.c.submit.enCaption:$scope.c.submit.ruCaption
-                var caption  = desc+'\n\n\n\n'+langCaption+'\n #'+$scope.c.submit.hashtag
+                var caption  = desc + langCaption + '\n #' + $scope.c.submit.hashtag
+
+                console.log(caption)
 
                 $cordovaInstagram.share(
                     {image:$scope.c.submit.imagedata,

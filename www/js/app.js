@@ -185,7 +185,7 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                         alert("Wrong address");
                         return;
                     }
-                    //console.log(place)
+                    console.log(place)
 
                     //var full_address = place.formatted_address;
                     //alert(full_address);
