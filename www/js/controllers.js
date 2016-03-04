@@ -40,13 +40,24 @@ angular.module('giveaways.controllers', [])
         }
 
         // wa for ionic and google autocomplete service
-        $scope.DisableTap = function(){
+        $scope.DisableTapCountries = function(){
             var container = document.getElementsByClassName('pac-container');
             // disable ionic data tab
             angular.element(container).attr('data-tap-disabled', 'true');
             // leave input field if google-address-entry is selected
             angular.element(container).on("click", function(){
-                document.getElementById('searchBar').blur();
+                document.getElementById('searchBarCountry').blur();
+            });
+        };
+
+        // wa for ionic and google autocomplete service
+        $scope.DisableTapPlaces = function(){
+            var container = document.getElementsByClassName('pac-container');
+            // disable ionic data tab
+            angular.element(container).attr('data-tap-disabled', 'true');
+            // leave input field if google-address-entry is selected
+            angular.element(container).on("click", function(){
+                document.getElementById('searchBarPlace').blur();
             });
         };
 

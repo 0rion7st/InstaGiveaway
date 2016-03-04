@@ -166,34 +166,6 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
         }
     }])
 
-    //////////////// Location calculation + auto complete /////////////////
-    .directive('googleAutocomplete', ['$rootScope', function($rootScope) {
-        return {
-            restrict: 'E',
-            replace: 'false',
-            templateUrl: 'templates/google_autocomplete.html',
-            link: function($scope, elm, attrs) {
-                var input = elm.children()[1];
-                var autocomplete = new google.maps.places.Autocomplete(input);
-                google.maps.event.addListener(autocomplete, 'place_changed', function () {
-                    var place = autocomplete.getPlace();
-                    // clear address field
-                    document.getElementById('searchBar').value = '';
-
-                    // TODO_DIMA: make this popup
-                    if (!place.geometry) {
-                        alert("Wrong address");
-                        return;
-                    }
-                    console.log(place)
-
-                    //var full_address = place.formatted_address;
-                    //alert(full_address);
-                });
-            }
-        }
-    }])
-
     .directive('googleAutocompleteCities', ['$rootScope', function($rootScope) {
         return {
             restrict: 'E',
