@@ -146,7 +146,7 @@ angular.module('giveaways.controllers', [])
         $scope.c.logout = function()
         {
             $scope.c.showLoading();
-            if (typeof($cordovaGoogleAnalytics) != "undefined")
+            if (typeof(analytics) != "undefined")
             {
                 $cordovaGoogleAnalytics.trackEvent('Logout', 'Logout');
             }
@@ -287,7 +287,7 @@ angular.module('giveaways.controllers', [])
 
             var version = $cordovaDevice.getVersion();
 
-            if (typeof($cordovaGoogleAnalytics) != "undefined")
+            if (typeof(analytics) != "undefined")
             {
                 $cordovaGoogleAnalytics.trackEvent('OtherWinner', 'Opened', giveAwayHashTag);
             }
@@ -308,7 +308,7 @@ angular.module('giveaways.controllers', [])
             };
 
             $cordovaEmailComposer.open(email).then(null, function () {
-                if (typeof($cordovaGoogleAnalytics) != "undefined")
+                if (typeof(analytics) != "undefined")
                 {
                     $cordovaGoogleAnalytics.trackEvent('Report', 'Send', giveAwayHashTag);
                 }
@@ -317,7 +317,7 @@ angular.module('giveaways.controllers', [])
 
         $scope.c.help = function()
         {
-            if (typeof($cordovaGoogleAnalytics) != "undefined")
+            if (typeof(analytics) != "undefined")
             {
                 $cordovaGoogleAnalytics.trackEvent('Help', 'Opened');
             }
@@ -329,7 +329,7 @@ angular.module('giveaways.controllers', [])
             };
 
             $cordovaEmailComposer.open(email).then(null, function () {
-                if (typeof($cordovaGoogleAnalytics) != "undefined")
+                if (typeof(analytics) != "undefined")
                 {
                     $cordovaGoogleAnalytics.trackEvent('Report', 'Send', giveAwayHashTag);
                 }
@@ -350,7 +350,7 @@ angular.module('giveaways.controllers', [])
 
             var version = $cordovaDevice.getVersion();
 
-            if (typeof($cordovaGoogleAnalytics) != "undefined")
+            if (typeof(analytics) != "undefined")
             {
                 $cordovaGoogleAnalytics.trackEvent('Report', 'Opened', giveAwayHashTag);
             }
@@ -371,7 +371,7 @@ angular.module('giveaways.controllers', [])
             };
 
             $cordovaEmailComposer.open(email).then(null, function () {
-                if (typeof($cordovaGoogleAnalytics) != "undefined")
+                if (typeof(analytics) != "undefined")
                 {
                     $cordovaGoogleAnalytics.trackEvent('Report', 'Send', giveAwayHashTag);
                 }
@@ -658,14 +658,14 @@ angular.module('giveaways.controllers', [])
                 $scope.c.showLoading()
                 if($scope.c.submit.type=="join")
                 {
-                    if (typeof($cordovaGoogleAnalytics) != "undefined")
+                    if (typeof(analytics) != "undefined")
                     {
                         $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join:Submit:Done', 'hashtag', $scope.c.submit.hashtag);
                     }
                 }
                 else
                 {
-                    if (typeof($cordovaGoogleAnalytics) != "undefined")
+                    if (typeof(analytics) != "undefined")
                     {
                         $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Done', 'hashtag', $scope.c.submit.hashtag);
                     }
@@ -710,7 +710,7 @@ angular.module('giveaways.controllers', [])
                 var options = {HashtagID:$scope.c.submit.hashtag}
                 $scope.c.submit.expire = $scope.c.submit.days*86400+Math.floor((new Date()).getTime()/1000)
                 $scope.c.showLoading()
-                if (typeof($cordovaGoogleAnalytics) != "undefined")
+                if (typeof(analytics) != "undefined")
                 {
                     $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit', 'hashtag', $scope.c.submit.hashtag);
                 }
@@ -738,7 +738,7 @@ angular.module('giveaways.controllers', [])
 
                 $scope.c.userInfo = server.submitGiveaway.get(options,function(data)
                 {
-                    if (typeof($cordovaGoogleAnalytics) != "undefined")
+                    if (typeof(analytics) != "undefined")
                     {
                         $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Success', 'hashtag', $scope.c.submit.hashtag);
                     }
@@ -746,7 +746,7 @@ angular.module('giveaways.controllers', [])
                     $scope.$apply()
                 },function(error)
                 {
-                    if (typeof($cordovaGoogleAnalytics) != "undefined")
+                    if (typeof(analytics) != "undefined")
                     {
                         $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Error', 'error', error.data.errorCode);
                     }
@@ -762,7 +762,7 @@ angular.module('giveaways.controllers', [])
                 options.ExpirationTimestamp=$scope.c.submit.expire
                 $scope.c.userInfo = server.joinGiveaway.get(options,function()
                 {
-                    if (typeof($cordovaGoogleAnalytics) != "undefined")
+                    if (typeof(analytics) != "undefined")
                     {
                         $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join:Submit:Success', 'hashtag', $scope.c.submit.hashtag);
                     }
@@ -770,7 +770,7 @@ angular.module('giveaways.controllers', [])
                     $scope.$apply()
                 },function(error)
                 {
-                    if (typeof($cordovaGoogleAnalytics) != "undefined")
+                    if (typeof(analytics) != "undefined")
                     {
                         $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join:Submit:Error', 'error', error.data.errorCode);
                     }
@@ -870,7 +870,7 @@ angular.module('giveaways.controllers', [])
 //                        {
 //                            return;
 //                        }
-//                        if (typeof($cordovaGoogleAnalytics) != "undefined")
+//                        if (typeof(analytics) != "undefined")
 //                        {
 //                            $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:ImageSelect');
 //                        }
@@ -903,7 +903,7 @@ angular.module('giveaways.controllers', [])
             }
             if(media_id==undefined)
             {
-                if (typeof($cordovaGoogleAnalytics) != "undefined")
+                if (typeof(analytics) != "undefined")
                 {
                     $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create');
                 }
@@ -932,7 +932,7 @@ angular.module('giveaways.controllers', [])
 
             }else
             {
-                if (typeof($cordovaGoogleAnalytics) != "undefined")
+                if (typeof(analytics) != "undefined")
                 {
                     $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join', 'hashtag', hashtag);
                 }
@@ -1056,7 +1056,7 @@ angular.module('giveaways.controllers', [])
         }
         $scope.loadMore = function()
         {
-            if (typeof($cordovaGoogleAnalytics) != "undefined")
+            if (typeof(analytics) != "undefined")
             {
                 $cordovaGoogleAnalytics.trackView('Feed', 'LoadMore', 'times', $scope.loadMoreTimes);
             }
@@ -1268,7 +1268,7 @@ angular.module('giveaways.controllers', [])
     })
 
     .controller('JoinedCtrl', function($scope,$stateParams,instagram,giveawayDecor,$timeout,$cordovaGoogleAnalytics ) {
-        if (typeof($cordovaGoogleAnalytics) != "undefined")
+        if (typeof(analytics) != "undefined")
         {
             $cordovaGoogleAnalytics.trackView('Joined');
         }
@@ -1310,7 +1310,7 @@ angular.module('giveaways.controllers', [])
     })
 
     .controller('GiveAwayDetailCtrl', function($scope,server, $stateParams,giveaway,instagram,giveawayDecor,$ionicHistory,$interval,$cordovaGoogleAnalytics,$timeout,$ionicLoading ) {
-        if (typeof($cordovaGoogleAnalytics) != "undefined")
+        if (typeof(analytics) != "undefined")
         {
             $cordovaGoogleAnalytics.trackView('Details');
         }
@@ -1443,7 +1443,7 @@ angular.module('giveaways.controllers', [])
 
     .controller('MyGiveawaysCtrl', function($scope,instagram,giveawayDecor,$timeout,$cordovaGoogleAnalytics) {
 
-        if (typeof($cordovaGoogleAnalytics) != "undefined")
+        if (typeof(analytics) != "undefined")
         {
             $cordovaGoogleAnalytics.trackView('Created');
         }
@@ -1483,7 +1483,7 @@ angular.module('giveaways.controllers', [])
     })
     .controller('UserPostsCtrl', function($scope,$stateParams,instagram, $ionicScrollDelegate,$location,giveawayDecor,$cordovaGoogleAnalytics) {
 
-        if (typeof($cordovaGoogleAnalytics) != "undefined")
+        if (typeof(analytics) != "undefined")
         {
             $cordovaGoogleAnalytics.trackView('UserFeed');
         }
@@ -1525,7 +1525,7 @@ angular.module('giveaways.controllers', [])
     })
     .controller('CollectionCtrl', function($scope,collection,instagram,$ionicHistory ,giveawayDecor,$cordovaGoogleAnalytics ) {
 
-        if (typeof($cordovaGoogleAnalytics) != "undefined")
+        if (typeof(analytics) != "undefined")
         {
             $cordovaGoogleAnalytics.trackView('Collection');
         }
