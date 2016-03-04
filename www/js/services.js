@@ -70,7 +70,7 @@ angular.module('giveaways.services', ['ngResource'])
         return function(code)
         {
 
-            if (typeof($cordovaGoogleAnalytics) != "undefined")
+            if (typeof(analytics) != "undefined")
             {
                 $cordovaGoogleAnalytics.trackEvent('Error', 'UIError', 'code', code);
             }
