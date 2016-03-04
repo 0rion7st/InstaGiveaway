@@ -860,30 +860,30 @@ angular.module('giveaways.controllers', [])
 
                 // FOR DEBUG START
 
-                $cordovaImagePicker.getPictures({
-                    maximumImagesCount: 1,
-                    width: 640,
-                    quality: 100
-                }).then(function (results) {
-                        //No image selected
-                        if(results.length==0)
-                        {
-                            return;
-                        }
-                        if (typeof($cordovaGoogleAnalytics) != "undefined")
-                        {
-                            $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:ImageSelect');
-                        }
-                        $scope.c.submit.imageUrl =  results[0]
-                        $scope.c.submit.type='new'
-                        if($scope.c.submit.modal == undefined)
-                            $scope.c.submit.showModal()
-                        else
-                            $scope.c.submit.fillCanvas()
-
-                    }, function(error) {
-                        // error getting photos
-                });
+//                $cordovaImagePicker.getPictures({
+//                    maximumImagesCount: 1,
+//                    width: 640,
+//                    quality: 100
+//                }).then(function (results) {
+//                        //No image selected
+//                        if(results.length==0)
+//                        {
+//                            return;
+//                        }
+//                        if (typeof($cordovaGoogleAnalytics) != "undefined")
+//                        {
+//                            $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:ImageSelect');
+//                        }
+//                        $scope.c.submit.imageUrl =  results[0]
+//                        $scope.c.submit.type='new'
+//                        if($scope.c.submit.modal == undefined)
+//                            $scope.c.submit.showModal()
+//                        else
+//                            $scope.c.submit.fillCanvas()
+//
+//                    }, function(error) {
+//                        // error getting photos
+//                });
 
                 // FOR DEBUG END
                 // Uncomment above code and comment this code:
@@ -894,12 +894,12 @@ angular.module('giveaways.controllers', [])
                 //else
                 //    $scope.c.submit.fillCanvas()
 
-//                $scope.c.submit.imageUrl = "img/image_02.png"
-//                $scope.c.submit.type='new'
-//                if($scope.c.submit.modal == undefined)
-//                    $scope.c.submit.showModal()
-//                else
-//                    $scope.c.submit.fillCanvas()
+                $scope.c.submit.imageUrl = "img/image_02.png"
+                $scope.c.submit.type='new'
+                if($scope.c.submit.modal == undefined)
+                    $scope.c.submit.showModal()
+                else
+                    $scope.c.submit.fillCanvas()
             }
             if(media_id==undefined)
             {
@@ -910,25 +910,25 @@ angular.module('giveaways.controllers', [])
                 // FOR DEBUG START
 
                 // Show the action sheet
-                $cordovaActionSheet.show({
-                    buttonLabels: [
-                        $scope.c.localize.strings['chooseExistinPhoto']
-                    ],
-                    title: $scope.c.localize.strings['selectWWSquareImage'],
-                    addCancelButtonWithLabel: $scope.c.localize.strings['cancel'],
-                    androidEnableCancelButton : true,
-                    winphoneEnableCancelButton : true
-                }).then(function(btnIndex) {
-                    if(btnIndex!=2)
-                    {
-                        $scope.c.submit.selectImage()
-                    }
-                });
+//                $cordovaActionSheet.show({
+//                    buttonLabels: [
+//                        $scope.c.localize.strings['chooseExistinPhoto']
+//                    ],
+//                    title: $scope.c.localize.strings['selectWWSquareImage'],
+//                    addCancelButtonWithLabel: $scope.c.localize.strings['cancel'],
+//                    androidEnableCancelButton : true,
+//                    winphoneEnableCancelButton : true
+//                }).then(function(btnIndex) {
+//                    if(btnIndex!=2)
+//                    {
+//                        $scope.c.submit.selectImage()
+//                    }
+//                });
 
                 // FOR DEBUG END
                 // Uncomment above code and comment this code:
                 //$scope.c.submit.selectImage()
-//                $scope.c.submit.selectImage()
+                $scope.c.submit.selectImage()
 
             }else
             {
