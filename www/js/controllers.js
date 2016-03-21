@@ -843,16 +843,19 @@ angular.module('giveaways.controllers', [])
 
                     $scope.c.submit.nextStep = function() {
                         $ionicSlideBoxDelegate.next();
-                        if($scope.c.submit.active_slide==0)
-                        {
-                            reDraw(true)
-                            $scope.c.submit.imagedata = document.getElementById("giveaway_canvas").toDataURL("image/jpeg")
-                            $scope.c.submit.hashtag = giveawayDecor.generateHashTag($scope.c.submit.days,profile.instagram_id())
-
-                        }
-                        else if($scope.c.submit.active_slide==2)
-                        {
-                            $scope.c.submit.checkPost()
+                        switch($scope.c.submit.active_slide) {
+                            case 0:
+                                reDraw(true);
+                                $scope.c.submit.imagedata = document.getElementById("giveaway_canvas").toDataURL("image/jpeg");
+                                break;
+                            case 1:
+                                $scope.c.submit.hashtag = giveawayDecor.generateHashTag($scope.c.submit.days,profile.instagram_id());
+                                break;
+                            case 2:
+                                $scope.c.submit.checkPost();
+                                break;
+                            default:
+                                break;
                         }
                         console.log($ionicSlideBoxDelegate.currentIndex())
                     }
@@ -1039,7 +1042,7 @@ angular.module('giveaways.controllers', [])
             $cordovaGoogleAnalytics.trackView('Feed');
         }, false);
 
-        // Disable for now, because it causes infinite loading
+        // TODO_DIMA: Disable for now, because it causes infinite loading
 //        document.addEventListener("resume", (function($scope){
 //
 //            return function()

@@ -309,11 +309,9 @@ angular.module('giveaways.services', ['ngResource'])
             getLatestTime: function (value) {
 
                 if (value != undefined) {
-                    console.log("getLatestTime: SET")
                     window.localStorage.setItem("getLatestTime", value)
                 }
                 else {
-                    console.log("getLatestTime: GET")
                     return window.localStorage.getItem("getLatestTime") || false
                 }
 
@@ -321,33 +319,27 @@ angular.module('giveaways.services', ['ngResource'])
             access_token: function (value) {
 
                 if (value != undefined) {
-                    console.log("access_token: SET")
                     window.localStorage.setItem("access_token", value)
                 }
                 else {
-                    console.log("access_token: GET")
                     return window.localStorage.getItem("access_token") || false
                 }
 
             },
             instagram_id: function (value) {
                 if (value != undefined) {
-                    console.log("instagram_id: SET")
                     window.localStorage.setItem("instagram_id", value)
                 }
                 else {
-                    console.log("instagram_id: GET")
                     return window.localStorage.getItem("instagram_id") || false
                 }
 
             },
             instagram_username: function (value) {
                 if (value != undefined) {
-                    console.log("instagram_username: SET")
                     window.localStorage.setItem("instagram_username", value)
                 }
                 else {
-                    console.log("instagram_username: GET")
                     return window.localStorage.getItem("instagram_username") || false
                 }
 
@@ -538,7 +530,7 @@ angular.module('giveaways.services', ['ngResource'])
             generateHashTag : function(days,userId)
             {
                 var expire = (new Date()).getTime()+days*1000*60*60*24;
-                var concat = parseInt(expire + "" + userId.toString().slice(-3))
+                var concat = parseInt(expire + "" + userId.toString().slice(-3));
 
                 return "ww"+concat.toString(36)
             },

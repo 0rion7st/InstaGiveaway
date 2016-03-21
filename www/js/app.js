@@ -53,9 +53,10 @@ angular.module('giveaways', ['ionic', 'giveaways.controllers', 'giveaways.servic
                 {
                     if($scope.giveawayHashtag !="")
                     {
-                        $scope.expire = Math.floor(parseInt($scope.giveawayHashtag.slice(2),36).toString().slice(0,-3)/1000)
-                        if($scope.expire< ((new Date()).getTime()/1000))
+                        $scope.expire = Math.floor(parseInt(parseInt($scope.giveawayHashtag.slice(2),36).toString().slice(0,-3)) / 1000);
+                        if($scope.expire < (Date.now() / 1000)) {
                             $scope.expire="-1"
+                        }
                     }
                     if($scope.mediaImageLink!="")
                     {
