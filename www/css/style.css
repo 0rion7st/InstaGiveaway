@@ -14,6 +14,16 @@
     background-image: none;
 }
 
+input::-moz-placeholder {
+    color: #888; }
+
+input:-ms-input-placeholder {
+    color: #888; }
+
+input::-webkit-input-placeholder {
+    color: #888;
+    text-indent: 0; }
+
 .hdpi.pac-logo:after {
     display: none;
 }
