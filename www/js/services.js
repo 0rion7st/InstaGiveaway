@@ -104,7 +104,61 @@ angular.module('giveaways.services', ['ngResource'])
         });
         }
     })
-.factory('localNotificationInterceptor', ['$cordovaLocalNotification',function($cordovaLocalNotification) {
+
+    .factory('PopUpFactory', ['$ionicPopup', function($ionicPopup) {
+        return {
+
+            // Usage:
+            // PopUpFactory.ErrorPopUp($scope, popUpText, true);
+            ErrorPopUp: function($scope, popUpText, showTitle)
+            {
+                var alertPopup = $ionicPopup.alert({
+                    title : showTitle ? $scope.c.localize.strings['errorPopUpTitle'] : '',
+                    template: '<div>' + popUpText + '</div>',
+                    cssClass: 'non-transparent-pop-up'
+                });
+            },
+
+            // Usage:
+            // PopUpFactory.ConfirmationPopUp($scope, title, '', yesButtonText, noButtonText).then(function(confirmed) {
+            //     if(confirmed) {
+            //
+            //     } else {
+            //
+            //     }
+            // });
+            ConfirmationPopUp: function($scope, popUpTitle, popUpText, noButtonText, yesButtonText)
+            {
+                if (typeof(noButtonText) == "undefined") {
+                    noButtonText = $scope.c.localize.strings['noButton'];
+                }
+                if (typeof(yesButtonText) == "undefined") {
+                    yesButtonText = $scope.c.localize.strings['yesButton']
+                }
+                return $ionicPopup.confirm({
+                    title: popUpTitle,
+                    template: '<div>' + popUpText + '</div>',
+                    cssClass: 'non-transparent-pop-up',
+                    buttons: [
+                        { text: '<b>' + yesButtonText + '</b>',
+                            type: 'button-positive',
+                            onTap: function(e) {
+                                return true
+                            }
+                        },
+                        { text: noButtonText,
+                            type: 'button-light',
+                            onTap: function(e) {
+                                return false;
+                            }
+                        }
+                    ]
+                });
+            }
+        }
+    }])
+
+    .factory('localNotificationInterceptor', ['$cordovaLocalNotification',function($cordovaLocalNotification) {
     var localNotificationInterceptor = {
         request: function(config) {
             if(config.params !=undefined && (config.params.command == "SUBMIT_GIVEAWAY" || config.params.command == "JOIN_GIVEAWAY"))

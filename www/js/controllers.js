@@ -1,6 +1,6 @@
 angular.module('giveaways.controllers', [])
 
-    .controller('RootCtrl', function($scope,$ionicLoading,profile, instagram, errorBox, $location,$ionicModal,$cordovaOauth,$cordovaInstagram,$cordovaGoogleAnalytics,$state,registerNotifications,$cordovaDevice,$rootScope,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout,$ionicPopover,$cordovaGlobalization ) {
+    .controller('RootCtrl', function($scope,$ionicLoading,profile,instagram,errorBox,PopUpFactory,$location,$ionicModal,$cordovaOauth,$cordovaInstagram,$cordovaGoogleAnalytics,$state,registerNotifications,$cordovaDevice,$rootScope,$cordovaEmailComposer,$ionicSideMenuDelegate,giveawayDecor,previewStorage,$ionicSlideBoxDelegate,server,$cordovaImagePicker,$cordovaActionSheet,$timeout,$ionicPopover,$cordovaGlobalization ) {
         $scope.c={}
         $scope.c.followersNeeded = profile.followersNeeded
         $scope.c.refreshTimeStamp=-1
@@ -224,7 +224,7 @@ angular.module('giveaways.controllers', [])
 
                         if(joining != false && $scope.c.submit == undefined)
                         {
-                            $scope.c.submit_giveaway(joining.media, joining.hash,joining.expire)
+                            $scope.c.submit_giveaway(joining.media,joining.hash,joining.expire)
                         }
 
                         $scope.c.refreshTimeStamp = (new Date()).getTime()/1000
@@ -246,7 +246,7 @@ angular.module('giveaways.controllers', [])
                             $scope.reposts = 0
 
                         $scope.wins = $scope.c.userInfo.data.participating.filter(function(a){ return a.winner_id==$scope.c.userInstagram.data.id}).length
-                        $scope.country = $scope.c.userInfo.data.userCountry
+                        $scope.c.userCountry = $scope.c.userInfo.data.userCountry
 
                         if(callback)
                         {
@@ -388,7 +388,7 @@ angular.module('giveaways.controllers', [])
                 }
             });
         }
-        $scope.c.submit_giveaway = function(media_id, hashtag,joinExpire)
+        $scope.c.submit_giveaway = function(media_id,hashtag,joinExpire,geoType,locationName)
         {
             if($scope.c.userInstagram.data.counts.followed_by<$scope.c.followersNeeded)
             {
@@ -727,7 +727,7 @@ angular.module('giveaways.controllers', [])
                 }
                 options.ExpirationTimestamp=$scope.c.submit.expire;
 
-                options.Name = '""';
+                options.Name = '';
                 if ($scope.c.submit.geotypeWorld)
                 {
                     options.Geotype = "World";
@@ -737,7 +737,7 @@ angular.module('giveaways.controllers', [])
                     if ($scope.c.submit.geotypeCountry)
                     {
                         options.Geotype = "Country";
-                        options.Name = $scope.c.submit.geotypeCountryName;
+                        options.Name = $scope.c.submit.geotypeCountryName + "_" + $scope.c.submit.geotypeCountryNameLocalized;
                     }
                     else
                     {
@@ -917,6 +917,27 @@ angular.module('giveaways.controllers', [])
                 else
                     $scope.c.submit.fillCanvas()
             }
+
+            $scope.c.submit.JoinWW = function(media_id,hashtag,joinExpire)
+            {
+                if (typeof(analytics) != "undefined")
+                {
+                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join', 'hashtag', hashtag);
+                }
+                $scope.c.showLoading()
+                $scope.c.submit.media_id = media_id
+                $scope.c.submit.hashtag = hashtag
+                $scope.c.submit.type='join'
+                $scope.c.submit.expire = joinExpire
+                $scope.c.submit.post = instagram.media.get({action: $scope.c.submit.media_id}, function (data) {
+
+                    $scope.c.hideLoading()
+                    $scope.c.submit.imageUrl = data.data.images.standard_resolution.url
+                    $scope.c.submit.author = data.data.user
+                    $scope.c.submit.showModal()
+                })
+            }
+
             if(media_id==undefined)
             {
                 if (typeof(analytics) != "undefined")
@@ -946,26 +967,51 @@ angular.module('giveaways.controllers', [])
                 //$scope.c.submit.selectImage()
                 $scope.c.submit.selectImage()
 
-            }else
-            {
-                if (typeof(analytics) != "undefined")
-                {
-                    $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Join', 'hashtag', hashtag);
-                }
-                $scope.c.showLoading()
-                $scope.c.submit.media_id = media_id
-                $scope.c.submit.hashtag = hashtag
-                $scope.c.submit.type='join'
-                $scope.c.submit.expire = joinExpire
-                $scope.c.submit.post = instagram.media.get({action: $scope.c.submit.media_id}, function (data) {
-
-                    $scope.c.hideLoading()
-                    $scope.c.submit.imageUrl = data.data.images.standard_resolution.url
-                    $scope.c.submit.author = data.data.user
-                    $scope.c.submit.showModal()
-                })
             }
-
+            else
+            {
+                // in case we come back to app in state of joining we will not check geoType. $scope.c.submit_giveaway in that case will contain only 3 parameters
+                if (geoType !== undefined)
+                {
+                    if (geoType == "Country")
+                    {
+                        if ($scope.c.userCountry != locationName.split('.')[0]) {
+                            var confTitle = $scope.c.localize.strings["countryLimitation"];
+                            var confText = $scope.c.localize.strings["geotypeCountryComment"] + locationName.split('_')[1] + "\n" + $scope.c.localize.strings["wantToParticipate"];
+                            PopUpFactory.ConfirmationPopUp($scope, confTitle, confText).then(function (confirmed) {
+                                if (confirmed) {
+                                    $scope.c.submit.JoinWW(media_id, hashtag, joinExpire);
+                                }
+                            });
+                        }
+                        else
+                        {
+                            $scope.c.submit.JoinWW(media_id, hashtag, joinExpire);
+                        }
+                    }
+                    else
+                    {
+                        if (geoType == "Place")
+                        {
+                            var confTitle = $scope.c.localize.strings["placeLimitation"];
+                            var confText = $scope.c.localize.strings["geotypePlaceComment"] + locationName + "\n" + $scope.c.localize.strings["wantToParticipate"];
+                            PopUpFactory.ConfirmationPopUp($scope, confTitle, confText).then(function(confirmed) {
+                                if(confirmed) {
+                                    $scope.c.submit.JoinWW(media_id,hashtag,joinExpire);
+                                }
+                            });
+                        }
+                        else
+                        {
+                            $scope.c.submit.JoinWW(media_id,hashtag,joinExpire);
+                        }
+                    }
+                }
+                else
+                {
+                    $scope.c.submit.JoinWW(media_id,hashtag,joinExpire);
+                }
+            }
         }
 
 
