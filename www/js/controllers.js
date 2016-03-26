@@ -42,6 +42,9 @@ angular.module('giveaways.controllers', [])
         // wa for ionic and google autocomplete service
         $scope.DisableTapCountries = function(){
             var container = document.getElementsByClassName('pac-container');
+            for (var i=0; i < container.length; i++) {
+                container[i].style.pointerEvents = 'all';
+            }
             // disable ionic data tab
             angular.element(container).attr('data-tap-disabled', 'true');
             // leave input field if google-address-entry is selected
@@ -53,6 +56,9 @@ angular.module('giveaways.controllers', [])
         // wa for ionic and google autocomplete service
         $scope.DisableTapPlaces = function(){
             var container = document.getElementsByClassName('pac-container');
+            for (var i=0; i < container.length; i++) {
+                container[i].style.pointerEvents = 'all';
+            }
             // disable ionic data tab
             angular.element(container).attr('data-tap-disabled', 'true');
             // leave input field if google-address-entry is selected
