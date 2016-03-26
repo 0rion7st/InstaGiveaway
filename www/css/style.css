@@ -6,7 +6,15 @@
 .content-bg
 {
     background:#799CB9 url('../img/bg_ptrn.png');
+}
 
+.item.item-checkbox {
+    border-width: 0px;
+    border-top: 1px solid #F8F8F8;
+}
+
+.button {
+    padding: 0px 9px;
 }
 
 .pac-icon {

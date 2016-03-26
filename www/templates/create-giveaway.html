@@ -45,42 +45,47 @@
                 </ion-scroll>
             </ion-slide>
             <ion-slide ng-if="c.submit.type=='new'">
-                <h3 class="positive padding">{{::c.localize.strings['selectWannaWinDuration']}}</h3>
-                <div class="list">
-                    <div class="item item-borderless ">
+                <span class="input-label" style="max-width: 350px; width: 100%; padding-left:16px; padding-top:20px; padding-bottom:0px;">
+                    {{::c.localize.strings['selectWannaWinDuration']}}
+                </span>
+                <div class="list" style="margin-bottom: 5px;">
+                    <div class="item item-borderless">
                         <button ng-click="c.submit.days=3"  class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==3]">{{::c.localize.strings['3Days']}}</button>
                         <button ng-click="c.submit.days=7"  class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==7]">{{::c.localize.strings['7Days']}}</button>
                         <button ng-click="c.submit.days=14" class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==14]">{{::c.localize.strings['14Days']}}</button>
                         <button ng-click="c.submit.days=30" class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==30]">{{::c.localize.strings['30Days']}}</button>
                     </div>
                 </div>
-                <div class="list">
-                    <label class="item item-input item-stacked-label">
+                <div class="list" style="margin-bottom: 0px;">
+                    <label class="item item-input item-stacked-label" style="border-bottom-width: 0px;">
                         <span class="input-label">{{::c.localize.strings['caption']}}</span>
                         <textarea placeholder="{{::c.localize.strings['comments']}}" ng-model="c.submit.comment"></textarea>
                     </label>
                 </div>
-                <ion-list>
+                <div style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
+                    <span class="input-label" style="max-width: 350px; width: 100%; padding-left:16px; padding-top:10px;">
+                        {{::c.localize.strings['wwLocation']}}
+                    </span>
+                    <ion-list style="border-left-width: 0px;">
+                            <ion-checkbox ng-change="c.submit.changeGeotype('world')" ng-model="c.submit.geotypeWorld">
+                                <span ng-style="{ 'opacity' : (c.submit.geotypeWorld == true) ? '1' : '0.3' }" style="float:left;">
+                                    {{::c.localize.strings['worldwide']}}
+                                </span>
+                            </ion-checkbox>
 
-                    <ion-checkbox ng-change="c.submit.changeGeotype('world')" ng-model="c.submit.geotypeWorld">
-                        <span ng-style="{ 'opacity' : (c.submit.geotypeWorld == true) ? '1' : '0.3' }" style="float:left;">
-                            {{::c.localize.strings['worldwide']}}
-                        </span>
-                    </ion-checkbox>
+                            <ion-checkbox ng-change="c.submit.changeGeotype('country')" ng-model="c.submit.geotypeCountry">
+                                <span ng-style="{ 'opacity' : (c.submit.geotypeCountry == true) ? '1' : '0.5' }" style="float:left;">
+                                    <google-autocomplete-countries></google-autocomplete-countries>
+                                </span>
+                            </ion-checkbox>
 
-                    <ion-checkbox ng-change="c.submit.changeGeotype('country')" ng-model="c.submit.geotypeCountry">
-                        <span ng-style="{ 'opacity' : (c.submit.geotypeCountry == true) ? '1' : '0.5' }" style="float:left;">
-                            <google-autocomplete-countries></google-autocomplete-countries>
-                        </span>
-                    </ion-checkbox>
-
-                    <ion-checkbox ng-change="c.submit.changeGeotype('place')" ng-model="c.submit.geotypePlace">
-                        <span ng-style="{ 'opacity' : (c.submit.geotypePlace == true) ? '1' : '0.5' }"  style="float:left;">
-                            <google-autocomplete-cities></google-autocomplete-cities>
-                        </span>
-                    </ion-checkbox>
-
-                </ion-list>
+                            <ion-checkbox ng-change="c.submit.changeGeotype('place')" ng-model="c.submit.geotypePlace">
+                                <span ng-style="{ 'opacity' : (c.submit.geotypePlace == true) ? '1' : '0.5' }"  style="float:left;">
+                                    <google-autocomplete-cities></google-autocomplete-cities>
+                                </span>
+                            </ion-checkbox>
+                    </ion-list>
+                </div>
             </ion-slide>
             <ion-slide>
                 <div class="item dark item-borderless item-text-wrap " style="text-align: center; border: 0">
