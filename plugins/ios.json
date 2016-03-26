@@ -67,6 +67,18 @@
                         {
                             "xml": "<feature name=\"startApp\"><param name=\"ios-package\" value=\"startApp\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"LocalNotification\"><param name=\"ios-package\" onload=\"true\" value=\"APPLocalNotification\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -181,10 +193,22 @@
         },
         "com.lampa.startapp": {
             "PACKAGE_NAME": "co.ekza.giveaway"
+        },
+        "com.phonegap.plugins.PushPlugin": {
+            "PACKAGE_NAME": "co.ekza.giveaway"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "co.ekza.giveaway"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
+            "PACKAGE_NAME": "co.ekza.giveaway"
         }
     },
     "dependent_plugins": {
         "com.verso.cordova.clipboard": {
+            "PACKAGE_NAME": "co.ekza.giveaway"
+        },
+        "cordova-plugin-app-event": {
             "PACKAGE_NAME": "co.ekza.giveaway"
         }
     }

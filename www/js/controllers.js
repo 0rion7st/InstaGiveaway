@@ -762,7 +762,6 @@ angular.module('giveaways.controllers', [])
                         $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Success', 'hashtag', $scope.c.submit.hashtag);
                     }
                     $scope.c.hideLoading()
-                    $scope.$apply()
                 },function(error)
                 {
                     if (typeof(analytics) != "undefined")
