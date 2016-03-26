@@ -33,7 +33,7 @@ angular.module('giveaways.controllers', [])
         var short_lang = (document.getLanguage() == 'ru') ? 'ru' : 'en';
         if (short_lang != 'en')
         {
-            var googleApiJSLink = "https://maps.googleapis.com/maps/api/js?libraries=places&language=" + short_lang;
+            var googleApiJSLink = "https://maps.googleapis.com/maps/api/js?libraries=places&language=" + short_lang + "&key=AIzaSyBkW_9B1eMOoHIIkJ17PSQ8_yQ9ZJjPwME";
             var script = document.createElement('script');
             script.setAttribute('src', googleApiJSLink);
             angular.element(document).find('head').append(script);
