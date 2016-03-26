@@ -1624,7 +1624,6 @@ angular.module('giveaways.controllers', [])
                 for(var key in collection.data)
                 {
                     $scope.collectionName = key
-                    $scope.$apply()
                     for(var index in collection.data[key])
                     {
 
