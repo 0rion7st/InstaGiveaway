@@ -246,7 +246,7 @@ angular.module('giveaways.controllers', [])
                             $scope.reposts = 0
 
                         $scope.wins = $scope.c.userInfo.data.participating.filter(function(a){ return a.winner_id==$scope.c.userInstagram.data.id}).length
-
+                        $scope.country = $scope.c.userInfo.data.userCountry
 
                         if(callback)
                         {
@@ -681,7 +681,7 @@ angular.module('giveaways.controllers', [])
                         $cordovaGoogleAnalytics.trackEvent('WannaWin', 'Create:Submit:Done', 'hashtag', $scope.c.submit.hashtag);
                     }
                 }
-                 server.getGiveaway.get({HashtagID:$scope.c.submit.hashtag}).$promise.then(
+                server.getGiveaway.get({HashtagID:$scope.c.submit.hashtag}).$promise.then(
                     function(giveaway)
                     {
                         $scope.c.getUserInfo(function()

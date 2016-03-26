@@ -46,7 +46,7 @@
                         BOOST
                     </button> -->
                     <button ng-show="post.giveaway.status=='active' && post.giveaway.type!='participating' && post.giveaway.owner_info.InstagramID !=c.userInstagram.data.id" class="button button-block button-positive" ng-click="c.submit_giveaway(post.giveaway.media_id, post.giveaway.hashtag,post.giveaway.expiration_timestamp)">
-                        WANNA WIN!
+                        {{c.localize.strings['wannaWinButton']}}
                     </button>
                     <button ng-show="post.giveaway.status=='completed'" class="button button-block" disabled >
                         {{c.localize.strings['finishedCap']}}

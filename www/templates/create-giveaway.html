@@ -16,7 +16,7 @@
                 <table style="width:100%">
                     <tr>
                         <td style="width:49%">
-                            <span style="float:right; padding-right: 15px; padding-bottom: 5px; font-size:18px; font-family: 'Droid Sans', sans-serif;">{{c.localize.strings['russian']}}</span>
+                            <span style="float:right; padding-right: 15px; padding-bottom: 5px; font-size:18px; font-family: 'Droid Sans', sans-serif;">{{::c.localize.strings['russian']}}</span>
                         </td>
                         <td style="width:2%">
                             <label class="toggle toggle-instagivaway">
@@ -27,12 +27,12 @@
                             </label>
                         </td>
                         <td style="width:49%;" valign="bottom">
-                            <span style="float:left; padding-left: 15px; padding-bottom: 5px; font-size:18px; font-family: 'Droid Sans', sans-serif;">{{c.localize.strings['english']}}</span>
+                            <span style="float:left; padding-left: 15px; padding-bottom: 5px; font-size:18px; font-family: 'Droid Sans', sans-serif;">{{::c.localize.strings['english']}}</span>
                         </td>
                     </tr>
                 </table>
 
-                <h4 style="margin:0px; padding-left: 15px; margin-top: 10px; text-align: center;" class="positive">{{c.localize.strings['chooseSticker']}}</h4>
+                <h4 style="margin:0px; padding-left: 15px; margin-top: 10px; text-align: center;" class="positive">{{::c.localize.strings['chooseSticker']}}</h4>
                 <ion-scroll direction="x" class="v-scroll item light-bg" style="padding-top: 0px;border-top:0px;" ng-if="c.submit.type=='new'">
                     <img ng-src="img/ribbons/ribbon_01_{{c.submit.lang}}.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(1)"/>
                     <img ng-src="img/ribbons/ribbon_02_{{c.submit.lang}}.png" class="ribbon" alt="" ng-click="c.submit.setRibbon(2)"/>
@@ -45,26 +45,26 @@
                 </ion-scroll>
             </ion-slide>
             <ion-slide ng-if="c.submit.type=='new'">
-                <h3 class="positive padding">{{c.localize.strings['selectWannaWinDuration']}}</h3>
+                <h3 class="positive padding">{{::c.localize.strings['selectWannaWinDuration']}}</h3>
                 <div class="list">
                     <div class="item item-borderless ">
-                        <button ng-click="c.submit.days=3"  class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==3]">{{c.localize.strings['3Days']}}</button>
-                        <button ng-click="c.submit.days=7"  class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==7]">{{c.localize.strings['7Days']}}</button>
-                        <button ng-click="c.submit.days=14" class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==14]">{{c.localize.strings['14Days']}}</button>
-                        <button ng-click="c.submit.days=30" class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==30]">{{c.localize.strings['30Days']}}</button>
+                        <button ng-click="c.submit.days=3"  class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==3]">{{::c.localize.strings['3Days']}}</button>
+                        <button ng-click="c.submit.days=7"  class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==7]">{{::c.localize.strings['7Days']}}</button>
+                        <button ng-click="c.submit.days=14" class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==14]">{{::c.localize.strings['14Days']}}</button>
+                        <button ng-click="c.submit.days=30" class="button button-positive" ng-class="{false:'button-outline'}[c.submit.days==30]">{{::c.localize.strings['30Days']}}</button>
                     </div>
                 </div>
                 <div class="list">
                     <label class="item item-input item-stacked-label">
-                        <span class="input-label">{{c.localize.strings['caption']}}</span>
-                        <textarea placeholder="{{c.localize.strings['comments']}}" ng-model="c.submit.comment"></textarea>
+                        <span class="input-label">{{::c.localize.strings['caption']}}</span>
+                        <textarea placeholder="{{::c.localize.strings['comments']}}" ng-model="c.submit.comment"></textarea>
                     </label>
                 </div>
                 <ion-list>
 
                     <ion-checkbox ng-change="c.submit.changeGeotype('world')" ng-model="c.submit.geotypeWorld">
                         <span ng-style="{ 'opacity' : (c.submit.geotypeWorld == true) ? '1' : '0.3' }" style="float:left;">
-                            World
+                            {{::c.localize.strings['worldwide']}}
                         </span>
                     </ion-checkbox>
 
@@ -84,11 +84,11 @@
             </ion-slide>
             <ion-slide>
                 <div class="item dark item-borderless item-text-wrap " style="text-align: center; border: 0">
-                    <h2>{{c.localize.strings['shareAndComeBack']}}</h2>
+                    <h2>{{::c.localize.strings['shareAndComeBack']}}</h2>
                     <img src="img/image_03.png" alt="" style="max-width: 100%;"/>
-                    <p>{{c.localize.strings['hashtagOfThisWannaWin']}} <b>#{{c.submit.hashtag}}</b> {{c.localize.strings['doNotDeleteIt']}}</p>
-                    <button class="button button-block button-positive" ng-click="c.submit.share()">{{c.localize.strings['shareOnInstagram']}}</button>
-                    <button class="button button-block button-balanced" ng-click="c.submit.checkPost()">{{c.localize.strings['done']}}</button>
+                    <p>{{::c.localize.strings['hashtagOfThisWannaWin']}} <b>#{{c.submit.hashtag}}</b> {{::c.localize.strings['doNotDeleteIt']}}</p>
+                    <button class="button button-block button-positive" ng-click="c.submit.share()">{{::c.localize.strings['shareOnInstagram']}}</button>
+                    <button class="button button-block button-balanced" ng-click="c.submit.checkPost()">{{::c.localize.strings['done']}}</button>
 
                 </div>
                 <br/><br/><br/><br/>
