@@ -1112,8 +1112,7 @@ angular.module('giveaways.controllers', [])
                         $scope.c.userInfo.data.newsFeed += (post.new || 0) * 1
                     })
                     $scope.feed.data = $scope.feed.data.concat(data.data.filter($scope.uniqueHashtags));
-
-
+                    $scope.feed.data.sort($scope.giveawaysByExpirationSorter);
                 }).finally(function() {
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                 })
@@ -1152,6 +1151,21 @@ angular.module('giveaways.controllers', [])
             }
             return false
         }
+
+        $scope.giveawaysByExpirationSorter = function(firstPost, secondPost) {
+            // extract expiration timestamp from hashtag
+            var firstGiveawayExpir  = parseInt(parseInt(firstPost['giveawayHashtag'].slice(2),36).toString().slice(0,-3));
+            var secondGiveawayExpir = parseInt(parseInt(secondPost['giveawayHashtag'].slice(2),36).toString().slice(0,-3));
+
+            if (firstGiveawayExpir > secondGiveawayExpir) {
+                return 1;
+            }
+            if (firstGiveawayExpir < secondGiveawayExpir) {
+                return -1;
+            }
+            return 0;
+        };
+
         $scope.fillFeed = function()
         {
             $scope.c.userInfo.data.newsFeed = 0
@@ -1175,6 +1189,7 @@ angular.module('giveaways.controllers', [])
                     $scope.feed={}
                     $scope.feed.data = data.data.filter($scope.uniqueHashtags)
                     $scope.addAdditional()
+                    $scope.feed.data.sort($scope.giveawaysByExpirationSorter);
                     $ionicScrollDelegate.scrollTop(0)
                     $scope.c.hideLoading()
 
