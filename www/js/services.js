@@ -181,7 +181,7 @@ angular.module('giveaways.services', ['ngResource'])
                 var uid = Math.floor(Math.random()*10000)
                 if(response.config.notification == "SUBMIT_GIVEAWAY")
                 {
-                    $cordovaLocalNotification.add({
+                    $cordovaLocalNotification.schedule({
                         id: uid,
                         title: "Winner has been chosen!",
                         text: "Your Wanna Win finished.",
@@ -193,7 +193,7 @@ angular.module('giveaways.services', ['ngResource'])
                 }
                 else if(response.config.notification == "JOIN_GIVEAWAY")
                 {
-                    $cordovaLocalNotification.add({
+                    $cordovaLocalNotification.schedule({
                         id: uid,
                         title: "Winner has been chosen!",
                         text: "Wanna Win finished.",
