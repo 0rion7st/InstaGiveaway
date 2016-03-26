@@ -848,28 +848,45 @@ angular.module('giveaways.controllers', [])
                     };
 
                     $scope.c.submit.nextStep = function() {
-                        $ionicSlideBoxDelegate.next();
-                        switch($scope.c.submit.active_slide) {
-                            case 0:
-                                reDraw(true);
-                                $scope.c.submit.imagedata = document.getElementById("giveaway_canvas").toDataURL("image/jpeg");
-                                break;
-                            case 1:
-                                $scope.c.submit.hashtag = giveawayDecor.generateHashTag($scope.c.submit.days,profile.instagram_id());
-                                break;
-                            case 2:
-                                $scope.c.submit.checkPost();
-                                break;
-                            default:
-                                break;
+                        if (($scope.c.submit.active_slide == 1) && ($scope.c.submit.comment == ""))
+                        {
+                            var popUpText = $scope.c.localize.strings["fillComment"];
+                            PopUpFactory.ErrorPopUp($scope, popUpText, true);
                         }
-                        console.log($ionicSlideBoxDelegate.currentIndex())
+                        else
+                        {
+                            if (($scope.c.submit.active_slide == 1) && ((($scope.c.submit.geotypeCountry == true) && ($scope.c.submit.geotypeCountryName == "")) ||
+                                                                        (($scope.c.submit.geotypePlace == true) && ($scope.c.submit.geotypePlaceName == ""))))
+                            {
+                                var popUpText = $scope.c.localize.strings["fillPlaceOrCountry"];
+                                PopUpFactory.ErrorPopUp($scope, popUpText, true);
+                            }
+                            else
+                            {
+                                $ionicSlideBoxDelegate.next();
+                                switch ($scope.c.submit.active_slide) {
+                                    case 0:
+                                        reDraw(true);
+                                        $scope.c.submit.imagedata = document.getElementById("giveaway_canvas").toDataURL("image/jpeg");
+                                        break;
+                                    case 1:
+                                        $scope.c.submit.hashtag = giveawayDecor.generateHashTag($scope.c.submit.days, profile.instagram_id());
+                                        break;
+                                    case 2:
+                                        $scope.c.submit.checkPost();
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
                     }
                     $scope.c.submit.modal.show()
                     $scope.c.submit.fillCanvas()
 
                 })
             }
+
             $scope.c.submit.selectImage = function()
             {
                 var canvas=document.getElementById("giveaway_canvas");

@@ -35,7 +35,7 @@
         "russian": "Русский",
         "english": "Английский",
         "selectWannaWinDuration":"Продолжительность",
-        "comments":"Добавьте подпись",
+        "comments":"Добавьте комментарий",
         "caption":"Подпись",
         "shareAndComeBack": "Поделись и приходи обратно!",
         "hashtagOfThisWannaWin": "Хэштег этого Wanna Win:",
@@ -112,6 +112,8 @@
         "worldwide": "Весь мир",
         "country": "Страна",
         "place": "Город",
+        "fillComment": "Сначала добавьте комментарий",
+        "fillPlaceOrCountry": "Неправильно заполнена страна или город",
         "repostOf": "Репост от @"
     }
 
@@ -148,7 +150,7 @@
         "russian": "Russian",
         "english": "English",
         "selectWannaWinDuration": "Duration",
-        "comments": "Add a caption",
+        "comments": "Add a comment",
         "caption": "Caption",
         "shareAndComeBack": "Share and come back!",
         "hashtagOfThisWannaWin": "Hashtag of this Wanna Win:",
@@ -218,13 +220,15 @@
         "ends": "Ends",
         "enterCountryName": "Please enter correct country name",
         "geotypeCountryComment": "WannaWin country: ",
-        "geotypePlaceComment": "WannaWin place: ",
+        "geotypePlaceComment": "WannaWin city: ",
         "wantToParticipate": "Do you want to participate?",
         "countryLimitation": "Country limitation",
         "placeLimitation": "Place limitation",
         "worldwide": "Worldwide",
         "country": "Country",
         "place": "City",
+        "fillComment": "Add a comment first",
+        "fillPlaceOrCountry": "Country ot city isn't filled correctly",
         "repostOf": "Repost of @"
     }
 
