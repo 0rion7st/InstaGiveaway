@@ -57,7 +57,7 @@
     <ion-side-menu side="right">
         <div class="list">
             <div class="item item-avatar item-icon-right positive">
-               <img src="{{c.userInstagram.data.profile_picture}}">
+               <img ng-src="{{c.userInstagram.data.profile_picture}}">
                 <h2>{{c.userInstagram.data.username}}</h2>
                 <p>{{c.localize.strings['myProfile']}}</p>
             </div>
@@ -105,13 +105,13 @@
 <script id="giveaway-card" type="text/ng-template">
     <div class="giveaway {{giveaway.type}} {{giveaway.status=='completed' && 'finished'}} {{giveaway.status=='failed' && 'no-winner'}} {{giveaway.showFinished && 'notify'}} {{giveaway.new && 'new'}}">
         <div class="item item-avatar">
-            <img src="{{profileImage}}">
+            <img ng-src="{{profileImage}}">
             <h2 ng-show="userLink == 'feed'"><a href="{{path}}/user/{{userId}}" class="positive"><b>@{{username}}</b></a></h2>
             <h2 ng-show="userLink == 'instagram'"><a instagram="media?id={{mediaId}}" class="positive"><b>@{{username}}</b></a></h2>
             <p ng-show="layout=='posts'">{{c.localize.strings['shared']}} <span ng-show="layout=='posts'" time="timeLeft"></span></p>
         </div>
         <div class="item item-image" ng-show="layout=='posts'">
-            <a href="{{path}}/giveaway/{{giveawayHashtag}}"> <img class="full-image animated loading-bg" src="{{loadedImg || 'img/px.png'}}" ng-class="loadedImg && 'fadeIn'"></a>
+            <a href="{{path}}/giveaway/{{giveawayHashtag}}"> <img class="full-image animated loading-bg" ng-src="{{loadedImg || 'img/px.png'}}" ng-class="loadedImg && 'fadeIn'"></a>
         </div>
         <div ng-if="description!=''" class="item item-text-wrap" style="font-style: italic;">
             {{description}}
